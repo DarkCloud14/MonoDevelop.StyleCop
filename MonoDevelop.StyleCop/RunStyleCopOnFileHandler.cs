@@ -46,7 +46,8 @@
         protected override void Update(CommandInfo info)
         {
             base.Update(info);
-            info.Enabled = System.IO.Path.GetExtension(IdeApp.Workbench.ActiveDocument.FileName) == ".cs";
+            MonoDevelop.Ide.Gui.Document document = IdeApp.Workbench.ActiveDocument;
+            info.Enabled = document != null && System.IO.Path.GetExtension(document.FileName) == ".cs";
         }
 
         #endregion Methods
