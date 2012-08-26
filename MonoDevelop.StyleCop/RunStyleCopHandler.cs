@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
     using Microsoft.StyleCop;
-
     using MonoDevelop.Components.Commands;
     using MonoDevelop.Ide;
     using MonoDevelop.Ide.Gui;
@@ -43,9 +41,9 @@
         public RunStyleCopHandler()
         {
             Pad tmpPad = IdeApp.Workbench.Pads.Find(
-                  delegate(Pad toCheck)
+                  delegate(Pad check)
                   {
-                    return toCheck.Id.Equals("MonoDevelop.Ide.Gui.Pads.ErrorListPad");
+                    return check.Id.Equals("MonoDevelop.Ide.Gui.Pads.ErrorListPad");
                   });
             if (tmpPad != null)
             {
@@ -70,29 +68,44 @@
             TaskService.Errors.ClearByOwner(RunStyleCopHandler.styleCopAddinOwner);
             this.errorPad.ShowResults(this, new EventArgs());
 
-            StyleCopConsole console = new StyleCopConsole(null, true, null, null, true);
+            StyleCopConsole console = new StyleCopConsole(
+                null, 
+                false, 
+                null, 
+                null, 
+                true);
             
             List<CodeProject> projects = this.GetCodeProjectList(console);
 
             console.OutputGenerated += this.OnOutputGenerated;
             console.ViolationEncountered += this.OnViolationEncountered;
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
-            console.Start(projects, false);
-            console.OutputGenerated -= this.OnOutputGenerated;
-            console.ViolationEncountered -= this.OnViolationEncountered;
-            console.Dispose();
+            try 
+            {
+                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                sw.Start();
+                console.Start(projects, false);
+            }  
+            catch (Exception e)
+            {
+                this.logger.WriteLine("Error: {0}\nStackTrace:{1}", e.Message, e.StackTrace);
+            }
+            finally 
+            {
+                console.OutputGenerated -= this.OnOutputGenerated;
+                console.ViolationEncountered -= this.OnViolationEncountered;
+                console.Dispose();
+            }
         }
         
         /// <summary>
-        /// Give list of files and projects to be treated by Stylecop
+        /// Gets the code project list.
         /// </summary>
-        /// <param name="console">
-        /// A <see cref="StyleCopConsole"/> which defines the console which will treat the files
-        /// </param>
         /// <returns>
-        /// A <see cref="List<CodeProject>"/> which contains all the project to be treated by stylecop
+        /// The code project list.
         /// </returns>
+        /// <param name='console'>
+        /// StyleCop Console Object.
+        /// </param>
         protected abstract List<CodeProject> GetCodeProjectList(StyleCopConsole console);
 
         /// <summary>
@@ -126,8 +139,13 @@
         {
             try
             {
-            MonoDevelop.Projects.BuildError b = new MonoDevelop.Projects.BuildError(args.Element.Document.SourceCode.Path, args.LineNumber, 0, args.Violation.Rule.CheckId, args.Message);
-            b.IsWarning = args.Warning;
+            MonoDevelop.Projects.BuildError b = new MonoDevelop.Projects.BuildError(
+                args.Element.Document.SourceCode.Path, 
+                args.LineNumber, 
+                0, 
+                args.Violation.Rule.CheckId, 
+                args.Message);
+                b.IsWarning = true; // args.Warning;
             Task errorTask = new Task(b, RunStyleCopHandler.styleCopAddinOwner);
 
             this.errorPad.AddTask(errorTask);

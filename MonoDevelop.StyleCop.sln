@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.StyleCop", "MonoDevelop.StyleCop\MonoDevelop.StyleCop.csproj", "{DE06595B-37ED-4948-A8B4-3ABFEB8ADB63}"
 EndProject
 Global

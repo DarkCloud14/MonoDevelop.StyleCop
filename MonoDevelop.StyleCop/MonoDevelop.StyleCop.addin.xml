@@ -7,8 +7,8 @@
         category       = "Source Analyzer"  
         version        = "1.0"> 
 	<Dependencies>  
-     	<Addin id="Ide" version="2.4" />  
-       	<Addin id="Core" version="2.4" />  
+     	<Addin id="Ide" version="3.0.3" />  
+       	<Addin id="Core" version="3.0.3" />  
    	</Dependencies>
    	<Runtime>
    		<Import assembly="Microsoft.StyleCop.dll" />
