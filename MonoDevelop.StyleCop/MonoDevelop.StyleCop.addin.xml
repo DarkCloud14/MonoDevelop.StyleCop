@@ -20,7 +20,18 @@
               _label="Run Stylecop on selected file" 
               defaultHandler="MonoDevelop.StyleCop.RunStyleCopOnFileHandler"/>
   </Extension>
+  <Extension path="/MonoDevelop/Ide/Commands">
+    <Command id="MonoDevelop.StyleCop.Commands.RunStylecop"
+            _label="Run Stylecop on all files" 
+            defaultHandler="MonoDevelop.StyleCop.RunStyleCopOnFileHandler"/>
+  </Extension>
   <Extension path="/MonoDevelop/Ide/MainMenu/Tools">
-      <CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile" />
+    <CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile" />
+  </Extension>
+  <Extension path = "/MonoDevelop/Ide/ContextMenu/ProjectPad">
+    <CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile" />
+    <Condition id="ItemType" value="Project|ProjectFolder">
+      <CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecop" />
+    </Condition>
   </Extension>
 </Addin>

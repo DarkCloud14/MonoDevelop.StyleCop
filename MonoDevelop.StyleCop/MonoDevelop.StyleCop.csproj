@@ -30,16 +30,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>..\..\..\..\Program Files\MonoDevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Macintosh HD\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="Mono.TextEditor">
-      <HintPath>..\..\..\..\Program Files\MonoDevelop\bin\Mono.TextEditor.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Macintosh HD\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\Mono.TextEditor.dll</HintPath>
     </Reference>
     <Reference Include="MonoDevelop.Core">
-      <HintPath>..\..\..\..\Program Files\MonoDevelop\bin\MonoDevelop.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Macintosh HD\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Core.dll</HintPath>
     </Reference>
     <Reference Include="MonoDevelop.Ide">
-      <HintPath>..\..\..\..\Program Files\MonoDevelop\bin\MonoDevelop.Ide.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Macintosh HD\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Ide.dll</HintPath>
     </Reference>
     <Reference Include="StyleCop">
       <HintPath>..\StyleCop Files\StyleCop.dll</HintPath>

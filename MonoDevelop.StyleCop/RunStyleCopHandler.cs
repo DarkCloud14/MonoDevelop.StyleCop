@@ -63,7 +63,6 @@
     /// </summary>
     protected override void Run()
     {
-      var test = MonoDevelop.Core.UserProfile.Current.ConfigDir;
       base.Run();
       IdeApp.Workbench.ActiveDocument.Save();
 
