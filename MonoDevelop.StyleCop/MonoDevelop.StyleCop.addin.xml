@@ -1,26 +1,26 @@
-<Addin  id             = "StyleCop"  
-        namespace      = "MonoDevelop"  
-        name           = "StyleCop Integration"  
-        author         = "Franck LEVEQUE"  
-        copyright      = "MIT X11"  
-        description    = "Integrate StyleCop in MonoDevelop"  
-        category       = "Source Analyzer"  
-        version        = "1.0"> 
-	<Dependencies>  
-     	<Addin id="Ide" version="3.0.3" />  
-       	<Addin id="Core" version="3.0.3" />  
-   	</Dependencies>
-   	<Runtime>
-   		<Import assembly="Microsoft.StyleCop.dll" />
-   		<Import assembly="Microsoft.StyleCop.CSharp.Rules.dll"/>
-   		<Import assembly="Microsoft.StyleCop.CSharp.dll" />
-   	</Runtime> 
-	<Extension path="/MonoDevelop/Ide/Commands">  
-    	<Command id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile"  
+<Addin  id             = "StyleCop"
+        namespace      = "MonoDevelop"
+        name           = "StyleCop Integration"
+        author         = "Franck LEVEQUE"
+        copyright      = "MIT X11"
+        description    = "Integrate StyleCop in MonoDevelop"
+        category       = "Source Analyzer"
+        version        = "1.0">
+  <Dependencies>  
+      <Addin id="Ide" version="3.0.3" />
+        <Addin id="Core" version="3.0.3" />
+    </Dependencies>
+    <Runtime>
+      <Import assembly="StyleCop.dll" />
+      <Import assembly="StyleCop.CSharp.Rules.dll"/>
+      <Import assembly="StyleCop.CSharp.dll" />
+    </Runtime> 
+  <Extension path="/MonoDevelop/Ide/Commands">
+      <Command id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile"
               _label="Run Stylecop on selected file" 
-              defaultHandler="MonoDevelop.StyleCop.RunStyleCopOnFileHandler"/>  
- 	</Extension>
- 	<Extension path="/MonoDevelop/Ide/MainMenu/Tools">
-    	<CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile" />
-	</Extension>
+              defaultHandler="MonoDevelop.StyleCop.RunStyleCopOnFileHandler"/>
+  </Extension>
+  <Extension path="/MonoDevelop/Ide/MainMenu/Tools">
+      <CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile" />
+  </Extension>
 </Addin>

@@ -1,22 +1,22 @@
 ﻿namespace MonoDevelop.StyleCop
 {
-    #region Enumerations
+  #region Enumerations
+
+  /// <summary>
+  /// Enumerates available commands for Stylecop Addin
+  /// </summary>
+  public enum Commands
+  {
+    /// <summary>
+    /// Run StyleCop on all files from solution
+    /// </summary>
+    RunStylecop,
 
     /// <summary>
-    /// Enumerates available commands for Stylecop Addin
+    /// Run Stylecop on the active file
     /// </summary>
-    public enum Commands
-    {
-        /// <summary>
-        /// Run StyleCop on all files from solution
-        /// </summary>
-        RunStylecop,
-        
-        /// <summary>
-        /// Run Stylecop on the active file
-        /// </summary>
-        RunStylecopOnFile
-    }
+    RunStylecopOnFile
+  }
 
-    #endregion Enumerations
+  #endregion Enumerations
 }
