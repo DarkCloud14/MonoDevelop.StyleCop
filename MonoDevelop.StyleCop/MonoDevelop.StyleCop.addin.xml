@@ -1,37 +1,40 @@
-<Addin  id             = "StyleCop"
-        namespace      = "MonoDevelop"
-        name           = "StyleCop Integration"
-        author         = "Franck LEVEQUE"
-        copyright      = "MIT X11"
-        description    = "Integrate StyleCop in MonoDevelop"
-        category       = "Source Analyzer"
-        version        = "1.0">
-  <Dependencies>  
-      <Addin id="Ide" version="3.0.3" />
-        <Addin id="Core" version="3.0.3" />
-    </Dependencies>
-    <Runtime>
-      <Import assembly="StyleCop.dll" />
-      <Import assembly="StyleCop.CSharp.Rules.dll"/>
-      <Import assembly="StyleCop.CSharp.dll" />
-    </Runtime> 
-  <Extension path="/MonoDevelop/Ide/Commands">
-      <Command id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile"
-              _label="Run Stylecop on selected file" 
-              defaultHandler="MonoDevelop.StyleCop.RunStyleCopOnFileHandler"/>
-  </Extension>
-  <Extension path="/MonoDevelop/Ide/Commands">
-    <Command id="MonoDevelop.StyleCop.Commands.RunStylecop"
-            _label="Run Stylecop on all files" 
-            defaultHandler="MonoDevelop.StyleCop.RunStyleCopOnFileHandler"/>
-  </Extension>
-  <Extension path="/MonoDevelop/Ide/MainMenu/Tools">
-    <CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile" />
-  </Extension>
-  <Extension path = "/MonoDevelop/Ide/ContextMenu/ProjectPad">
-    <CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecopOnFile" />
-    <Condition id="ItemType" value="Project|ProjectFolder">
-      <CommandItem id="MonoDevelop.StyleCop.Commands.RunStylecop" />
-    </Condition>
+<!--
+Copyright 2012 Alexander Jochum
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<Addin id             = "StyleCop"
+       namespace      = "MonoDevelop"
+       name           = "StyleCop Support"
+       author         = "Alexander Jochum"
+       copyright      = "APL 2.0"
+       description    = "Provides StyleCop support to MonoDevelop"
+       category       = "IDE extensions"
+       version        = "1.0.1.0">
+
+  <Dependencies>
+    <Addin id="Core" version="3.0.3"/>
+    <Addin id="Ide" version="3.0.3"/>
+    <Addin id="SourceEditor2" version="3.0.3"/>
+  </Dependencies>
+
+  <Runtime>
+    <Import assembly="StyleCop.dll"/>
+    <Import assembly="StyleCop.CSharp.Rules.dll"/>
+    <Import assembly="StyleCop.CSharp.dll"/>
+  </Runtime>
+
+  <Extension path = "/MonoDevelop/Ide/StartupHandlers">
+    <Class class = "MonoDevelop.StyleCop.StartupHandler"/>
   </Extension>
 </Addin>

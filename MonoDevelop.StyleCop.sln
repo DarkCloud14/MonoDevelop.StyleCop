@@ -14,6 +14,9 @@ Global
 		{DE06595B-37ED-4948-A8B4-3ABFEB8ADB63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE06595B-37ED-4948-A8B4-3ABFEB8ADB63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MonoDevelop.StyleCop\MonoDevelop.StyleCop.csproj
 		Policies = $0
