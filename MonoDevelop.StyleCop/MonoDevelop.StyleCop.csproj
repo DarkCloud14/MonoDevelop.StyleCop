@@ -9,6 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MonoDevelop.StyleCop</RootNamespace>
     <AssemblyName>MonoDevelop.StyleCop</AssemblyName>
+    <ReleaseVersion>1.0.1.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -51,8 +52,14 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StartupHandler.cs" />
+    <Compile Include="Handlers\BaseAnalysisHandler.cs" />
+    <Compile Include="Handlers\FileAnalysisHandler.cs" />
+    <Compile Include="Handlers\FolderAnalysisHandler.cs" />
+    <Compile Include="Handlers\ProjectAnalysisHandler.cs" />
+    <Compile Include="Handlers\SolutionAnalysisHandler.cs" />
+    <Compile Include="Handlers\StartupHandler.cs" />
     <Compile Include="Extensions\XmlDocumentExtension.cs" />
+    <Compile Include="AnalysisType.cs" />
     <Compile Include="ProjectUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

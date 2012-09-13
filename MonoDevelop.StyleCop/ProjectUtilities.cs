@@ -24,6 +24,10 @@ namespace MonoDevelop.StyleCop
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Xml.Linq;
+  using MonoDevelop.Ide;
+  using MonoDevelop.Ide.Gui;
+  using MonoDevelop.Ide.Gui.Pads;
+  using MonoDevelop.Ide.Gui.Pads.ProjectPad;
   using MonoDevelop.Projects;
   using global::StyleCop;
 
@@ -32,6 +36,25 @@ namespace MonoDevelop.StyleCop
   /// </summary>
   internal static class ProjectUtilities
   {
+    #region Internal Static Fields
+
+    /// <summary>
+    /// Build progress monitor log for error output logging.
+    /// </summary>
+    internal static readonly System.IO.TextWriter BuildProgressMonitorLog = null;
+
+    /// <summary>
+    /// MonoDevelops default error, warning and information pad is used to display the StyleCop analyses errors.
+    /// </summary>
+    internal static readonly ErrorListPad ErrorPad = null;
+
+    /// <summary>
+    /// Use MonoDevelops project pad to get detailed informations about selected files and more.
+    /// </summary>
+    internal static readonly ProjectSolutionPad ProjectPad = null;
+
+    #endregion Internal Static Fields
+
     #region Private Static Fields
 
     /// <summary>
@@ -55,6 +78,41 @@ namespace MonoDevelop.StyleCop
     {
       Core.Initialize(null, true);
       RetrieveAvailableStyleCopParsers();
+
+      Pad temporaryPad = IdeApp.Workbench.Pads.Find(
+        delegate(Pad currentPad)
+      {
+        return currentPad.Id.Equals("MonoDevelop.Ide.Gui.Pads.ErrorListPad");
+      });
+
+      if (temporaryPad != null)
+      {
+        ErrorPad = temporaryPad.Content as ErrorListPad;
+      }
+
+      Debug.Assert(ErrorPad != null, "ErrorPad not initialized.");
+
+      temporaryPad = IdeApp.Workbench.Pads.Find(
+        delegate(Pad check)
+      {
+        bool result = check.Id.Equals("MonoDevelop.Ide.Gui.Pads.ProjectPad.ProjectSolutionPad");
+
+        // If result is still false check if the Id equals ProjectPad
+        if (!result)
+        {
+          result = check.Id.Equals("ProjectPad");
+        }
+
+        return result;
+      });
+
+      if (temporaryPad != null)
+      {
+        ProjectPad = temporaryPad.Content as ProjectSolutionPad;
+      }
+
+      Debug.Assert(ProjectPad != null, "ProjectPad not initialized.");
+      BuildProgressMonitorLog = ErrorPad.GetBuildProgressMonitor().Log;
     }
 
     #endregion Constructor
