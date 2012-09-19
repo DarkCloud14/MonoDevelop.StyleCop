@@ -23,10 +23,10 @@ namespace MonoDevelop.StyleCop
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Linq;
   using System.Xml.Linq;
   using MonoDevelop.Ide;
   using MonoDevelop.Ide.Gui;
-  using MonoDevelop.Ide.Gui.Pads;
   using MonoDevelop.Ide.Gui.Pads.ProjectPad;
   using MonoDevelop.Projects;
   using global::StyleCop;
@@ -34,125 +34,226 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// Utility class for project related stuff.
   /// </summary>
-  internal static class ProjectUtilities
+  internal sealed class ProjectUtilities : IDisposable
   {
-    #region Internal Static Fields
-
-    /// <summary>
-    /// Build progress monitor log for error output logging.
-    /// </summary>
-    internal static readonly System.IO.TextWriter BuildProgressMonitorLog = null;
-
-    /// <summary>
-    /// MonoDevelops default error, warning and information pad is used to display the StyleCop analyses errors.
-    /// </summary>
-    internal static readonly ErrorListPad ErrorPad = null;
-
-    /// <summary>
-    /// Use MonoDevelops project pad to get detailed informations about selected files and more.
-    /// </summary>
-    internal static readonly ProjectSolutionPad ProjectPad = null;
-
-    #endregion Internal Static Fields
-
-    #region Private Static Fields
+    #region Private Readonly Fields
 
     /// <summary>
     /// The collection of known StyleCop source code parsers.
     /// </summary>
-    private static readonly HashSet<string> AvailableParsers = new HashSet<string>();
+    private readonly HashSet<string> availableParsers = new HashSet<string>();
+
+    /// <summary>
+    /// Use MonoDevelops project pad to get detailed information about selected files and more.
+    /// </summary>
+    private readonly ProjectSolutionPad projectPad = null;
+
+    #endregion Private Readonly Fields
+
+    #region Private Fields
 
     /// <summary>
     /// The StyleCop core object.
     /// </summary>
-    private static readonly StyleCopCore Core = new StyleCopCore();
+    private StyleCopCore core = new StyleCopCore();
 
-    #endregion Private Static Fields
+    #endregion Private Fields
 
-    #region Constructor
+    #region Constructors and Destructors
 
     /// <summary>
     /// Initializes static members of the <see cref="ProjectUtilities"/> class.
     /// </summary>
     static ProjectUtilities()
     {
-      Core.Initialize(null, true);
-      RetrieveAvailableStyleCopParsers();
+      Instance = new ProjectUtilities();
+    }
 
-      Pad temporaryPad = IdeApp.Workbench.Pads.Find(
-        delegate(Pad currentPad)
-      {
-        return currentPad.Id.Equals("MonoDevelop.Ide.Gui.Pads.ErrorListPad");
-      });
+    /// <summary>
+    /// Prevents a default instance of the <see cref="ProjectUtilities"/> class from being created.
+    /// Initializes members of the <see cref="ProjectUtilities"/> class.
+    /// </summary>
+    private ProjectUtilities()
+    {
+      this.core.Initialize(null, true);
+      this.RetrieveAvailableStyleCopParsers();
 
+      // Register StyleCop events.
+      this.core.OutputGenerated += ProjectOperationsExtensions.StyleCopCoreOutputGenerated;
+      this.core.ViolationEncountered += ProjectOperationsExtensions.StyleCopCoreViolationEncountered;
+
+      Pad temporaryPad = IdeApp.Workbench.GetPad<ProjectSolutionPad>();
       if (temporaryPad != null)
       {
-        ErrorPad = temporaryPad.Content as ErrorListPad;
+        this.projectPad = temporaryPad.Content as ProjectSolutionPad;
       }
 
-      Debug.Assert(ErrorPad != null, "ErrorPad not initialized.");
+      Debug.Assert(this.projectPad != null, "ProjectPad not initialized.");
+    }
 
-      temporaryPad = IdeApp.Workbench.Pads.Find(
-        delegate(Pad check)
+    /// <summary>
+    /// Finalizes an instance of the <see cref="ProjectUtilities"/> class.
+    /// </summary>
+    ~ProjectUtilities()
+    {
+      this.Dispose(true);
+    }
+
+    #endregion Constructors and Destructors
+
+    #region Internal Static Properties
+
+    /// <summary>
+    /// Gets an Instance of ProjectUtilities to call it's functions.
+    /// </summary>
+    public static ProjectUtilities Instance
+    {
+      get;
+      private set;
+    }
+
+    #endregion Internal Static Properties
+
+    #region Internal Properties
+
+    /// <summary>
+    /// Gets the StyleCop core object.
+    /// </summary>
+    internal StyleCopCore Core
+    {
+      get { return this.core; }
+    }
+
+    /// <summary>
+    /// Gets MonoDevelops project pad.
+    /// </summary>
+    internal ProjectSolutionPad ProjectPad
+    {
+      get { return this.projectPad; }
+    }
+
+    #endregion Internal Properties
+
+    #region IDisposable Methods
+
+    /// <summary>
+    /// Dispose the object.
+    /// </summary>
+    public void Dispose()
+    {
+      this.Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    #endregion IDisposable Methods
+
+    #region Internal Methods
+
+    /// <summary>
+    /// Creates the list of project to be analyzed.
+    /// </summary>
+    /// <param name="analysisType">The analyze type being performed.</param>
+    /// <returns>Returns the list of projects to be analyzed.</returns>
+    internal IList<CodeProject> GetProjectList(AnalysisType analysisType)
+    {
+      Param.Ignore(analysisType);
+
+      List<CodeProject> codeProjects = new List<CodeProject>();
+
+      switch (analysisType)
       {
-        bool result = check.Id.Equals("MonoDevelop.Ide.Gui.Pads.ProjectPad.ProjectSolutionPad");
-
-        // If result is still false check if the Id equals ProjectPad
-        if (!result)
+      case AnalysisType.ActiveDocument:
+        var activeDocument = IdeApp.Workbench.ActiveDocument;
+        if (activeDocument.HasProject)
         {
-          result = check.Id.Equals("ProjectPad");
+          var projectOfActiveDocument = activeDocument.Project;
+          var projectConfiguration = projectOfActiveDocument.GetConfiguration(IdeApp.Workspace.ActiveConfiguration);
+          var activeProjectConfiguration = new Configuration(new string[] { projectConfiguration.Name });
+
+          CodeProject codeProject = new CodeProject(projectOfActiveDocument.BaseDirectory.GetHashCode(), projectOfActiveDocument.BaseDirectory, activeProjectConfiguration);
+          this.Core.Environment.AddSourceCode(codeProject, activeDocument.FileName, null);
+
+          codeProjects.Add(codeProject);
         }
 
-        return result;
-      });
+        break;
 
-      if (temporaryPad != null)
-      {
-        ProjectPad = temporaryPad.Content as ProjectSolutionPad;
+      case AnalysisType.File:
+      case AnalysisType.Folder:
+        break;
+
+      case AnalysisType.Project:
+        break;
+
+      case AnalysisType.Solution:
+        break;
       }
 
-      Debug.Assert(ProjectPad != null, "ProjectPad not initialized.");
-      BuildProgressMonitorLog = ErrorPad.GetBuildProgressMonitor().Log;
-    }
-
-    #endregion Constructor
-
-    #region Internal Static Methods
-
-    /// <summary>
-    /// Function which gets called at MonoDevelop startup so the static constructor gets called.
-    /// </summary>
-    internal static void Initialize()
-    {
+      return codeProjects;
     }
 
     /// <summary>
-    /// Determines whether the project is a known project type.
+    /// Determines whether the StyleCop menu items should be shown.
     /// </summary>
-    /// <param name="project">The project to analyse.</param>
-    /// <returns>Returns true if its a known project type, or false otherwise.</returns>
-    internal static bool IsKnownProjectType(Project project)
+    /// <param name="analysisType">The analyze type being performed.</param>
+    /// <returns>Returns true if the menu item should be shown, or false otherwise.</returns>
+    internal bool SupportsStyleCop(AnalysisType analysisType)
     {
-      Param.AssertNotNull(project, "project");
+      Param.Ignore(analysisType);
 
-      if (AvailableParsers != null && AvailableParsers.Contains(GetProjectKindOfProjectType(project)))
+      switch (analysisType)
       {
-        return true;
+      case AnalysisType.ActiveDocument:
+        var activeDocument = IdeApp.Workbench.ActiveDocument;
+        if (activeDocument != null && !string.IsNullOrEmpty(activeDocument.FileName))
+        {
+          if (this.IsKnownFileExtension(activeDocument.FileName.Extension))
+          {
+            return true;
+          }
+        }
+
+        break;
+
+      case AnalysisType.File:
+      case AnalysisType.Folder:
+        break;
+
+      case AnalysisType.Project:
+        break;
+
+      case AnalysisType.Solution:
+        break;
       }
 
       return false;
     }
 
-    #endregion Internal Static Methods
+    #endregion Internal Methods
 
-    #region Private Static Methods
+    #region Private Methods
+
+    /// <summary>
+    /// Disposes the contents of the class.
+    /// </summary>
+    /// <param name="disposing">Indicates whether to dispose unmanaged resources.</param>
+    private void Dispose(bool disposing)
+    {
+      if (disposing && this.core != null)
+      {
+        // Unregister StyleCop events again.
+        this.core.ViolationEncountered -= ProjectOperationsExtensions.StyleCopCoreViolationEncountered;
+        this.core.OutputGenerated -= ProjectOperationsExtensions.StyleCopCoreOutputGenerated;
+        this.core = null;
+      }
+    }
 
     /// <summary>
     /// Get the official project GUID/Type of MonoDevelops project kind.
     /// </summary>
     /// <param name="project">The MonoDevelop project to retrieve the project GUID/Type for.</param>
     /// <returns>Returns the official project GUID/Type.</returns>
-    private static string GetProjectKindOfProjectType(Project project)
+    private string GetProjectKindOfProjectType(Project project)
     {
       Param.AssertNotNull(project, "projectType");
       DotNetAssemblyProject assemblyProject = project as DotNetAssemblyProject;
@@ -172,15 +273,59 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
+    /// Determines whether the file extension is a known file extension.
+    /// </summary>
+    /// <param name="fileExtension">The file extension to analyze.</param>
+    /// <returns>Returns true if its a known file extension, or false otherwise.</returns>
+    private bool IsKnownFileExtension(string fileExtension)
+    {
+      Param.AssertNotNull(fileExtension, "fileExtension");
+
+      if (fileExtension.Length > 0)
+      {
+        // Check if there is a dot in the extension and remove it
+        if (fileExtension.StartsWith("."))
+        {
+          fileExtension = fileExtension.Remove(0, 1);
+        }
+
+        var knownExtension = this.core.Parsers.FirstOrDefault(parser => !string.IsNullOrEmpty(parser.FileTypes.FirstOrDefault(fileType => fileType.Equals(fileExtension, StringComparison.OrdinalIgnoreCase))));
+        if (knownExtension != null)
+        {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    /// <summary>
+    /// Determines whether the project is a known project type.
+    /// </summary>
+    /// <param name="project">The project to analyze.</param>
+    /// <returns>Returns true if its a known project type, or false otherwise.</returns>
+    private bool IsKnownProjectType(Project project)
+    {
+      Param.AssertNotNull(project, "project");
+
+      if (this.availableParsers != null && this.availableParsers.Contains(this.GetProjectKindOfProjectType(project)))
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    /// <summary>
     /// Retrieve all available StyleCop source code parsers using the parsers configuration xml.
     /// </summary>
     /// <remarks>The necessary format of parsers configuration xml can be found in StyleCop source code.</remarks>
-    private static void RetrieveAvailableStyleCopParsers()
+    private void RetrieveAvailableStyleCopParsers()
     {
-      Debug.Assert(Core != null, "Core has not been initialized");
-      Debug.Assert(Core.Parsers != null, "Core source parsers has not been initialized.");
+      Debug.Assert(this.core != null, "this.core has not been initialized");
+      Debug.Assert(this.core.Parsers != null, "this.core source parsers has not been initialized.");
 
-      foreach (SourceParser parser in Core.Parsers)
+      foreach (SourceParser parser in this.core.Parsers)
       {
         XDocument translationDocument = StyleCopCore.LoadAddInResourceXml(parser.GetType(), null).ToXDocument();
         foreach (var node in translationDocument.Elements("SourceParser").Elements("VsProjectTypes").Elements("VsProjectType"))
@@ -189,7 +334,7 @@ namespace MonoDevelop.StyleCop
           if (!string.IsNullOrEmpty(projectKind))
           {
             projectKind = projectKind.Trim();
-            if (!AvailableParsers.Add(projectKind))
+            if (!this.availableParsers.Add(projectKind))
             {
               // Allow this to succeed at runtime.
               Debug.Fail("A previously loaded parser already handles the project kind: " + projectKind);
@@ -199,6 +344,6 @@ namespace MonoDevelop.StyleCop
       }
     }
 
-    #endregion Private Static Methods
+    #endregion Private Methods
   }
 }
