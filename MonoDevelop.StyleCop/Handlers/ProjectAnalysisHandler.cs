@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FileAnalysisHandler.cs">
+// <copyright file="ProjectAnalysisHandler.cs">
 //   APL 2.0
 // </copyright>
 // <license>
@@ -20,13 +20,48 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
   using MonoDevelop.Components.Commands;
+  using MonoDevelop.Ide;
 
+  /// <summary>
+  /// Class which handles the analysis type Project.
+  /// </summary>
   internal sealed class ProjectAnalysisHandler : BaseAnalysisHandler
   {
+    #region Protected Override Methods
+
+    /// <summary>
+    /// Starts a full StyleCop analysis of type Project.
+    /// </summary>
+    protected override void Run()
+    {
+      base.Run();
+
+      this.FullAnalysis = true;
+      this.Analyze(AnalysisType.Project);
+    }
+
+    /// <summary>
+    /// Update availability of the StyleCop command for the selected project/projects in ProjectPad.
+    /// </summary>
+    /// <param name="info">A <see cref="CommandInfo"/></param>
+    protected override void Update(CommandInfo info)
+    {
+      base.Update(info);
+
+      if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
+      {
+        if (IdeApp.ProjectOperations.CurrentSelectedProject != null && ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.Project))
+        {
+          info.Visible = true;
+        }
+        else
+        {
+          info.Visible = false;
+        }
+      }
+    }
+
+    #endregion Protected Override Methods
   }
 }

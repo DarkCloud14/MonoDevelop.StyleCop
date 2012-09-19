@@ -37,4 +37,64 @@ limitations under the License.
   <Extension path = "/MonoDevelop/Ide/StartupHandlers">
     <Class class = "MonoDevelop.StyleCop.StartupHandler"/>
   </Extension>
+
+  <Extension path="/MonoDevelop/Ide/Commands">
+    <Command id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"
+             _label="Run Stylecop"
+             defaultHandler="MonoDevelop.StyleCop.ActiveDocumentAnalysisHandler"/>
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/Commands">
+    <Command id="MonoDevelop.StyleCop.AnalysisType.File"
+             _label="Run Stylecop"
+             defaultHandler="MonoDevelop.StyleCop.FileAnalysisHandler"/>
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/Commands">
+    <Command id="MonoDevelop.StyleCop.AnalysisType.Folder"
+             _label="Run Stylecop"
+             defaultHandler="MonoDevelop.StyleCop.FolderAnalysisHandler"/>
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/Commands">
+    <Command id="MonoDevelop.StyleCop.AnalysisType.Project"
+             _label="Run Stylecop"
+             defaultHandler="MonoDevelop.StyleCop.ProjectAnalysisHandler"/>
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/Commands">
+    <Command id="MonoDevelop.StyleCop.AnalysisType.Solution"
+             _label="Run Stylecop"
+             defaultHandler="MonoDevelop.StyleCop.SolutionAnalysisHandler"/>
+  </Extension>
+
+  <Extension path = "/MonoDevelop/Ide/ContextMenu/DocumentTab">
+    <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
+  </Extension>
+
+  <Extension path = "/MonoDevelop/Ide/ContextMenu/ProjectPad">
+    <Condition id="ItemType" value="Project">
+      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.Project"/>
+    </Condition>
+
+    <Condition id="ItemType" value="ProjectFile">
+      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.File"/>
+    </Condition>
+
+    <Condition id="ItemType" value="ProjectFolder">
+      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.Folder"/>
+    </Condition>
+
+    <Condition id="ItemType" value="Solution">
+      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.Solution"/>
+    </Condition>
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/MainMenu/Tools">
+    <CommandItem id="MonoDevelop.StyleCop.AnalysisType.Solution"/>
+  </Extension>
+
+  <Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">
+    <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
+  </Extension>
 </Addin>

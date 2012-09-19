@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FileAnalysisHandler.cs">
+// <copyright file="FolderAnalysisHandler.cs">
 //   APL 2.0
 // </copyright>
 // <license>
@@ -20,13 +20,49 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
   using MonoDevelop.Components.Commands;
+  using MonoDevelop.Ide;
 
+  /// <summary>
+  /// Class which handles the analysis type Folder.
+  /// </summary>
   internal sealed class FolderAnalysisHandler : BaseAnalysisHandler
   {
+    #region Protected Override Methods
+
+    /// <summary>
+    /// Starts a full StyleCop analysis of type Folder.
+    /// </summary>
+    protected override void Run()
+    {
+      base.Run();
+
+      this.FullAnalysis = true;
+      this.Analyze(AnalysisType.Folder);
+    }
+
+    /// <summary>
+    /// Update availability of the StyleCop command for the selected folder/folders in ProjectPad.
+    /// </summary>
+    /// <param name="info">A <see cref="CommandInfo"/></param>
+    protected override void Update(CommandInfo info)
+    {
+      base.Update(info);
+
+      if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
+      {
+        // TODO correct the this check! Check the selected files and not the active document..
+        if (IdeApp.Workbench.ActiveDocument != null && ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.ActiveDocument))
+        {
+          info.Visible = true;
+        }
+        else
+        {
+          info.Visible = false;
+        }
+      }
+    }
+
+    #endregion Protected Override Methods
   }
 }
