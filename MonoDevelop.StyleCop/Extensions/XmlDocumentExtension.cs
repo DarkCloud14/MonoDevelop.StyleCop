@@ -28,6 +28,8 @@ namespace MonoDevelop.StyleCop
   /// </summary>
   public static class XmlDocumentExtension
   {
+    #region Public Static Extension Methods
+
     /// <summary>
     /// Converts XmlDocument class to XDocument class with LoadOptions.None.
     /// </summary>
@@ -48,5 +50,7 @@ namespace MonoDevelop.StyleCop
     {
       return XDocument.Load(new XmlNodeReader(xmlDocument), loadOptions);
     }
+
+    #endregion Public Static Extension Methods
   }
 }
