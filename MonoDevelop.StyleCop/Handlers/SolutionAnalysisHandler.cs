@@ -47,8 +47,7 @@ namespace MonoDevelop.StyleCop
     /// <param name="info">A <see cref="CommandInfo"/></param>
     protected override void Update(CommandInfo info)
     {
-      // TODO correct this check! We should also go through all projects of the solution to make sure it has compatible projects.
-      if (IdeApp.Workspace.IsOpen && IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
+      if (IdeApp.Workspace.IsOpen && IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted && ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.Solution))
       {
         info.Visible = true;
       }

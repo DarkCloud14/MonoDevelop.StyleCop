@@ -220,9 +220,12 @@ namespace MonoDevelop.StyleCop
         break;
 
       case AnalysisType.Project:
-        break;
-
       case AnalysisType.Solution:
+        if (this.GetKnownProjectsOfSolutionOrProjectSelection(analysisType).Count > 0)
+        {
+          return true;
+        }
+
         break;
       }
 
@@ -249,6 +252,31 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
+    /// Get all projects of a known project type from the current project selection or solution
+    /// </summary>
+    /// <param name="analysisType">The analyze type being performed.</param>
+    /// <returns>Returns a list which contains all known projects or none.</returns>
+    private List<Project> GetKnownProjectsOfSolutionOrProjectSelection(AnalysisType analysisType)
+    {
+      List<Project> resultList = new List<Project>();
+
+      switch (analysisType)
+      {
+      case AnalysisType.Project:
+        resultList = this.ProjectPad.TreeView.GetSelectedNodes().Select(
+            node => this.IsKnownProjectType(node.DataItem as Project) ? node.DataItem as Project : null).Where(value => value != null).ToList();
+        break;
+      case AnalysisType.Solution:
+        resultList = IdeApp.ProjectOperations.CurrentSelectedSolution.GetAllProjects().Where(project => this.IsKnownProjectType(project)).ToList();
+        break;
+      default:
+        break;
+      }
+
+      return resultList;
+    }
+
+    /// <summary>
     /// Get the official project GUID/Type of MonoDevelops project kind.
     /// </summary>
     /// <param name="project">The MonoDevelop project to retrieve the project GUID/Type for.</param>
@@ -257,16 +285,18 @@ namespace MonoDevelop.StyleCop
     {
       Param.AssertNotNull(project, "projectType");
       DotNetAssemblyProject assemblyProject = project as DotNetAssemblyProject;
-      Debug.Assert(assemblyProject != null, "assemblyProject is not typeof DotNetAssemblyProject");
 
-      if (project.ProjectType.Equals("AspNetApp", StringComparison.OrdinalIgnoreCase) && assemblyProject.LanguageName.Equals("C#", StringComparison.OrdinalIgnoreCase))
+      if (assemblyProject != null)
       {
-        return "{E24C65DC-7377-472b-9ABA-BC803B73C61A}";
-      }
+        if (project.ProjectType.Equals("AspNetApp", StringComparison.OrdinalIgnoreCase) && assemblyProject.LanguageName.Equals("C#", StringComparison.OrdinalIgnoreCase))
+        {
+          return "{E24C65DC-7377-472b-9ABA-BC803B73C61A}";
+        }
 
-      if (project.ProjectType.Equals("DotNet", StringComparison.OrdinalIgnoreCase) && assemblyProject.LanguageName.Equals("C#", StringComparison.OrdinalIgnoreCase))
-      {
-        return "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
+        if (project.ProjectType.Equals("DotNet", StringComparison.OrdinalIgnoreCase) && assemblyProject.LanguageName.Equals("C#", StringComparison.OrdinalIgnoreCase))
+        {
+          return "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
+        }
       }
 
       return "Unknown";
@@ -306,11 +336,12 @@ namespace MonoDevelop.StyleCop
     /// <returns>Returns true if its a known project type, or false otherwise.</returns>
     private bool IsKnownProjectType(Project project)
     {
-      Param.AssertNotNull(project, "project");
-
-      if (this.availableParsers != null && this.availableParsers.Contains(this.GetProjectKindOfProjectType(project)))
+      if (project != null)
       {
-        return true;
+        if (this.availableParsers != null && this.availableParsers.Contains(this.GetProjectKindOfProjectType(project)))
+        {
+          return true;
+        }
       }
 
       return false;
