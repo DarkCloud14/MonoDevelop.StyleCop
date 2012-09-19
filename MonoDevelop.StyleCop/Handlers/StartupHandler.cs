@@ -27,6 +27,8 @@ namespace MonoDevelop.StyleCop
   /// </summary>
   internal sealed class StartupHandler : CommandHandler
   {
+    #region Protected Override Methods
+
     /// <summary>
     /// This method get's called on MonoDevelop startup and will setup all necessary stuff that has to be loaded only once.
     /// </summary>
@@ -34,9 +36,18 @@ namespace MonoDevelop.StyleCop
     {
       base.Run();
 
-      // Call the initialize function of ProjectUtilities so it'll call it's static constructor.
-      ProjectUtilities.Initialize();
+      // Call this function of ProjectUtilities to initialize everything.
+      ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.ActiveDocument);
+
+      // Get the version numbers of StyleCop to initialize StyleCopVersion class.
+      string styleCopMajorMinorVersionNumber = StyleCopVersion.VersionNumberMajorMinor;
+      string styleCopFullVersionNumber = StyleCopVersion.VersionNumberFull;
+
+      // Some debugging output..
       System.Diagnostics.Debug.WriteLine("MonoDevelop.StyleCop Addin loaded..");
+      System.Diagnostics.Debug.WriteLine(string.Format("StyleCop Version {0} (build {1})", styleCopMajorMinorVersionNumber, styleCopFullVersionNumber));
     }
+
+    #endregion Protected Override Methods
   }
 }
