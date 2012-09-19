@@ -21,28 +21,33 @@
 namespace MonoDevelop.StyleCop
 {
   /// <summary>
-  /// Available analysis possibilities/types
+  /// Available analysis possibilities/types.
   /// </summary>
   internal enum AnalysisType
   {
     /// <summary>
-    /// Analyze all supported files in the solution
+    /// Analyze the active document.
     /// </summary>
-    Solution,
+    ActiveDocument,
 
     /// <summary>
-    /// Analyze all supported files in the selected project
-    /// </summary>
-    Project,
-
-    /// <summary>
-    /// Analyze a file or all selected files
+    /// Analyze a file or all selected files.
     /// </summary>
     File,
 
     /// <summary>
-    /// Analyze all supported files in the selected folder
+    /// Analyze all supported files in the selected folder.
     /// </summary>
-    Folder
+    Folder,
+
+    /// <summary>
+    /// Analyze all supported files in the selected project.
+    /// </summary>
+    Project,
+
+    /// <summary>
+    /// Analyze all supported files in the solution.
+    /// </summary>
+    Solution
   }
 }
