@@ -1,0 +1,7 @@
+bin
+obj
+.DS_Store
+*.userprefs
+*.pidb
+*.suo
+*.Cache
