@@ -56,7 +56,7 @@ namespace MonoDevelop.StyleCop
       if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
       {
         // TODO correct the this check! Check the selected files and not the active document..
-        if (IdeApp.Workbench.ActiveDocument != null && ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.ActiveDocument))
+        if (ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.File))
         {
           info.Visible = true;
         }
