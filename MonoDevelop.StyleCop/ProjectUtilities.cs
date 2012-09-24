@@ -23,6 +23,7 @@ namespace MonoDevelop.StyleCop
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.IO;
   using System.Linq;
   using System.Xml.Linq;
   using MonoDevelop.Ide;
@@ -201,38 +202,29 @@ namespace MonoDevelop.StyleCop
     {
       Param.Ignore(analysisType);
 
-      switch (analysisType)
+      if (this.GetKnownProjectsAndFilesOfSelection(analysisType).Count > 0)
       {
-      case AnalysisType.ActiveDocument:
-        var activeDocument = IdeApp.Workbench.ActiveDocument;
-        if (activeDocument != null && !string.IsNullOrEmpty(activeDocument.FileName))
-        {
-          if (this.IsKnownFileExtension(activeDocument.FileName.Extension))
-          {
-            return true;
-          }
-        }
-
-        break;
-
-      case AnalysisType.File:
-      case AnalysisType.Folder:
-        break;
-
-      case AnalysisType.Project:
-      case AnalysisType.Solution:
-        if (this.GetKnownProjectsOfSolutionOrProjectSelection(analysisType).Count > 0)
-        {
-          return true;
-        }
-
-        break;
+        return true;
       }
 
       return false;
     }
 
     #endregion Internal Methods
+
+    #region Private Static Methods
+
+    /// <summary>
+    /// Analyzes <paramref name="pathToCheck"/> and checks if it is just a directory.
+    /// </summary>
+    /// <param name="pathToCheck">Path that should be checked.</param>
+    /// <returns>Returns true if the given path is a directory, false otherwise.</returns>
+    private static bool IsDirectory(string pathToCheck)
+    {
+      return (File.GetAttributes(pathToCheck) & FileAttributes.Directory) == FileAttributes.Directory;
+    }
+
+    #endregion Private Static Methods
 
     #region Private Methods
 
@@ -252,25 +244,171 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
-    /// Get all projects of a known project type from the current project selection or solution
+    /// Enumerate through all childs of the given file and return all known files (including <paramref name="projectFile"/> if it's a known file type!).
+    /// </summary>
+    /// <param name="projectFile">Project file to enumerate.</param>
+    /// <returns>A list with all known files.</returns>
+    private List<ProjectFile> EnumerateFile(ProjectFile projectFile)
+    {
+      List<ProjectFile> results = new List<ProjectFile>();
+
+      if (projectFile != null)
+      {
+        if (this.IsKnownFileExtension(projectFile.FilePath.Extension))
+        {
+          results.Add(projectFile);
+        }
+
+        if (projectFile.HasChildren)
+        {
+          results.AddRange(projectFile.DependentChildren.Where(file => this.IsKnownFileExtension(file.FilePath.Extension)).ToList());
+        }
+      }
+
+      return results;
+    }
+
+    /// <summary>
+    /// Enumerate the given folder and return all known files.
+    /// </summary>
+    /// <param name="projectFolder">Project folder to enumerate.</param>
+    /// <returns>A list with all known files.</returns>
+    private List<ProjectFile> EnumerateFolder(ProjectFolder projectFolder)
+    {
+      List<ProjectFile> results = new List<ProjectFile>();
+
+      if (projectFolder.Project != null)
+      {
+        results = projectFolder.Project.Files.GetFilesInPath(projectFolder.Path).Where(
+          value => !IsDirectory(value.FilePath) && this.IsKnownFileExtension(value.FilePath.Extension)).ToList();
+      }
+
+      return results;
+    }
+
+    /// <summary>
+    /// Enumerate the give project and return all known files.
+    /// </summary>
+    /// <param name="project">Project to enumerate.</param>
+    /// <returns>A list with all known files.</returns>
+    private List<ProjectFile> EnumerateProject(Project project)
+    {
+      List<ProjectFile> results = new List<ProjectFile>();
+
+      if (project != null)
+      {
+        results = project.Items.Select(item => item is ProjectFile ? item as ProjectFile : null).Where(value => value != null && !IsDirectory(value.FilePath)).ToList();
+      }
+
+      return results;
+    }
+
+    /// <summary>
+    /// Get all projects, folders and files of a known project/file type from the current selection.
     /// </summary>
     /// <param name="analysisType">The analyze type being performed.</param>
-    /// <returns>Returns a list which contains all known projects or none.</returns>
-    private List<Project> GetKnownProjectsOfSolutionOrProjectSelection(AnalysisType analysisType)
+    /// <returns>Returns a list which contains all known projects and files or none.</returns>
+    private List<object> GetKnownProjectsAndFilesOfSelection(AnalysisType analysisType)
     {
-      List<Project> resultList = new List<Project>();
+      Dictionary<int, Project> knownProjectsDictionary = new Dictionary<int, Project>();
+      Dictionary<int, ProjectFile> knownFilesInFoldersDictionary = new Dictionary<int, ProjectFile>();
+      List<object> resultList = new List<object>();
+      var selectedNodes = this.ProjectPad.TreeView.GetSelectedNodes();
 
-      switch (analysisType)
+      if (analysisType == AnalysisType.Solution)
       {
-      case AnalysisType.Project:
-        resultList = this.ProjectPad.TreeView.GetSelectedNodes().Select(
-            node => this.IsKnownProjectType(node.DataItem as Project) ? node.DataItem as Project : null).Where(value => value != null).ToList();
-        break;
-      case AnalysisType.Solution:
-        resultList = IdeApp.ProjectOperations.CurrentSelectedSolution.GetAllProjects().Where(project => this.IsKnownProjectType(project)).ToList();
-        break;
-      default:
-        break;
+        resultList = IdeApp.ProjectOperations.CurrentSelectedSolution.GetAllProjects().Select(
+          project => this.IsKnownProjectType(project) ? (object)project : null).Where(value => value != null).ToList();
+      }
+      else if (analysisType == AnalysisType.ActiveDocument)
+      {
+        var activeDocument = IdeApp.Workbench.ActiveDocument;
+        if (activeDocument.HasProject)
+        {
+          ProjectFile projectFile = activeDocument.Project.GetProjectFile(activeDocument.FileName);
+          var enumeratedFiles = this.EnumerateFile(projectFile);
+          if (enumeratedFiles.Count > 0)
+          {
+            resultList.AddRange(enumeratedFiles);
+          }
+        }
+      }
+      else
+      {
+        if (this.ProjectPad.TreeView.MultipleNodesSelected())
+        {
+          // First get all projects of the selection and use the hash code as a key in dictionary.
+          var knownProjectsInSelection = selectedNodes.Select(node => this.IsKnownProjectType(node.DataItem as Project) ? node.DataItem as Project : null).Where(
+            value => value != null);
+
+          if (knownProjectsInSelection.Count() > 0)
+          {
+            knownProjectsDictionary = knownProjectsInSelection.ToDictionary(project => project.GetHashCode());
+          }
+
+          // Get all selected folders which have known file types and are not in the above project.
+          var foldersWithKnownFileTypes = selectedNodes.Select(node => (node.DataItem as ProjectFolder) != null ? node.DataItem as ProjectFolder : null).Where(
+            value => value != null && value.Project != null && !knownProjectsDictionary.ContainsKey(value.Project.GetHashCode())
+            && this.EnumerateFolder(value).Count > 0).ToList();
+
+          if (foldersWithKnownFileTypes.Count > 0)
+          {
+            foreach (var currentFolder in foldersWithKnownFileTypes)
+            {
+              var knownFilesInFolder = this.EnumerateFolder(currentFolder);
+              foreach (var currentFile in knownFilesInFolder)
+              {
+                knownFilesInFoldersDictionary.Add(currentFile.GetHashCode(), currentFile);
+              }
+            }
+          }
+
+          // Next we get all known file types of the selection and add them if they don't have one of the above projects or folders as parent.
+          var knownFilesInSelection = selectedNodes.Select(
+            node => this.IsKnownFileExtension(node.DataItem as ProjectFile) ? node.DataItem as ProjectFile : null).Where(
+            value => value != null && value.Project != null && !knownProjectsDictionary.ContainsKey(value.Project.GetHashCode())
+            && !knownFilesInFoldersDictionary.ContainsKey(value.GetHashCode())).ToList();
+
+          resultList.AddRange(knownProjectsDictionary.Values);
+
+          // Add each file as a single project
+          foreach (var currentFile in knownFilesInSelection)
+          {
+            resultList.Add(currentFile);
+          }
+        }
+        else
+        {
+          List<ProjectFile> enumeratedFiles = new List<ProjectFile>();
+          switch (analysisType)
+          {
+          case AnalysisType.File:
+            enumeratedFiles = this.EnumerateFile(IdeApp.ProjectOperations.CurrentSelectedItem as ProjectFile);
+            if (enumeratedFiles.Count > 0)
+            {
+              resultList.AddRange(enumeratedFiles);
+            }
+
+            break;
+
+          case AnalysisType.Folder:
+            enumeratedFiles = this.EnumerateFolder(IdeApp.ProjectOperations.CurrentSelectedItem as ProjectFolder);
+            if (enumeratedFiles.Count > 0)
+            {
+              resultList.AddRange(enumeratedFiles);
+            }
+
+            break;
+
+          case AnalysisType.Project:
+            if (this.IsKnownProjectType(IdeApp.ProjectOperations.CurrentSelectedProject))
+            {
+              resultList.Add(IdeApp.ProjectOperations.CurrentSelectedProject);
+            }
+
+            break;
+          }
+        }
       }
 
       return resultList;
@@ -300,6 +438,21 @@ namespace MonoDevelop.StyleCop
       }
 
       return "Unknown";
+    }
+
+    /// <summary>
+    /// Determines whether the file extension is a known file extension.
+    /// </summary>
+    /// <param name="projectFile">The <see cref="Document"/> class to analyze.</param>
+    /// <returns>Returns true if its a known file extension, or false otherwise.</returns>
+    private bool IsKnownFileExtension(ProjectFile projectFile)
+    {
+      if (projectFile != null && !string.IsNullOrEmpty(projectFile.FilePath))
+      {
+        return this.IsKnownFileExtension(projectFile.FilePath.Extension);
+      }
+
+      return false;
     }
 
     /// <summary>
