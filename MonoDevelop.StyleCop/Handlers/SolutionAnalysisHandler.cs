@@ -26,20 +26,30 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// Class which handles the analysis type Solution.
   /// </summary>
-  internal sealed class SolutionAnalysisHandler : BaseAnalysisHandler
+  internal class SolutionAnalysisHandler : BaseAnalysisHandler
   {
-    #region Protected Override Methods
+    #region Constructor
 
     /// <summary>
-    /// Starts a full StyleCop analysis of type File.
+    /// Initializes a new instance of the <see cref="SolutionAnalysisHandler"/> class.
     /// </summary>
-    protected override void Run()
+    public SolutionAnalysisHandler()
+      : base(AnalysisType.Solution)
     {
-      base.Run();
-
-      this.FullAnalysis = true;
-      this.Analyze(AnalysisType.Solution);
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SolutionAnalysisHandler"/> class.
+    /// </summary>
+    /// <param name="fullAnalysis">Set to true if StyleCop should run a full analysis, false otherwise.</param>
+    internal SolutionAnalysisHandler(bool fullAnalysis)
+      : base(fullAnalysis, AnalysisType.Solution)
+    {
+    }
+
+    #endregion Constructor
+
+    #region Protected Override Methods
 
     /// <summary>
     /// Update availability of the StyleCop command for the selected solution in ProjectPad.
@@ -47,7 +57,7 @@ namespace MonoDevelop.StyleCop
     /// <param name="info">A <see cref="CommandInfo"/></param>
     protected override void Update(CommandInfo info)
     {
-      if (IdeApp.Workspace.IsOpen && IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted && ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.Solution))
+      if (IdeApp.Workspace.IsOpen && IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted && ProjectUtilities.Instance.CacheKnownFiles(AnalysisType.Solution))
       {
         info.Visible = true;
       }

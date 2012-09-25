@@ -20,49 +20,21 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
-  using MonoDevelop.Components.Commands;
-  using MonoDevelop.Ide;
-
   /// <summary>
   /// Class which handles the analysis type Folder.
   /// </summary>
   internal sealed class FolderAnalysisHandler : BaseAnalysisHandler
   {
-    #region Protected Override Methods
+    #region Constructor
 
     /// <summary>
-    /// Starts a full StyleCop analysis of type Folder.
+    /// Initializes a new instance of the <see cref="FolderAnalysisHandler"/> class.
     /// </summary>
-    protected override void Run()
+    public FolderAnalysisHandler()
+      : base(AnalysisType.Folder)
     {
-      base.Run();
-
-      this.FullAnalysis = true;
-      this.Analyze(AnalysisType.Folder);
     }
 
-    /// <summary>
-    /// Update availability of the StyleCop command for the selected folder/folders in ProjectPad.
-    /// </summary>
-    /// <param name="info">A <see cref="CommandInfo"/></param>
-    protected override void Update(CommandInfo info)
-    {
-      base.Update(info);
-
-      if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
-      {
-        // TODO correct the this check! Check the selected files and not the active document..
-        if (ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.Folder))
-        {
-          info.Visible = true;
-        }
-        else
-        {
-          info.Visible = false;
-        }
-      }
-    }
-
-    #endregion Protected Override Methods
+    #endregion Constructor
   }
 }

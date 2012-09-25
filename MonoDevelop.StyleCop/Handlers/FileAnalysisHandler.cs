@@ -32,41 +32,16 @@ namespace MonoDevelop.StyleCop
   /// </summary>
   internal sealed class FileAnalysisHandler : BaseAnalysisHandler
   {
-    #region Protected Override Methods
+    #region Constructor
 
     /// <summary>
-    /// Starts a full StyleCop analysis of type File.
+    /// Initializes a new instance of the <see cref="FileAnalysisHandler"/> class.
     /// </summary>
-    protected override void Run()
+    public FileAnalysisHandler()
+      : base(AnalysisType.File)
     {
-      base.Run();
-
-      this.FullAnalysis = true;
-      this.Analyze(AnalysisType.File);
     }
 
-    /// <summary>
-    /// Update availability of the StyleCop command for the selected file/s in ProjectPad.
-    /// </summary>
-    /// <param name="info">A <see cref="CommandInfo"/></param>
-    protected override void Update(CommandInfo info)
-    {
-      base.Update(info);
-
-      if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
-      {
-        // TODO correct the this check! Check the selected files and not the active document..
-        if (ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.File))
-        {
-          info.Visible = true;
-        }
-        else
-        {
-          info.Visible = false;
-        }
-      }
-    }
-
-    #endregion Protected Override Methods
+    #endregion Constructor
   }
 }

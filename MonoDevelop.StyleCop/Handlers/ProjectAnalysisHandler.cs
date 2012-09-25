@@ -26,39 +26,44 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// Class which handles the analysis type Project.
   /// </summary>
-  internal sealed class ProjectAnalysisHandler : BaseAnalysisHandler
+  internal class ProjectAnalysisHandler : BaseAnalysisHandler
   {
-    #region Protected Override Methods
+    #region Constructor
 
     /// <summary>
-    /// Starts a full StyleCop analysis of type Project.
+    /// Initializes a new instance of the <see cref="ProjectAnalysisHandler"/> class.
     /// </summary>
-    protected override void Run()
+    public ProjectAnalysisHandler()
+      : base(AnalysisType.Project)
     {
-      base.Run();
-
-      this.FullAnalysis = true;
-      this.Analyze(AnalysisType.Project);
     }
 
     /// <summary>
-    /// Update availability of the StyleCop command for the selected project/projects in ProjectPad.
+    /// Initializes a new instance of the <see cref="ProjectAnalysisHandler"/> class.
+    /// </summary>
+    /// <param name="fullAnalysis">Set to true if StyleCop should run a full analysis, false otherwise.</param>
+    internal ProjectAnalysisHandler(bool fullAnalysis)
+      : base(fullAnalysis, AnalysisType.Project)
+    {
+    }
+
+    #endregion Constructor
+
+    #region Protected Override Methods
+
+    /// <summary>
+    /// Update availability and text of the StyleCop command for the selected project/projects in ProjectPad.
     /// </summary>
     /// <param name="info">A <see cref="CommandInfo"/></param>
     protected override void Update(CommandInfo info)
     {
-      base.Update(info);
-
-      if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
+      if (IdeApp.ProjectOperations.CurrentSelectedProject != null)
       {
-        if (IdeApp.ProjectOperations.CurrentSelectedProject != null && ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.Project))
-        {
-          info.Visible = true;
-        }
-        else
-        {
-          info.Visible = false;
-        }
+        base.Update(info);
+      }
+      else
+      {
+        info.Visible = false;
       }
     }
 

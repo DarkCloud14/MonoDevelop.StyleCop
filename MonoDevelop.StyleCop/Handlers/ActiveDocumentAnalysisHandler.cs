@@ -28,18 +28,19 @@ namespace MonoDevelop.StyleCop
   /// </summary>
   internal sealed class ActiveDocumentAnalysisHandler : BaseAnalysisHandler
   {
-    #region Protected Override Methods
+    #region Constructor
 
     /// <summary>
-    /// Starts a full StyleCop analysis of type ActiveDocument.
+    /// Initializes a new instance of the <see cref="ActiveDocumentAnalysisHandler"/> class.
     /// </summary>
-    protected override void Run()
+    public ActiveDocumentAnalysisHandler()
+      : base(AnalysisType.ActiveDocument)
     {
-      base.Run();
-
-      this.FullAnalysis = true;
-      this.Analyze(AnalysisType.ActiveDocument);
     }
+
+    #endregion Constructor
+
+    #region Protected Override Methods
 
     /// <summary>
     /// Update availability of the StyleCop command for the active document.
@@ -47,18 +48,13 @@ namespace MonoDevelop.StyleCop
     /// <param name="info">A <see cref="CommandInfo"/></param>
     protected override void Update(CommandInfo info)
     {
-      base.Update(info);
-
-      if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
+      if (IdeApp.Workbench.ActiveDocument != null)
       {
-        if (IdeApp.Workbench.ActiveDocument != null && ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.ActiveDocument))
-        {
-          info.Visible = true;
-        }
-        else
-        {
-          info.Visible = false;
-        }
+        base.Update(info);
+      }
+      else
+      {
+        info.Visible = false;
       }
     }
 
