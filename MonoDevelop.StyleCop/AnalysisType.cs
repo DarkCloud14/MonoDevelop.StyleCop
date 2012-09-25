@@ -46,8 +46,20 @@ namespace MonoDevelop.StyleCop
     Project,
 
     /// <summary>
+    /// Analyze all supported files in the selected project.
+    /// </summary>
+    /// <remarks>This type is only necessary for MonoDevelop so it can show the correct entry.</remarks>
+    ProjectFullAnalysis,
+
+    /// <summary>
     /// Analyze all supported files in the solution.
     /// </summary>
-    Solution
+    Solution,
+
+    /// <summary>
+    /// Analyze all supported files in the solution.
+    /// </summary>
+    /// <remarks>This type is only necessary for MonoDevelop so it can show the correct entry.</remarks>
+    SolutionFullAnalysis
   }
 }

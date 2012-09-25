@@ -63,9 +63,21 @@ limitations under the License.
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/Commands">
+    <Command id="MonoDevelop.StyleCop.AnalysisType.ProjectFullAnalysis"
+             _label="Run Stylecop (Rescan All)"
+             defaultHandler="MonoDevelop.StyleCop.ProjectFullAnalysisHandler"/>
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/Commands">
     <Command id="MonoDevelop.StyleCop.AnalysisType.Solution"
              _label="Run Stylecop"
              defaultHandler="MonoDevelop.StyleCop.SolutionAnalysisHandler"/>
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/Commands">
+    <Command id="MonoDevelop.StyleCop.AnalysisType.SolutionFullAnalysis"
+             _label="Run Stylecop (Rescan All)"
+             defaultHandler="MonoDevelop.StyleCop.SolutionFullAnalysisHandler"/>
   </Extension>
 
   <Extension path = "/MonoDevelop/Ide/ContextMenu/DocumentTab">
@@ -75,6 +87,7 @@ limitations under the License.
   <Extension path = "/MonoDevelop/Ide/ContextMenu/ProjectPad">
     <Condition id="ItemType" value="Project">
       <CommandItem id="MonoDevelop.StyleCop.AnalysisType.Project"/>
+      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ProjectFullAnalysis"/>
     </Condition>
 
     <Condition id="ItemType" value="ProjectFile">
@@ -87,11 +100,13 @@ limitations under the License.
 
     <Condition id="ItemType" value="Solution">
       <CommandItem id="MonoDevelop.StyleCop.AnalysisType.Solution"/>
+      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.SolutionFullAnalysis"/>
     </Condition>
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/MainMenu/Tools">
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.Solution"/>
+    <CommandItem id="MonoDevelop.StyleCop.AnalysisType.SolutionFullAnalysis"/>
   </Extension>
 
   <Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">

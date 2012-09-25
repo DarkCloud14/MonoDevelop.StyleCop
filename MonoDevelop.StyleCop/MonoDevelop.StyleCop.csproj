@@ -60,6 +60,8 @@
     <Compile Include="Handlers\BaseAnalysisHandler.cs" />
     <Compile Include="Handlers\FileAnalysisHandler.cs" />
     <Compile Include="Handlers\FolderAnalysisHandler.cs" />
+    <Compile Include="Handlers\SolutionFullAnalysisHandler.cs" />
+    <Compile Include="Handlers\ProjectFullAnalysisHandler.cs" />
     <Compile Include="Handlers\ProjectAnalysisHandler.cs" />
     <Compile Include="Handlers\SolutionAnalysisHandler.cs" />
     <Compile Include="Handlers\StartupHandler.cs" />
