@@ -37,7 +37,7 @@ namespace MonoDevelop.StyleCop
       base.Run();
 
       // Call this function of ProjectUtilities to initialize everything.
-      ProjectUtilities.Instance.SupportsStyleCop(AnalysisType.ActiveDocument);
+      ProjectUtilities.Instance.CacheKnownFiles(AnalysisType.ActiveDocument);
 
       // Get the version numbers of StyleCop to initialize StyleCopVersion class.
       string styleCopMajorMinorVersionNumber = StyleCopVersion.VersionNumberMajorMinor;
