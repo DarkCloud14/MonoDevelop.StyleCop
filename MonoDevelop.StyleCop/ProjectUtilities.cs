@@ -118,6 +118,15 @@ namespace MonoDevelop.StyleCop
     #region Internal Properties
 
     /// <summary>
+    /// Gets a dictionary which contains for each cached project a list with files to scan.
+    /// </summary>
+    internal Dictionary<Project, List<ProjectFile>> CachedFiles
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
     /// Gets the StyleCop core object.
     /// </summary>
     internal StyleCopCore Core
@@ -194,15 +203,16 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
-    /// Determines whether the StyleCop menu items should be shown.
+    /// Determines whether the selected analysis type contains files to cache.
     /// </summary>
     /// <param name="analysisType">The analyze type being performed.</param>
-    /// <returns>Returns true if the menu item should be shown, or false otherwise.</returns>
-    internal bool SupportsStyleCop(AnalysisType analysisType)
+    /// <returns>Returns true if there are cached files, or false otherwise.</returns>
+    internal bool CacheKnownFiles(AnalysisType analysisType)
     {
       Param.Ignore(analysisType);
 
-      if (this.GetKnownProjectsAndFilesOfSelection(analysisType).Count > 0)
+      this.CachedFiles = this.GetKnownFilesOfSelection(analysisType);
+      if (this.CachedFiles.Count > 0)
       {
         return true;
       }
@@ -250,18 +260,38 @@ namespace MonoDevelop.StyleCop
     /// <returns>A list with all known files.</returns>
     private List<ProjectFile> EnumerateFile(ProjectFile projectFile)
     {
+      return this.EnumerateFile(projectFile, true);
+    }
+
+    /// <summary>
+    /// Enumerate through all childs of the given file and return all known files (including <paramref name="projectFile"/> if it's a known file type!).
+    /// </summary>
+    /// <param name="projectFile">Project file to enumerate.</param>
+    /// <param name="getParentFileFirst">Start enumeration from parent file.</param>
+    /// <returns>A list with all known files.</returns>
+    private List<ProjectFile> EnumerateFile(ProjectFile projectFile, bool getParentFileFirst)
+    {
       List<ProjectFile> results = new List<ProjectFile>();
 
       if (projectFile != null)
       {
-        if (this.IsKnownFileExtension(projectFile.FilePath.Extension))
+        ProjectFile fileToCheck = projectFile;
+        if (getParentFileFirst)
         {
-          results.Add(projectFile);
+          fileToCheck = this.GetParentProjectFile(fileToCheck);
         }
 
-        if (projectFile.HasChildren)
+        if (this.IsKnownFileExtension(fileToCheck.FilePath.Extension))
         {
-          results.AddRange(projectFile.DependentChildren.Where(file => this.IsKnownFileExtension(file.FilePath.Extension)).ToList());
+          results.Add(fileToCheck);
+        }
+
+        if (fileToCheck.HasChildren)
+        {
+          foreach (var currentChild in fileToCheck.DependentChildren)
+          {
+            results.AddRange(this.EnumerateFile(currentChild, false));
+          }
         }
       }
 
@@ -297,28 +327,31 @@ namespace MonoDevelop.StyleCop
 
       if (project != null)
       {
-        results = project.Items.Select(item => item is ProjectFile ? item as ProjectFile : null).Where(value => value != null && !IsDirectory(value.FilePath)).ToList();
+        results = project.Items.Select(item => item is ProjectFile ? item as ProjectFile : null).Where(
+          value => value != null && !IsDirectory(value.FilePath) && this.IsKnownFileExtension(value.FilePath.Extension)).ToList();
       }
 
       return results;
     }
 
     /// <summary>
-    /// Get all projects, folders and files of a known project/file type from the current selection.
+    /// Get all known StyleCop files from the current selection.
     /// </summary>
     /// <param name="analysisType">The analyze type being performed.</param>
-    /// <returns>Returns a list which contains all known projects and files or none.</returns>
-    private List<object> GetKnownProjectsAndFilesOfSelection(AnalysisType analysisType)
+    /// <returns>Returns a dictionary which contains all known projects with a list of files or none.</returns>
+    private Dictionary<Project, List<ProjectFile>> GetKnownFilesOfSelection(AnalysisType analysisType)
     {
-      Dictionary<int, Project> knownProjectsDictionary = new Dictionary<int, Project>();
-      Dictionary<int, ProjectFile> knownFilesInFoldersDictionary = new Dictionary<int, ProjectFile>();
-      List<object> resultList = new List<object>();
-      var selectedNodes = this.ProjectPad.TreeView.GetSelectedNodes();
+      Dictionary<Project, List<ProjectFile>> resultDictionary = new Dictionary<Project, List<ProjectFile>>();
 
       if (analysisType == AnalysisType.Solution)
       {
-        resultList = IdeApp.ProjectOperations.CurrentSelectedSolution.GetAllProjects().Select(
-          project => this.IsKnownProjectType(project) ? (object)project : null).Where(value => value != null).ToList();
+        var allKnownProjectsInSolution = IdeApp.ProjectOperations.CurrentSelectedSolution.GetAllProjects().Select(
+          project => this.IsKnownProjectType(project) ? project : null).Where(value => value != null).ToList();
+
+        foreach (var currentProject in allKnownProjectsInSolution)
+        {
+          resultDictionary.Add(currentProject, this.EnumerateProject(currentProject));
+        }
       }
       else if (analysisType == AnalysisType.ActiveDocument)
       {
@@ -329,7 +362,7 @@ namespace MonoDevelop.StyleCop
           var enumeratedFiles = this.EnumerateFile(projectFile);
           if (enumeratedFiles.Count > 0)
           {
-            resultList.AddRange(enumeratedFiles);
+            resultDictionary.Add(projectFile.Project, enumeratedFiles);
           }
         }
       }
@@ -337,45 +370,57 @@ namespace MonoDevelop.StyleCop
       {
         if (this.ProjectPad.TreeView.MultipleNodesSelected())
         {
+          var selectedNodes = this.ProjectPad.TreeView.GetSelectedNodes();
+          Dictionary<Project, Dictionary<int, ProjectFile>> knownEnumeratedFiles = new Dictionary<Project, Dictionary<int, ProjectFile>>();
+
           // First get all projects of the selection and use the hash code as a key in dictionary.
           var knownProjectsInSelection = selectedNodes.Select(node => this.IsKnownProjectType(node.DataItem as Project) ? node.DataItem as Project : null).Where(
-            value => value != null);
+            value => value != null).ToList();
 
-          if (knownProjectsInSelection.Count() > 0)
+          // Go through all selected projects and add there files to a dictionary with there HashCode as key.
+          // That will allow us to add each file just once even if it is selected seperatly.
+          foreach (var currentProject in knownProjectsInSelection)
           {
-            knownProjectsDictionary = knownProjectsInSelection.ToDictionary(project => project.GetHashCode());
+            knownEnumeratedFiles.Add(currentProject, new Dictionary<int, ProjectFile>());
+            knownEnumeratedFiles[currentProject] = knownEnumeratedFiles[currentProject].Concat(this.EnumerateProject(currentProject).ToDictionary(file => file.GetHashCode())).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
           }
 
           // Get all selected folders which have known file types and are not in the above project.
           var foldersWithKnownFileTypes = selectedNodes.Select(node => (node.DataItem as ProjectFolder) != null ? node.DataItem as ProjectFolder : null).Where(
-            value => value != null && value.Project != null && !knownProjectsDictionary.ContainsKey(value.Project.GetHashCode())
+            value => value != null && value.Project != null && !knownEnumeratedFiles.ContainsKey(value.Project)
             && this.EnumerateFolder(value).Count > 0).ToList();
 
-          if (foldersWithKnownFileTypes.Count > 0)
+          foreach (var currentFolder in foldersWithKnownFileTypes)
           {
-            foreach (var currentFolder in foldersWithKnownFileTypes)
+            if (!knownEnumeratedFiles.ContainsKey(currentFolder.Project))
             {
-              var knownFilesInFolder = this.EnumerateFolder(currentFolder);
-              foreach (var currentFile in knownFilesInFolder)
-              {
-                knownFilesInFoldersDictionary.Add(currentFile.GetHashCode(), currentFile);
-              }
+              knownEnumeratedFiles.Add(currentFolder.Project, new Dictionary<int, ProjectFile>());
+            }
+
+            knownEnumeratedFiles[currentFolder.Project] = knownEnumeratedFiles[currentFolder.Project].Concat(this.EnumerateFolder(currentFolder).ToDictionary(file => file.GetHashCode())).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+          }
+
+          // Next we get all known file types of the selection and add them if they are not already in the enumerated files list.
+          var knownFilesInSelection = selectedNodes.Select(
+            node => this.IsKnownFileExtension(node.DataItem as ProjectFile) ? node.DataItem as ProjectFile : null).Where(
+            value => value != null && value.Project != null &&
+            (!knownEnumeratedFiles.ContainsKey(value.Project) || !knownEnumeratedFiles[value.Project].ContainsKey(value.GetHashCode()))).ToList();
+
+          // Add each file to the dictonary if it's not already in it, i.e. a selected child could be added through the EnumerateFile method.
+          foreach (var currentFile in knownFilesInSelection)
+          {
+            if (!knownEnumeratedFiles.ContainsKey(currentFile.Project))
+            {
+              knownEnumeratedFiles.Add(currentFile.Project, new Dictionary<int, ProjectFile>());
+            }
+
+            if (!knownEnumeratedFiles[currentFile.Project].ContainsKey(currentFile.GetHashCode()))
+            {
+              knownEnumeratedFiles[currentFile.Project] = knownEnumeratedFiles[currentFile.Project].Concat(this.EnumerateFile(currentFile).ToDictionary(file => file.GetHashCode())).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
           }
 
-          // Next we get all known file types of the selection and add them if they don't have one of the above projects or folders as parent.
-          var knownFilesInSelection = selectedNodes.Select(
-            node => this.IsKnownFileExtension(node.DataItem as ProjectFile) ? node.DataItem as ProjectFile : null).Where(
-            value => value != null && value.Project != null && !knownProjectsDictionary.ContainsKey(value.Project.GetHashCode())
-            && !knownFilesInFoldersDictionary.ContainsKey(value.GetHashCode())).ToList();
-
-          resultList.AddRange(knownProjectsDictionary.Values);
-
-          // Add each file as a single project
-          foreach (var currentFile in knownFilesInSelection)
-          {
-            resultList.Add(currentFile);
-          }
+          resultDictionary = knownEnumeratedFiles.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Values.ToList());
         }
         else
         {
@@ -386,7 +431,7 @@ namespace MonoDevelop.StyleCop
             enumeratedFiles = this.EnumerateFile(IdeApp.ProjectOperations.CurrentSelectedItem as ProjectFile);
             if (enumeratedFiles.Count > 0)
             {
-              resultList.AddRange(enumeratedFiles);
+              resultDictionary.Add(enumeratedFiles[0].Project, enumeratedFiles);
             }
 
             break;
@@ -395,15 +440,16 @@ namespace MonoDevelop.StyleCop
             enumeratedFiles = this.EnumerateFolder(IdeApp.ProjectOperations.CurrentSelectedItem as ProjectFolder);
             if (enumeratedFiles.Count > 0)
             {
-              resultList.AddRange(enumeratedFiles);
+              resultDictionary.Add(enumeratedFiles[0].Project, enumeratedFiles);
             }
 
             break;
 
           case AnalysisType.Project:
-            if (this.IsKnownProjectType(IdeApp.ProjectOperations.CurrentSelectedProject))
+            enumeratedFiles = this.EnumerateProject(IdeApp.ProjectOperations.CurrentSelectedProject);
+            if (enumeratedFiles.Count > 0)
             {
-              resultList.Add(IdeApp.ProjectOperations.CurrentSelectedProject);
+              resultDictionary.Add(enumeratedFiles[0].Project, enumeratedFiles);
             }
 
             break;
@@ -411,7 +457,30 @@ namespace MonoDevelop.StyleCop
         }
       }
 
-      return resultList;
+      return resultDictionary;
+    }
+
+    /// <summary>
+    /// Get the parent project file.
+    /// </summary>
+    /// <param name="projectFile">Project file to analyze.</param>
+    /// <returns>Returns the parent project file, null if <paramref name="projectFile"/> is null.</returns>
+    /// <remarks>The parent project file is the one which doesn't depend on another file.</remarks>
+    private ProjectFile GetParentProjectFile(ProjectFile projectFile)
+    {
+      if (projectFile != null)
+      {
+        if (!string.IsNullOrEmpty(projectFile.DependsOn))
+        {
+          return this.GetParentProjectFile(projectFile.DependsOnFile);
+        }
+        else
+        {
+          return projectFile;
+        }
+      }
+
+      return null;
     }
 
     /// <summary>
