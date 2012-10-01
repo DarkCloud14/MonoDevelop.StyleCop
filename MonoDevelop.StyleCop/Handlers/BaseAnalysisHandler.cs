@@ -52,6 +52,11 @@ namespace MonoDevelop.StyleCop
     #region Private Fields
 
     /// <summary>
+    /// Indicates if a previously started StyleCop run should be canceled.
+    /// </summary>
+    private bool cancelStypeCopRun = false;
+
+    /// <summary>
     /// Text of cancel StyleCop context menu entry.
     /// </summary>
     private string styleCopCancelText = "Cancel StyleCop";
@@ -123,15 +128,6 @@ namespace MonoDevelop.StyleCop
     #region Private Static Properties
 
     /// <summary>
-    /// Gets or sets a previous ProjectPad node selection.
-    /// </summary>
-    private static ITreeNavigator[] CachedNodeSelection
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
     /// Gets or sets a previously active document.
     /// </summary>
     private static Document CachedActiveDocument
@@ -140,6 +136,14 @@ namespace MonoDevelop.StyleCop
       set;
     }
 
+    /// <summary>
+    /// Gets or sets a previous ProjectPad node selection.
+    /// </summary>
+    private static ITreeNavigator[] CachedNodeSelection
+    {
+      get;
+      set;
+    }
     #endregion Private Static Propertiess
 
     #region Protected Override Methods
@@ -151,12 +155,17 @@ namespace MonoDevelop.StyleCop
     {
       base.Run();
 
-      if (IdeApp.ProjectOperations.IsStyleCopRunning())
+      if (this.cancelStypeCopRun)
       {
         this.CancelAnalysis();
       }
       else
       {
+        if (IdeApp.Workbench != null)
+        {
+          IdeApp.Workbench.SaveAll();
+        }
+
         this.Analyze();
       }
     }
@@ -170,6 +179,7 @@ namespace MonoDevelop.StyleCop
       base.Update(info);
 
       info.Visible = false;
+      this.cancelStypeCopRun = false;
 
       if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
       {
@@ -255,11 +265,18 @@ namespace MonoDevelop.StyleCop
       {
         if (IdeApp.ProjectOperations.IsStyleCopRunning())
         {
-          info.Visible = true;
+          // Only show one cancel entry.
+          if (this.FullAnalysis)
+          {
+            info.Visible = false;
+          }
+          else
+          {
+            info.Visible = true;
+          }
+
           info.Text = this.styleCopCancelText;
-        }
-        else
-        {
+          this.cancelStypeCopRun = true;
         }
       }
     }
@@ -275,7 +292,7 @@ namespace MonoDevelop.StyleCop
     {
       if (!IdeApp.ProjectOperations.IsStyleCopRunning())
       {
-        IList<CodeProject> projects = ProjectUtilities.Instance.GetProjectList(this.TypeOfAnalysis);
+        IList<CodeProject> projects = ProjectUtilities.Instance.GetProjectList();
         IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, this.FullAnalysis, projects);
       }
     }
@@ -285,10 +302,7 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     private void CancelAnalysis()
     {
-      if (IdeApp.ProjectOperations.IsStyleCopRunning())
-      {
-        IdeApp.ProjectOperations.CancelStyleCopAnalysis();
-      }
+      IdeApp.ProjectOperations.CancelStyleCopAnalysis();
     }
 
     #endregion Private Methods
