@@ -57,9 +57,9 @@ namespace MonoDevelop.StyleCop
     /// <param name="info">A <see cref="CommandInfo"/></param>
     protected override void Update(CommandInfo info)
     {
-      if (IdeApp.Workspace.IsOpen && IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted && ProjectUtilities.Instance.CacheKnownFiles(AnalysisType.Solution))
+      if (IdeApp.Workspace != null && IdeApp.Workspace.IsOpen)
       {
-        info.Visible = true;
+        base.Update(info);
       }
       else
       {
