@@ -20,6 +20,7 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
+  using System;
   using System.Collections.Generic;
   using System.Globalization;
   using System.Linq;
@@ -143,20 +144,49 @@ namespace MonoDevelop.StyleCop
     {
       Param.Ignore(sender, e);
 
-      // Check the count. At some point we don't allow any more violations so we cancel the analyze run.
+      // Check the violation count. At some point we don't allow any more violations so we cancel the analyze run.
       if (e.SourceCode.Project.MaxViolationCount > 0 && styleCopAnalysisResultList.Count == e.SourceCode.Project.MaxViolationCount)
       {
         IdeApp.ProjectOperations.CancelStyleCopAnalysis();
       }
 
+      string trimmedNamespace = e.Violation.Rule.Namespace;
+      string searchValue = global::StyleCop.Constants.ProductName + ".";
+
+      int indexOfProductName = trimmedNamespace.IndexOf(searchValue, StringComparison.Ordinal);
+      if (indexOfProductName != -1 && indexOfProductName < trimmedNamespace.Length - 1)
+      {
+        trimmedNamespace = trimmedNamespace.Substring(indexOfProductName + searchValue.Length);
+
+        int indexOfRulesString = trimmedNamespace.LastIndexOf("Rules", StringComparison.Ordinal);
+        trimmedNamespace = indexOfRulesString != -1 ? trimmedNamespace.Substring(0, indexOfRulesString) : trimmedNamespace;
+      }
+      else
+      {
+        trimmedNamespace = string.Empty;
+      }
+
+      string fileName = string.Empty;
+      if (e.Element != null)
+      {
+        fileName = e.Element.Document.SourceCode.Path;
+      }
+      else
+      {
+        if (e.SourceCode != null)
+        {
+          fileName = e.SourceCode.Path;
+        }
+      }
+
       Task styleCopWarning = new Task(
-        e.Element.Document.SourceCode.Path,
-        string.Concat(e.Violation.Rule.CheckId, ": ", e.Message),
+        fileName,
+        string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message),
         e.Location != null ? e.Location.StartPoint.IndexOnLine : 1,
         e.LineNumber,
         TaskSeverity.Warning,
         TaskPriority.Normal,
-        null,
+        ProjectUtilities.Instance.GetCachedProjectOfFile(fileName),
         ProjectOperationsExtensions.ownerObject);
 
       styleCopAnalysisResultList.Add(styleCopWarning);
