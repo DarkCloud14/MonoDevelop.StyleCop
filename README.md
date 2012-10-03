@@ -28,8 +28,9 @@ You can now proceed with the installation of the addin in MonoDevelop.
 Usage
 -----
 
-After the installation you can find menu entries under Tools, by right clicking on a file, project,
+After the installation you can find menu entries under Tools, by right clicking on a file, folder, project,
 solution in Projectpad, by right clicking in an opened document or it's document tabulator.
 
 By right clicking on a project you can also open the StyleCop settings editor to enable/disable StyleCop rules and so on.
 
+The StyleCop entries only show up if the file, folder, project or solution are known by StyleCop!
