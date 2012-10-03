@@ -32,6 +32,19 @@ limitations under the License.
     <Import assembly="StyleCop.dll"/>
     <Import assembly="StyleCop.CSharp.Rules.dll"/>
     <Import assembly="StyleCop.CSharp.dll"/>
+    <Import file="de-DE/StyleCop.CSharp.Rules.resources.dll"/>
+    <Import file="en-GB/StyleCop.CSharp.Rules.resources.dll"/>
+    <Import file="fr-FR/StyleCop.CSharp.Rules.resources.dll"/>
+    <Import file="pl-PL/StyleCop.CSharp.Rules.resources.dll"/>
+    <Import file="pt-BR/StyleCop.CSharp.Rules.resources.dll"/>
+    <Import file="ru-RU/StyleCop.CSharp.Rules.resources.dll"/>
+    <Import file="CustomDictionary.en-GB.xml"/>
+    <Import file="CustomDictionary.en-US.xml"/>
+    <Import file="CustomDictionary.xml"/>
+    <Import file="mssp7en.dll"/>
+    <Import file="mssp7en.lex"/>
+    <Import file="Settings.StyleCop"/>
+    <Import file="StyleCopSettingsEditor.exe"/>
   </Runtime>
 
   <Extension path = "/MonoDevelop/Ide/StartupHandlers">
