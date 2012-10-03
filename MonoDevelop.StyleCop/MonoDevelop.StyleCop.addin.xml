@@ -20,7 +20,7 @@ limitations under the License.
        copyright      = "APL 2.0"
        description    = "Provides StyleCop support to MonoDevelop"
        category       = "IDE extensions"
-       version        = "1.0.1.0">
+       version        = "1.0.1.1">
 
   <Dependencies>
     <Addin id="Core" version="3.0.3"/>
