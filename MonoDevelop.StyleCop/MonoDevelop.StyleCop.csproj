@@ -92,6 +92,5 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="MonoDevelop.StyleCop.addin.xml" />
-    <EmbeddedResource Include="addin-project.xml" />
   </ItemGroup>
 </Project>
