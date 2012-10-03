@@ -12,7 +12,7 @@ Get the latest addin package from the [Downloads section](https://github.com/Dar
 
 ###Remarks
 
-The spell checker is only available on Windows too!
+The spell checker is only available on Windows!
 
 Usage
 -----
