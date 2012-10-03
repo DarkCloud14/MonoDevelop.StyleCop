@@ -208,16 +208,6 @@ namespace MonoDevelop.StyleCop
           var projectFiles = kvp.Value;
 
           Configuration activeProjectConfiguration = new Configuration(null);
-          if (IdeApp.Workspace != null && IdeApp.Workspace.ActiveConfiguration != null)
-          {
-            var projectConfiguration = currentProject.GetConfiguration(IdeApp.Workspace.ActiveConfiguration);
-            if (projectConfiguration != null)
-            {
-              var extendedProps = projectConfiguration.ExtendedProperties;
-              activeProjectConfiguration = new Configuration(new string[] { projectConfiguration.Name });
-            }
-          }
-
           if (projectFiles.Values.Count > 0)
           {
             CodeProject codeProject = new CodeProject(currentProject.BaseDirectory.GetHashCode(), currentProject.BaseDirectory, activeProjectConfiguration);
