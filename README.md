@@ -14,6 +14,8 @@ Get the latest addin package from the [Downloads section](https://github.com/Dar
 
 The spell checker is only available on Windows!
 
+Check the [StyleCop](http://stylecop.codeplex.com/) website for more informations about StyleCop or [StyleCop rules](http://www.stylecop.com/docs/) for it's rules.
+
 Usage
 -----
 
