@@ -41,8 +41,11 @@ limitations under the License.
     <Import file="CustomDictionary.en-GB.xml"/>
     <Import file="CustomDictionary.en-US.xml"/>
     <Import file="CustomDictionary.xml"/>
+    <Import file="LICENSE"/>
+    <Import file="LICENSE_Ms-PL.txt"/>
     <Import file="mssp7en.dll"/>
     <Import file="mssp7en.lex"/>
+    <Import file="NOTICE"/>
     <Import file="Settings.StyleCop"/>
     <Import file="StyleCopSettingsEditor.exe"/>
   </Runtime>
