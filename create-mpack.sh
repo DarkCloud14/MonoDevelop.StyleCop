@@ -12,6 +12,9 @@ if [ -f "$AddinFullFileName" ]; then
 				rm "$StyleCopFilesDirectory/$AddinFileName"	
 			fi
 			
+			cp -f LICENSE "$StyleCopFilesDirectory"
+			cp -f LICENSE_Ms-PL.txt "$StyleCopFilesDirectory"
+			cp -f NOTICE "$StyleCopFilesDirectory"
 	    	cp -f "$AddinFullFileName" "$StyleCopFilesDirectory"
 	    	$MonoDevelopTool setup pack "$StyleCopFilesDirectory/$AddinFileName"
 	    else
