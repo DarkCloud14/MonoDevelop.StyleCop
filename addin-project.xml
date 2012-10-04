@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<AddinProject appVersion="3.0.3">
+<AddinProject appVersion="3.0.4">
   <Project>
     <AddinFile>StyleCop.Files/MonoDevelop.StyleCop.dll</AddinFile>
     <BuildFile>MonoDevelop.StyleCop.sln</BuildFile>

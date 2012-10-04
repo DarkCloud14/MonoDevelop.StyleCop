@@ -23,9 +23,9 @@ limitations under the License.
        version        = "1.0.1.1">
 
   <Dependencies>
-    <Addin id="Core" version="3.0.3"/>
-    <Addin id="Ide" version="3.0.3"/>
-    <Addin id="SourceEditor2" version="3.0.3"/>
+    <Addin id="Core" version="3.0.4"/>
+    <Addin id="Ide" version="3.0.4"/>
+    <Addin id="SourceEditor2" version="3.0.4"/>
   </Dependencies>
 
   <Runtime>
