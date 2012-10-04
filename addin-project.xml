@@ -14,9 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <AddinProject appVersion="3.0.3">
-  <Project platforms="Mac Linux Win32">
-    <AddinFile>MonoDevelop.StyleCop/bin/Release/MonoDevelop.StyleCop.dll</AddinFile>
-    <BuildFile>MonoDevelop.StyleCop.sln</BuildFile>
-    <BuildConfiguration>Release</BuildConfiguration>
+  <Project>
+    <AddinFile>StyleCop.Files/MonoDevelop.StyleCop.dll</AddinFile>
   </Project>
 </AddinProject>
