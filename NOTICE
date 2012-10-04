@@ -18,6 +18,7 @@ This software includes the following libraries and files:
 de-DE/StyleCop.CSharp.Rules.resources.dll, en-GB/StyleCop.CSharp.Rules.resources.dll,
 fr-FR/StyleCop.CSharp.Rules.resources.dll, pl-PL/StyleCop.CSharp.Rules.resources.dll,
 pt-BR/StyleCop.CSharp.Rules.resources.dll, ru-RU/StyleCop.CSharp.Rules.resources.dll,
+CustomDictionary.en-GB.xml, CustomDictionary.en-US.xml, CustomDictionary.xml, mssp7en.dll, mssp7en.lex
 Settings.StyleCop, StyleCop.dll, StyleCop.CSharp.dll, StyleCop.CSharp.Rules.dll and StyleCopSettingsEditor.exe
 Copyright: StyleCop Project
 License:   Ms-PL
