@@ -47,7 +47,7 @@
       <HintPath>..\..\..\..\..\..\Macintosh HD\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Ide.dll</HintPath>
     </Reference>
     <Reference Include="StyleCop">
-      <HintPath>..\StyleCop Files\StyleCop.dll</HintPath>
+      <HintPath>..\StyleCop.Files\StyleCop.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -64,10 +64,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="StyleCop.CSharp">
-      <HintPath>..\StyleCop Files\StyleCop.CSharp.dll</HintPath>
+      <HintPath>..\StyleCop.Files\StyleCop.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="StyleCop.CSharp.Rules">
-      <HintPath>..\StyleCop Files\StyleCop.CSharp.Rules.dll</HintPath>
+      <HintPath>..\StyleCop.Files\StyleCop.CSharp.Rules.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
