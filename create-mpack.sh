@@ -7,7 +7,11 @@ AddinFullFileName="$AddinBuildDirectory/$AddinFileName"
 
 if [ -f "$AddinFullFileName" ]; then
 	if [ -d "$StyleCopFilesDirectory" ]; then
-		if [ -f "$MonoDevelopTool" ]; then		
+		if [ -f "$MonoDevelopTool" ]; then
+			if [ -f "$StyleCopFilesDirectory/$AddinFileName" ]; then
+				rm "$StyleCopFilesDirectory/$AddinFileName"	
+			fi
+			
 	    	cp -f "$AddinFullFileName" "$StyleCopFilesDirectory"
 	    	$MonoDevelopTool setup pack "$StyleCopFilesDirectory/$AddinFileName"
 	    else
