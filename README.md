@@ -1,7 +1,7 @@
 MonoDevelop.StyleCop
 =============
 
-MonoDevelop.StyleCop is an addin for MonoDevelop 3.0.4 and above.
+MonoDevelop.StyleCop is an addin for MonoDevelop 3.0.
 
 It integrates the source code analyzer [StyleCop](http://stylecop.codeplex.com/) into MonoDevelop.
 
@@ -12,7 +12,7 @@ to report the issue in StyleCops [Issue section](http://stylecop.codeplex.com/wo
 Installation
 -----------
 
-Get the latest addin package from the [Downloads section](https://github.com/DarkCloud14/MonoDevelop.StyleCop/downloads) and use MonoDevelops Addin-Manager to install.
+Get the latest addin package from MonoDevelops [addin site](http://addins.monodevelop.com/Project/Index/54) and use MonoDevelops Addin-Manager to install.
 
 ###Remarks
 
