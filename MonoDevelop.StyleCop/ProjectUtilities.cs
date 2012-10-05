@@ -225,6 +225,24 @@ namespace MonoDevelop.StyleCop
       return codeProjects;
     }
 
+    /// <summary>
+    /// Determines whether the project is a known project type.
+    /// </summary>
+    /// <param name="project">The project to analyze.</param>
+    /// <returns>Returns true if its a known project type, or false otherwise.</returns>
+    internal bool IsKnownProjectType(Project project)
+    {
+      if (project != null)
+      {
+        if (this.availableParsers != null && this.availableParsers.Contains(this.GetProjectKindOfProjectType(project)))
+        {
+          return true;
+        }
+      }
+      
+      return false;
+    }
+
     #endregion Internal Methods
 
     #region Private Static Methods
@@ -545,24 +563,6 @@ namespace MonoDevelop.StyleCop
 
         var knownExtension = this.core.Parsers.FirstOrDefault(parser => !string.IsNullOrEmpty(parser.FileTypes.FirstOrDefault(fileType => fileType.Equals(fileExtension, StringComparison.OrdinalIgnoreCase))));
         if (knownExtension != null)
-        {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
-    /// <summary>
-    /// Determines whether the project is a known project type.
-    /// </summary>
-    /// <param name="project">The project to analyze.</param>
-    /// <returns>Returns true if its a known project type, or false otherwise.</returns>
-    private bool IsKnownProjectType(Project project)
-    {
-      if (project != null)
-      {
-        if (this.availableParsers != null && this.availableParsers.Contains(this.GetProjectKindOfProjectType(project)))
         {
           return true;
         }

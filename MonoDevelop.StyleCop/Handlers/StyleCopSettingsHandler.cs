@@ -73,8 +73,7 @@ namespace MonoDevelop.StyleCop
     {
       base.Update(info);
 
-      var selectedProject = IdeApp.ProjectOperations.CurrentSelectedProject;
-      if (selectedProject != null && !string.IsNullOrEmpty(selectedProject.BaseDirectory))
+      if (ProjectUtilities.Instance.IsKnownProjectType(IdeApp.ProjectOperations.CurrentSelectedProject))
       {
         info.Visible = true;
       }
