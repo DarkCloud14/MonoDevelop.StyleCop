@@ -93,4 +93,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MonoDevelop.StyleCop.addin.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\addin-project.xml">
+      <Link>addin-project.xml</Link>
+    </None>
+  </ItemGroup>
 </Project>
