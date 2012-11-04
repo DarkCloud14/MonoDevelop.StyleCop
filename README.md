@@ -12,7 +12,8 @@ to report the issue in StyleCops [Issue section](http://stylecop.codeplex.com/wo
 Installation
 -----------
 
-Get the latest addin package from MonoDevelops [addin site](http://addins.monodevelop.com/Project/Index/54) and use MonoDevelops Addin-Manager to install.
+Get the latest addin package from the [Downloads section](https://github.com/DarkCloud14/MonoDevelop.StyleCop/downloads) or 
+MonoDevelops [addin site](http://addins.monodevelop.com/Project/Index/54) and use MonoDevelops Addin-Manager to install.
 
 ###Remarks
 
