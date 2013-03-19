@@ -1,15 +1,15 @@
 #!/bin/bash
-MonoDevelopTool=/Applications/MonoDevelop.app/Contents/MacOS/mdtool
+MonoDevelopTool="/Applications/Xamarin Studio.app/Contents/MacOS/mdtool"
 AddinBuildDirectory=./MonoDevelop.StyleCop/bin/Release
 AddinFileName=MonoDevelop.StyleCop.dll
 AddinFullFileName="$AddinBuildDirectory/$AddinFileName"
 
 if [ -f "$MonoDevelopTool" ]; then
-  $MonoDevelopTool build -t:Clean -c:Release
-  $MonoDevelopTool build -c:Release
+  "$MonoDevelopTool" build -t:Clean -c:Release
+  "$MonoDevelopTool" build -c:Release
 
   if [ -f "$AddinFullFileName" ]; then
-      $MonoDevelopTool setup pack "$AddinFullFileName"
+      "$MonoDevelopTool" setup pack "$AddinFullFileName"
     else
     echo "Couldn't find $AddinFileName in $AddinBuildDirectory"
   fi
