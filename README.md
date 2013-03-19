@@ -1,7 +1,7 @@
 MonoDevelop.StyleCop
 =============
 
-MonoDevelop.StyleCop is an addin for MonoDevelop 3.0.
+MonoDevelop.StyleCop is an addin for Xamarin Studio/MonoDevelop 4.0.
 
 It integrates the source code analyzer [StyleCop](http://stylecop.codeplex.com/) into MonoDevelop.
 
