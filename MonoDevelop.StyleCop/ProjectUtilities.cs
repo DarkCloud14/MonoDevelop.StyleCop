@@ -28,6 +28,7 @@ namespace MonoDevelop.StyleCop
   using System.Xml.Linq;
   using MonoDevelop.Ide;
   using MonoDevelop.Ide.Gui;
+  using MonoDevelop.Ide.Gui.Pads;
   using MonoDevelop.Ide.Gui.Pads.ProjectPad;
   using MonoDevelop.Projects;
   using global::StyleCop;
@@ -47,7 +48,7 @@ namespace MonoDevelop.StyleCop
     /// <summary>
     /// Use MonoDevelops project pad to get detailed information about selected files and more.
     /// </summary>
-    private readonly ProjectSolutionPad projectPad = null;
+    private readonly TreeViewPad projectPad = null;
 
     #endregion Private Readonly Fields
 
@@ -83,10 +84,10 @@ namespace MonoDevelop.StyleCop
       this.core.OutputGenerated += ProjectOperationsExtensions.StyleCopCoreOutputGenerated;
       this.core.ViolationEncountered += ProjectOperationsExtensions.StyleCopCoreViolationEncountered;
 
-      Pad temporaryPad = IdeApp.Workbench.GetPad<ProjectSolutionPad>();
+      Pad temporaryPad = IdeApp.Workbench.GetPad<TreeViewPad>();
       if (temporaryPad != null)
       {
-        this.projectPad = temporaryPad.Content as ProjectSolutionPad;
+        this.projectPad = temporaryPad.Content as TreeViewPad;
       }
 
       Debug.Assert(this.projectPad != null, "ProjectPad not initialized.");
@@ -137,7 +138,7 @@ namespace MonoDevelop.StyleCop
     /// <summary>
     /// Gets MonoDevelops project pad.
     /// </summary>
-    internal ProjectSolutionPad ProjectPad
+    internal TreeViewPad ProjectPad
     {
       get { return this.projectPad; }
     }
