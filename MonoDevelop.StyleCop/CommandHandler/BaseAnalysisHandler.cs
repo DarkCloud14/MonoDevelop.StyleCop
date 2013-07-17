@@ -144,6 +144,7 @@ namespace MonoDevelop.StyleCop
       get;
       set;
     }
+
     #endregion Private Static Propertiess
 
     #region Protected Override Methods
@@ -189,75 +190,20 @@ namespace MonoDevelop.StyleCop
           info.Text = this.styleCopRunText;
         }
 
-        bool cacheCurrentSelection = true;
-
         // The check for active document is a bit different.
-        if (this.TypeOfAnalysis != AnalysisType.ActiveDocument)
+        if (this.TypeOfAnalysis == AnalysisType.ActiveDocument)
         {
-          CachedActiveDocument = null;
-
-          // Check if the current selection is the same as the previous selection and if it's the same don't call CacheKnownFiles again.
-          if (CachedNodeSelection != null && CachedNodeSelection.Length > 0)
-          {
-            // Get the active ProjectPad tree selection
-            ITreeNavigator[] currentSelection = ProjectUtilities.Instance.ProjectPad.TreeView.GetSelectedNodes();
-            if (currentSelection != null && currentSelection.Length == CachedNodeSelection.Length)
-            {
-              cacheCurrentSelection = false;
-
-              // Now check if the nodes are the same
-              foreach (var currentNode in currentSelection)
-              {
-                object currentSolutionItem = currentNode.DataItem;
-                var nodeDataItemInPreviousSelection = CachedNodeSelection.Select(node => node.DataItem as object).FirstOrDefault(
-                  value => value != null && currentSolutionItem != null && value.GetHashCode() == currentSolutionItem.GetHashCode());
-
-                if (nodeDataItemInPreviousSelection == null)
-                {
-                  CachedNodeSelection = currentSelection;
-                  cacheCurrentSelection = true;
-                  break;
-                }
-              }
-            }
-            else
-            {
-              CachedNodeSelection = currentSelection;
-            }
-          }
-          else
-          {
-            ITreeNavigator[] currentSelection = ProjectUtilities.Instance.ProjectPad.TreeView.GetSelectedNodes();
-            CachedNodeSelection = currentSelection;
-          }
-        }
-        else
-        {
-          CachedNodeSelection = null;
-
           var activeDocument = IdeApp.Workbench.ActiveDocument;
-          if (CachedActiveDocument != null && CachedActiveDocument.GetHashCode() == activeDocument.GetHashCode())
+          
+          if (activeDocument.HasProject)
           {
-            cacheCurrentSelection = false;
-          }
-          else
-          {
-            CachedActiveDocument = activeDocument;
-          }
-        }
-
-        if (cacheCurrentSelection)
-        {
-          if (ProjectUtilities.Instance.CacheKnownFiles(this.TypeOfAnalysis))
-          {
-            info.Visible = true;
-          }
-        }
-        else
-        {
-          if (ProjectUtilities.Instance.CachedFiles != null && ProjectUtilities.Instance.CachedFiles.Count > 0)
-          {
-            info.Visible = true;
+            ProjectFile projectFile = activeDocument.Project.GetProjectFile(activeDocument.FileName);
+            var enumeratedFiles = ProjectUtilities.Instance.EnumerateFile(projectFile);
+            
+            if (enumeratedFiles.Count > 0)
+            {
+              info.Visible = true;
+            }
           }
         }
       }
@@ -292,8 +238,8 @@ namespace MonoDevelop.StyleCop
     {
       if (!IdeApp.ProjectOperations.IsStyleCopRunning())
       {
-        IList<CodeProject> projects = ProjectUtilities.Instance.GetProjectList();
-        IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, this.FullAnalysis, projects);
+        // IList<CodeProject> projects = ProjectUtilities.Instance.GetProjectList();
+        // IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, this.FullAnalysis, projects);
       }
     }
 

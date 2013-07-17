@@ -80,8 +80,6 @@ namespace MonoDevelop.StyleCop
       this.core.ViolationEncountered += ProjectOperationsExtensions.StyleCopCoreViolationEncountered;
 
       this.CachedProjects = new ProjectCache();
-
-      Debug.Assert(this.projectPad != null, "ProjectPad not initialized.");
     }
 
     /// <summary>

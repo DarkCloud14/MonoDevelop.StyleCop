@@ -186,7 +186,7 @@ namespace MonoDevelop.StyleCop
         e.LineNumber,
         TaskSeverity.Warning,
         TaskPriority.Normal,
-        ProjectUtilities.Instance.GetCachedProjectOfFile(fileName),
+        ProjectUtilities.Instance.CachedProjects.GetProjectForFile(fileName),
         ProjectOperationsExtensions.ownerObject);
 
       styleCopAnalysisResultList.Add(styleCopWarning);
