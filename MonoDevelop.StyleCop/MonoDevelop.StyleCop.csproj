@@ -90,6 +90,10 @@
     <Compile Include="StaticStringResources.cs" />
     <Compile Include="ClassExtensions\XmlDocumentExtension.cs" />
     <Compile Include="ClassExtensions\ProjectOperationsExtensions.cs" />
+    <Compile Include="NodeBuilderExtensions\StyleCopNodeExtension.cs" />
+    <Compile Include="NodeCommandHandler\StyleCopNodeCommandHandler.cs" />
+    <Compile Include="AttributeClasses\FullNodeAnalysisCommandAttribute.cs" />
+    <Compile Include="AttributeClasses\NodeAnalysisCommandAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -99,5 +103,10 @@
     <None Include="..\addin-project.xml">
       <Link>addin-project.xml</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NodeBuilderExtensions\" />
+    <Folder Include="NodeCommandHandler\" />
+    <Folder Include="AttributeClasses\" />
   </ItemGroup>
 </Project>
