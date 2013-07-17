@@ -72,13 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
-    <Compile Include="Handlers\ActiveDocumentAnalysisHandler.cs" />
-    <Compile Include="Handlers\BaseAnalysisHandler.cs" />
-    <Compile Include="Handlers\SolutionFullAnalysisHandler.cs" />
-    <Compile Include="Handlers\SolutionAnalysisHandler.cs" />
-    <Compile Include="Handlers\StartupHandler.cs" />
     <Compile Include="AnalysisType.cs" />
-    <Compile Include="Handlers\StyleCopSettingsHandler.cs" />
     <Compile Include="ProjectUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StyleCopVersion.cs" />
@@ -90,6 +84,12 @@
     <Compile Include="NodeCommandHandler\StyleCopNodeCommandHandler.cs" />
     <Compile Include="AttributeClasses\FullNodeAnalysisCommandAttribute.cs" />
     <Compile Include="AttributeClasses\NodeAnalysisCommandAttribute.cs" />
+    <Compile Include="CommandHandler\ActiveDocumentAnalysisHandler.cs" />
+    <Compile Include="CommandHandler\BaseAnalysisHandler.cs" />
+    <Compile Include="CommandHandler\SolutionFullAnalysisHandler.cs" />
+    <Compile Include="CommandHandler\SolutionAnalysisHandler.cs" />
+    <Compile Include="CommandHandler\StartupHandler.cs" />
+    <Compile Include="CommandHandler\StyleCopSettingsHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
