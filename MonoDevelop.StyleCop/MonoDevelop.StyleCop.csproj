@@ -81,13 +81,15 @@
     <Compile Include="Handlers\ProjectAnalysisHandler.cs" />
     <Compile Include="Handlers\SolutionAnalysisHandler.cs" />
     <Compile Include="Handlers\StartupHandler.cs" />
-    <Compile Include="Extensions\XmlDocumentExtension.cs" />
     <Compile Include="AnalysisType.cs" />
-    <Compile Include="Extensions\ProjectOperationsExtensions.cs" />
     <Compile Include="Handlers\StyleCopSettingsHandler.cs" />
     <Compile Include="ProjectUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StyleCopVersion.cs" />
+    <Compile Include="ProjectCache.cs" />
+    <Compile Include="StaticStringResources.cs" />
+    <Compile Include="ClassExtensions\XmlDocumentExtension.cs" />
+    <Compile Include="ClassExtensions\ProjectOperationsExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

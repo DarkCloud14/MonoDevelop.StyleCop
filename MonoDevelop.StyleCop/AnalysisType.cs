@@ -29,37 +29,27 @@ namespace MonoDevelop.StyleCop
     /// Analyze the active document.
     /// </summary>
     ActiveDocument,
-
-    /// <summary>
-    /// Analyze a file or all selected files.
-    /// </summary>
-    File,
-
-    /// <summary>
-    /// Analyze all supported files in the selected folder.
-    /// </summary>
-    Folder,
-
-    /// <summary>
-    /// Analyze all supported files in the selected project.
-    /// </summary>
-    Project,
-
-    /// <summary>
-    /// Analyze all supported files in the selected project.
-    /// </summary>
-    /// <remarks>This type is only necessary for MonoDevelop so it can show the correct entry.</remarks>
-    ProjectFullAnalysis,
-
+    
     /// <summary>
     /// Analyze all supported files in the solution.
     /// </summary>
     Solution,
-
+    
     /// <summary>
     /// Analyze all supported files in the solution.
     /// </summary>
-    /// <remarks>This type is only necessary for MonoDevelop so it can show the correct entry.</remarks>
-    SolutionFullAnalysis
+    /// <remarks>StyleCop will be forced to do a full analysis again instead of using is previously build cache.</remarks>
+    SolutionFullAnalysis,
+    
+    /// <summary>
+    /// Analyze all supported files of the selected nodes.
+    /// </summary>
+    NodeAnalysis,
+    
+    /// <summary>
+    /// Analyze all supported files in all supported and selected project nodes.
+    /// </summary>
+    /// <remarks>StyleCop will be forced to do a full analysis again instead of using is previously build cache.</remarks>
+    FullNodeAnalysis
   }
 }
