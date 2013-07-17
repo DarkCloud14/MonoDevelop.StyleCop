@@ -231,6 +231,8 @@ Global
 		$36.IncludeInstanceMembers = True
 		$36.IncludeStaticEntities = True
 		$0.VersionControlPolicy = $38
+		$38.CommitMessageStyle = $39
+		$39.LastFilePostfix = "@:\n  "
 		$38.inheritsSet = Mono
 		version = 1.0.1.0
 	EndGlobalSection
