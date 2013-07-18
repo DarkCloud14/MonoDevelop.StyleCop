@@ -52,6 +52,7 @@ Global
 		$3.AfterDelegateDeclarationParameterComma = True
 		$3.NewParentheses = False
 		$3.SpacesBeforeBrackets = False
+		$3.BlankLinesBetweenFields = 1
 		$3.inheritsSet = Mono
 		$3.inheritsScope = text/x-csharp
 		$3.scope = text/x-csharp
@@ -234,7 +235,7 @@ Global
 		$38.CommitMessageStyle = $39
 		$39.LastFilePostfix = "@:\n  "
 		$38.inheritsSet = Mono
-		version = 1.0.1.0
+		version = 1.0.1.5
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
