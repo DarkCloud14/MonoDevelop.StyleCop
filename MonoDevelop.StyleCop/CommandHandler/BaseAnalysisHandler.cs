@@ -56,21 +56,6 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     private bool cancelStypeCopRun = false;
 
-    /// <summary>
-    /// Text of cancel StyleCop context menu entry.
-    /// </summary>
-    private string styleCopCancelText = "Cancel StyleCop";
-
-    /// <summary>
-    /// Text of full StyleCop analysis context menu entry.
-    /// </summary>
-    private string styleCopFullAnalysisText = "Run StyleCop (Rescan All)";
-
-    /// <summary>
-    /// Text of default StyleCop analysis context menu entry.
-    /// </summary>
-    private string styleCopRunText = "Run StyleCop";
-
     #endregion Private Fields
 
     #region Constructor
@@ -96,34 +81,6 @@ namespace MonoDevelop.StyleCop
     }
 
     #endregion Constructor
-
-    #region Protected Properties
-
-    /// <summary>
-    /// Gets the text of cancel StyleCop context menu entry.
-    /// </summary>
-    protected string StyleCopCancelText
-    {
-      get { return this.styleCopCancelText; }
-    }
-
-    /// <summary>
-    /// Gets the text of full StyleCop analysis context menu entry.
-    /// </summary>
-    protected string StyleCopFullAnalysisText
-    {
-      get { return this.styleCopFullAnalysisText; }
-    }
-
-    /// <summary>
-    /// Gets the text of default StyleCop analysis context menu entry.
-    /// </summary>
-    protected string StyleCopRunText
-    {
-      get { return this.styleCopRunText; }
-    }
-
-    #endregion Protected Properties
 
     #region Private Static Properties
 
@@ -187,7 +144,7 @@ namespace MonoDevelop.StyleCop
         // Set the default StyleCop run text.
         if (string.IsNullOrEmpty(info.Text))
         {
-          info.Text = this.styleCopRunText;
+          info.Text = StaticStringResources.StyleCopRunText;
         }
 
         // The check for active document is a bit different.
@@ -221,7 +178,7 @@ namespace MonoDevelop.StyleCop
             info.Visible = true;
           }
 
-          info.Text = this.styleCopCancelText;
+          info.Text = StaticStringResources.StyleCopCancelText;
           this.cancelStypeCopRun = true;
         }
       }
