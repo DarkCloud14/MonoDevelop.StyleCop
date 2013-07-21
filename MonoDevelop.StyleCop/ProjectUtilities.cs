@@ -131,9 +131,9 @@ namespace MonoDevelop.StyleCop
     /// <summary>
     /// Releases all resource used by the <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> object.
     /// </summary>
-    /// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="MonoDevelop.StyleCop.ProjectUtilities"/>.
-    /// The <see cref="Dispose"/> method leaves the <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> in an unusable
-    /// state. After calling <see cref="Dispose"/>, you must release all references to the
+    /// <remarks>Call <see cref="Dispose()"/> when you are finished using the <see cref="MonoDevelop.StyleCop.ProjectUtilities"/>.
+    /// The <see cref="Dispose()"/> method leaves the <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> in an unusable
+    /// state. After calling <see cref="Dispose()"/>, you must release all references to the
     /// <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> so the garbage collector can reclaim the memory that the
     /// <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> was occupying.</remarks>
     public void Dispose()
