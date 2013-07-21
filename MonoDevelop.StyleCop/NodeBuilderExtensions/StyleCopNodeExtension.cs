@@ -26,33 +26,50 @@ namespace MonoDevelop.StyleCop
   using MonoDevelop.Ide.Gui.Pads.ProjectPad;
   using MonoDevelop.Projects;
 
+  /// <summary>
+  /// StyleCop node builder extension.
+  /// </summary>
   internal class StyleCopNodeExtension : NodeBuilderExtension
   {
-    SolutionItemChangeEventHandler solutionItemRemovedHandler;
-    ProjectFileEventHandler fileAddedHandler;
-    ProjectFileEventHandler fileRemovedHandler;
+    #region Private Fields
 
-    public override void Dispose()
+    /// <summary>
+    /// The solution item removed handler.
+    /// </summary>
+    private SolutionItemChangeEventHandler solutionItemRemovedHandler;
+
+    /// <summary>
+    /// The file added handler.
+    /// </summary>
+    private ProjectFileEventHandler fileAddedHandler;
+
+    /// <summary>
+    /// The file removed handler.
+    /// </summary>
+    private ProjectFileEventHandler fileRemovedHandler;
+
+    #endregion Private Fields
+
+    #region Public Override Properties
+
+    /// <summary>
+    /// Gets the type of the command handler.
+    /// </summary>
+    /// <value>The type of the command handler.</value>
+    public override Type CommandHandlerType
     {
-      IdeApp.Workspace.ItemRemovedFromSolution -= solutionItemRemovedHandler;
-      IdeApp.Workspace.FileAddedToProject -= fileAddedHandler;
-      IdeApp.Workspace.FileRemovedFromProject -= fileRemovedHandler;
-      base.Dispose();
+      get { return typeof(StyleCopNodeCommandHandler); }
     }
 
-    protected override void Initialize()
-    {
-      base.Initialize();
+    #endregion Public Override Properties
 
-      solutionItemRemovedHandler = (SolutionItemChangeEventHandler)DispatchService.GuiDispatch(new SolutionItemChangeEventHandler(OnSolutionItemRemoved));
-      fileAddedHandler = (ProjectFileEventHandler)DispatchService.GuiDispatch(new ProjectFileEventHandler(OnAddFile));
-      fileRemovedHandler = (ProjectFileEventHandler)DispatchService.GuiDispatch(new ProjectFileEventHandler(OnRemoveFile));
+    #region Public Override Methods
 
-      IdeApp.Workspace.ItemRemovedFromSolution += solutionItemRemovedHandler;
-      IdeApp.Workspace.FileAddedToProject += fileAddedHandler;
-      IdeApp.Workspace.FileRemovedFromProject += fileRemovedHandler;
-    }
-
+    /// <summary>
+    /// Determines whether this instance can build node the specified dataType.
+    /// </summary>
+    /// <returns><c>true</c> if this instance can build node the specified dataType; otherwise, <c>false</c>.</returns>
+    /// <param name="dataType">Data type.</param>
     public override bool CanBuildNode(Type dataType)
     {
       return typeof(ProjectFile).IsAssignableFrom(dataType) ||
@@ -61,41 +78,27 @@ namespace MonoDevelop.StyleCop
         typeof(Solution).IsAssignableFrom(dataType);
     }
 
-    public override Type CommandHandlerType
+    /// <summary>
+    /// Releases all resource used by the <see cref="MonoDevelop.StyleCop.StyleCopNodeExtension"/> object.
+    /// </summary>
+    /// <remarks>Call <see cref="Dispose"/> when you are finished using the
+    /// <see cref="MonoDevelop.StyleCop.StyleCopNodeExtension"/>. The <see cref="Dispose"/> method leaves the
+    /// <see cref="MonoDevelop.StyleCop.StyleCopNodeExtension"/> in an unusable state. After calling
+    /// <see cref="Dispose"/>, you must release all references to the
+    /// <see cref="MonoDevelop.StyleCop.StyleCopNodeExtension"/> so the garbage collector can reclaim the memory that
+    /// the <see cref="MonoDevelop.StyleCop.StyleCopNodeExtension"/> was occupying.</remarks>
+    public override void Dispose()
     {
-      get { return typeof(StyleCopNodeCommandHandler); }
+      IdeApp.Workspace.ItemRemovedFromSolution -= this.solutionItemRemovedHandler;
+      IdeApp.Workspace.FileAddedToProject -= this.fileAddedHandler;
+      IdeApp.Workspace.FileRemovedFromProject -= this.fileRemovedHandler;
+      base.Dispose();
     }
 
-    void OnSolutionItemRemoved(object sender, SolutionItemChangeEventArgs args)
-    {
-      if (args.SolutionItem != null && args.SolutionItem is Project)
-      {
-        ProjectUtilities.Instance.CachedProjects.RemoveProject(args.SolutionItem as Project);
-      }
-    }
-
-    void OnAddFile(object sender, ProjectFileEventArgs args)
-    {
-      foreach (ProjectFileEventInfo e in args)
-      {
-        if (e.ProjectFile != null)
-        {
-          ProjectUtilities.Instance.CachedProjects.AddFile(e.ProjectFile);
-        }
-      }
-    }
-
-    void OnRemoveFile(object sender, ProjectFileEventArgs args)
-    {
-      foreach (ProjectFileEventInfo e in args)
-      {
-        if (e.ProjectFile != null)
-        {
-          ProjectUtilities.Instance.CachedProjects.RemoveFile(e.ProjectFile, e.Project);
-        }
-      }
-    }
-
+    /// <summary>
+    /// Raises the node added event.
+    /// </summary>
+    /// <param name="dataObject">Data object.</param>
     public override void OnNodeAdded(object dataObject)
     {
       if (dataObject is Project)
@@ -107,5 +110,76 @@ namespace MonoDevelop.StyleCop
         ProjectUtilities.Instance.CachedProjects.AddFile(dataObject as ProjectFile);
       }
     }
+
+    #endregion Public Override Methods
+
+    #region Protected Override Methods
+
+    /// <summary>
+    /// Initialize this instance.
+    /// </summary>
+    protected override void Initialize()
+    {
+      base.Initialize();
+
+      this.solutionItemRemovedHandler = (SolutionItemChangeEventHandler)DispatchService.GuiDispatch(new SolutionItemChangeEventHandler(this.OnSolutionItemRemoved));
+      this.fileAddedHandler = (ProjectFileEventHandler)DispatchService.GuiDispatch(new ProjectFileEventHandler(this.OnAddFile));
+      this.fileRemovedHandler = (ProjectFileEventHandler)DispatchService.GuiDispatch(new ProjectFileEventHandler(this.OnRemoveFile));
+
+      IdeApp.Workspace.ItemRemovedFromSolution += this.solutionItemRemovedHandler;
+      IdeApp.Workspace.FileAddedToProject += this.fileAddedHandler;
+      IdeApp.Workspace.FileRemovedFromProject += this.fileRemovedHandler;
+    }
+
+    #endregion Protected Override Methods
+
+    #region Private Methods
+
+    /// <summary>
+    /// Raises the solution item removed event.
+    /// </summary>
+    /// <param name="sender">Sender object.</param>
+    /// <param name="args">Arguments object.</param>
+    private void OnSolutionItemRemoved(object sender, SolutionItemChangeEventArgs args)
+    {
+      if (args.SolutionItem != null && args.SolutionItem is Project)
+      {
+        ProjectUtilities.Instance.CachedProjects.RemoveProject(args.SolutionItem as Project);
+      }
+    }
+
+    /// <summary>
+    /// Raises the add file event.
+    /// </summary>
+    /// <param name="sender">Sender object.</param>
+    /// <param name="args">Arguments object.</param>
+    private void OnAddFile(object sender, ProjectFileEventArgs args)
+    {
+      foreach (ProjectFileEventInfo e in args)
+      {
+        if (e.ProjectFile != null)
+        {
+          ProjectUtilities.Instance.CachedProjects.AddFile(e.ProjectFile);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Raises the remove file event.
+    /// </summary>
+    /// <param name="sender">Sender object.</param>
+    /// <param name="args">Arguments object.</param>
+    private void OnRemoveFile(object sender, ProjectFileEventArgs args)
+    {
+      foreach (ProjectFileEventInfo e in args)
+      {
+        if (e.ProjectFile != null)
+        {
+          ProjectUtilities.Instance.CachedProjects.RemoveFile(e.ProjectFile, e.Project);
+        }
+      }
+    }
+
+    #endregion Private Methods
   }
 }

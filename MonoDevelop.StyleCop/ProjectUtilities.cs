@@ -129,8 +129,13 @@ namespace MonoDevelop.StyleCop
     #region IDisposable Methods
 
     /// <summary>
-    /// Dispose the object.
+    /// Releases all resource used by the <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> object.
     /// </summary>
+    /// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="MonoDevelop.StyleCop.ProjectUtilities"/>.
+    /// The <see cref="Dispose"/> method leaves the <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> in an unusable
+    /// state. After calling <see cref="Dispose"/>, you must release all references to the
+    /// <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> so the garbage collector can reclaim the memory that the
+    /// <see cref="MonoDevelop.StyleCop.ProjectUtilities"/> was occupying.</remarks>
     public void Dispose()
     {
       this.Dispose(true);
@@ -207,7 +212,7 @@ namespace MonoDevelop.StyleCop
 
       return results;
     }
-    
+
     /// <summary>
     /// Enumerate the given folder and return all files known by StyleCop.
     /// </summary>
@@ -281,9 +286,9 @@ namespace MonoDevelop.StyleCop
     #region Private Methods
 
     /// <summary>
-    /// Disposes the contents of the class.
+    /// Dispose the specified disposing.
     /// </summary>
-    /// <param name="disposing">Indicates whether to dispose unmanaged resources.</param>
+    /// <param name="disposing">If set to <c>true</c> disposing.</param>
     private void Dispose(bool disposing)
     {
       if (disposing && this.core != null)
