@@ -47,8 +47,8 @@ namespace MonoDevelop.StyleCop
     /// <param name="info">A <see cref="CommandInfo"/></param>
     protected override void Update(CommandInfo info)
     {
-      info.Text = this.StyleCopFullAnalysisText;
       base.Update(info);
+      info.Text = StaticStringResources.StyleCopFullAnalysisText;
     }
 
     #endregion Protected Override Methods

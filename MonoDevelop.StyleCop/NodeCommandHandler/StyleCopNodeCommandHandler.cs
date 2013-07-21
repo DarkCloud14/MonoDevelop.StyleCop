@@ -126,6 +126,11 @@ namespace MonoDevelop.StyleCop
         {
           try
           {
+            if (IdeApp.Workbench != null)
+            {
+              IdeApp.Workbench.SaveAll();
+            }
+
             List<ITreeNavigator> solutionsInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is Solution).ToList();
             List<ITreeNavigator> projectsInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is Project).ToList();
 
@@ -179,6 +184,11 @@ namespace MonoDevelop.StyleCop
         {
           try
           {
+            if (IdeApp.Workbench != null)
+            {
+              IdeApp.Workbench.SaveAll();
+            }
+
             List<ITreeNavigator> solutionsInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is Solution).ToList();
             List<ITreeNavigator> projectsInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is Project).ToList();
             List<ITreeNavigator> projectFoldersInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is ProjectFolder).ToList();

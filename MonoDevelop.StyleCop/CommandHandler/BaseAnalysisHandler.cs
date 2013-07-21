@@ -56,6 +56,11 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     private bool cancelStypeCopRun = false;
 
+    /// <summary>
+    /// Holds all StyleCop compatible project files of the active document.
+    /// </summary>
+    private List<ProjectFile> enumeratedActiveDocument = null;
+
     #endregion Private Fields
 
     #region Constructor
@@ -82,28 +87,6 @@ namespace MonoDevelop.StyleCop
 
     #endregion Constructor
 
-    #region Private Static Properties
-
-    /// <summary>
-    /// Gets or sets a previously active document.
-    /// </summary>
-    private static Document CachedActiveDocument
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Gets or sets a previous ProjectPad node selection.
-    /// </summary>
-    private static ITreeNavigator[] CachedNodeSelection
-    {
-      get;
-      set;
-    }
-
-    #endregion Private Static Propertiess
-
     #region Protected Override Methods
 
     /// <summary>
@@ -115,7 +98,7 @@ namespace MonoDevelop.StyleCop
 
       if (this.cancelStypeCopRun)
       {
-        this.CancelAnalysis();
+        IdeApp.ProjectOperations.CancelStyleCopAnalysis();
       }
       else
       {
@@ -142,10 +125,7 @@ namespace MonoDevelop.StyleCop
       if (IdeApp.ProjectOperations.CurrentRunOperation.IsCompleted)
       {
         // Set the default StyleCop run text.
-        if (string.IsNullOrEmpty(info.Text))
-        {
-          info.Text = StaticStringResources.StyleCopRunText;
-        }
+        info.Text = StaticStringResources.StyleCopRunText;
 
         // The check for active document is a bit different.
         if (this.TypeOfAnalysis == AnalysisType.ActiveDocument)
@@ -155,13 +135,18 @@ namespace MonoDevelop.StyleCop
           if (activeDocument.HasProject)
           {
             ProjectFile projectFile = activeDocument.Project.GetProjectFile(activeDocument.FileName);
-            var enumeratedFiles = ProjectUtilities.Instance.EnumerateFile(projectFile);
+            this.enumeratedActiveDocument = ProjectUtilities.Instance.EnumerateFile(projectFile);
             
-            if (enumeratedFiles.Count > 0)
+            if (this.enumeratedActiveDocument.Count > 0)
             {
               info.Visible = true;
             }
           }
+        }
+        else
+        {
+          // Always show the entry for the solution analyser handlers
+          info.Visible = true;
         }
       }
       else
@@ -195,17 +180,40 @@ namespace MonoDevelop.StyleCop
     {
       if (!IdeApp.ProjectOperations.IsStyleCopRunning())
       {
-        // IList<CodeProject> projects = ProjectUtilities.Instance.GetProjectList();
-        // IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, this.FullAnalysis, projects);
-      }
-    }
+        Dictionary<Project, HashSet<ProjectFile>> tempProjectDictionary = new Dictionary<Project, HashSet<ProjectFile>>();
 
-    /// <summary>
-    /// Cancel a previously started StyleCop analysis.
-    /// </summary>
-    private void CancelAnalysis()
-    {
-      IdeApp.ProjectOperations.CancelStyleCopAnalysis();
+        if (this.TypeOfAnalysis == AnalysisType.ActiveDocument)
+        {
+          foreach (var file in this.enumeratedActiveDocument)
+          {
+            if (file != null)
+            {
+              if (file.Project != null && !tempProjectDictionary.ContainsKey(file.Project))
+              {
+                tempProjectDictionary.Add(file.Project, new HashSet<ProjectFile>());
+              }
+
+              if (file.Project != null && !tempProjectDictionary[file.Project].Contains(file))
+              {
+                tempProjectDictionary[file.Project].Add(file);
+              }
+            }
+          }
+        }
+        else
+        {
+          foreach (var project in IdeApp.ProjectOperations.CurrentSelectedSolution.GetAllProjects())
+          {
+            if (!tempProjectDictionary.ContainsKey(project))
+            {
+              tempProjectDictionary.Add(project, null);
+            }
+          }
+        }
+
+        IList<CodeProject> projects = ProjectUtilities.Instance.CreateStyleCopCodeProjects(tempProjectDictionary);
+        IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, this.FullAnalysis, projects);
+      }
     }
 
     #endregion Private Methods
