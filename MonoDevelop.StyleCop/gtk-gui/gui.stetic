@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<stetic-interface>
+  <configuration>
+    <images-root-path>..</images-root-path>
+    <target-gtk-version>2.12</target-gtk-version>
+  </configuration>
+  <import>
+    <widget-library name="../../../../../../../../Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin/MonoDevelop.Ide.dll" />
+    <widget-library name="../../../../../../../../Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin/Mono.TextEditor.dll" />
+    <widget-library name="../bin/Release/MonoDevelop.StyleCop.dll" internal="true" />
+  </import>
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.SettingsFiles" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.Options" design-size="660 358">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.Spelling" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.CompanyInformation" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.Hungarian" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.Rules" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
+</stetic-interface>

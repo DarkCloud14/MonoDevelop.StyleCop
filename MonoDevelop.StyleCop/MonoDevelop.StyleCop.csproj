@@ -69,6 +69,8 @@
     <Reference Include="Mono.TextEditor">
       <HintPath>..\..\..\..\..\..\..\Applications\Xamarin Studio.app\Contents\MacOS\lib\monodevelop\bin\Mono.TextEditor.dll</HintPath>
     </Reference>
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Mono.Posix" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
@@ -90,10 +92,26 @@
     <Compile Include="CommandHandler\SolutionAnalysisHandler.cs" />
     <Compile Include="CommandHandler\StartupHandler.cs" />
     <Compile Include="CommandHandler\StyleCopSettingsHandler.cs" />
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="OptionPanels\SettingsFiles.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.SettingsFiles.cs" />
+    <Compile Include="OptionPanels\Options.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Options.cs" />
+    <Compile Include="OptionPanels\Spelling.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Spelling.cs" />
+    <Compile Include="OptionPanels\CompanyInformation.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.CompanyInformation.cs" />
+    <Compile Include="OptionPanels\Hungarian.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Hungarian.cs" />
+    <Compile Include="OptionPanels\Rules.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Rules.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="MonoDevelop.StyleCop.addin.xml" />
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\addin-project.xml">
@@ -104,5 +122,6 @@
     <Folder Include="NodeBuilderExtensions\" />
     <Folder Include="NodeCommandHandler\" />
     <Folder Include="AttributeClasses\" />
+    <Folder Include="OptionPanels\" />
   </ItemGroup>
 </Project>
