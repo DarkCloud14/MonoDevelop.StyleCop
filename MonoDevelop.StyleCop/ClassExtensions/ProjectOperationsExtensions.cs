@@ -215,7 +215,7 @@ namespace MonoDevelop.StyleCop
     /// <param name="styleCopProjects">Collection of StyleCop projects to analyze.</param>
     private static void RunStyleCopAnalysisAsync(bool fullAnalysis, IList<CodeProject> styleCopProjects)
     {
-      ClearEnvironmentPriorToAnalysis();
+      DispatchService.GuiSyncDispatch(() => ClearEnvironmentPriorToAnalysis());
       SignalAnalysisStarted();
 
       try
