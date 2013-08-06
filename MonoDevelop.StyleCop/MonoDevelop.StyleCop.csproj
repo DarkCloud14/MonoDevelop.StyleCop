@@ -35,13 +35,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>..\..\..\..\..\..\..\Applications\Xamarin Studio.app\Contents\MacOS\lib\monodevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
+      <HintPath>..\..\..\..\..\Applications\Unity\Unity 4.0.0\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="MonoDevelop.Core">
-      <HintPath>..\..\..\..\..\..\..\Applications\Xamarin Studio.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\Applications\Unity\Unity 4.0.0\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Core.dll</HintPath>
     </Reference>
     <Reference Include="MonoDevelop.Ide">
-      <HintPath>..\..\..\..\..\..\..\Applications\Xamarin Studio.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Ide.dll</HintPath>
+      <HintPath>..\..\..\..\..\Applications\Unity\Unity 4.0.0\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Ide.dll</HintPath>
     </Reference>
     <Reference Include="StyleCop">
       <HintPath>..\StyleCop.Files\StyleCop.dll</HintPath>
@@ -67,7 +67,7 @@
       <HintPath>..\StyleCop.Files\StyleCop.CSharp.Rules.dll</HintPath>
     </Reference>
     <Reference Include="Mono.TextEditor">
-      <HintPath>..\..\..\..\..\..\..\Applications\Xamarin Studio.app\Contents\MacOS\lib\monodevelop\bin\Mono.TextEditor.dll</HintPath>
+      <HintPath>..\..\..\..\..\Applications\Unity\Unity 4.0.0\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\Mono.TextEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
