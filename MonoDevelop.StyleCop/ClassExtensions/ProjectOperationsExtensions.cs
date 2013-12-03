@@ -182,7 +182,7 @@ namespace MonoDevelop.StyleCop
       Task styleCopWarning = new Task(
         fileName,
         string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message),
-        e.Location != null ? e.Location.StartPoint.IndexOnLine : 1,
+        e.Location != null ? e.Location.Value.StartPoint.IndexOnLine : 1,
         e.LineNumber,
         TaskSeverity.Warning,
         TaskPriority.Normal,
