@@ -72,15 +72,7 @@ namespace MonoDevelop.StyleCop
     protected override void Update(CommandInfo info)
     {
       base.Update(info);
-
-      if (ProjectUtilities.Instance.IsKnownProjectType(IdeApp.ProjectOperations.CurrentSelectedProject))
-      {
-        info.Visible = true;
-      }
-      else
-      {
-        info.Visible = false;
-      }
+      info.Visible = ProjectUtilities.Instance.IsKnownProjectType(IdeApp.ProjectOperations.CurrentSelectedProject);
     }
 
     #endregion Protected Override Methods
