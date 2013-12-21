@@ -4,6 +4,20 @@
       <Value>mdmonitor</Value>
     </CollectionProperty>
   </GlobalSettings>
+  <Parsers>
+    <Parser ParserId="StyleCop.CSharp.CsParser">
+      <ParserSettings>
+        <CollectionProperty Name="GeneratedFileFilters">
+          <Value>MonoDevelop\.StyleCop\.CompanyInformationOptionsPanel\.cs$</Value>
+          <Value>MonoDevelop\.StyleCop\.GeneralOptionsPanel\.cs$</Value>
+          <Value>MonoDevelop\.StyleCop\.HungarianOptionsPanel\.cs$</Value>
+          <Value>MonoDevelop\.StyleCop\.RulesOptionsPanel\.cs$</Value>
+          <Value>MonoDevelop\.StyleCop\.SettingsFilesOptionsPanel\.cs$</Value>
+          <Value>MonoDevelop\.StyleCop\.SpellingOptionsPanel\.cs$</Value>
+        </CollectionProperty>
+      </ParserSettings>
+    </Parser>
+  </Parsers>
   <Analyzers>
     <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
       <Rules>
