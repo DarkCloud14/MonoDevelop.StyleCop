@@ -5,11 +5,14 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../bin/Debug/MonoDevelop.StyleCop.dll" internal="true" />
+    <widget-library name="../../../../../../../../Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin/MonoDevelop.Ide.dll" />
+    <widget-library name="../../../../../../../../Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin/Mono.TextEditor.dll" />
+    <widget-library name="../bin/Release/MonoDevelop.StyleCop.dll" internal="true" />
   </import>
-  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.SettingsFiles" design-size="517 144">
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.SettingsFilesOptionsPanel" design-size="517 144">
     <property name="MemberName" />
     <property name="Visible">False</property>
+    <property name="GeneratePublic">False</property>
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
@@ -255,6 +258,7 @@
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Label" translatable="yes">Do not merge with any other settings files</property>
+                <property name="Active">True</property>
                 <property name="DrawIndicator">True</property>
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
@@ -276,7 +280,6 @@
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Label" translatable="yes">Merge with settings file found in parent folders</property>
-                <property name="Active">True</property>
                 <property name="DrawIndicator">True</property>
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
@@ -329,9 +332,10 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.Options" design-size="524 176">
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.GeneralOptionsPanel" design-size="528 176">
     <property name="MemberName" />
     <property name="Visible">False</property>
+    <property name="GeneratePublic">False</property>
     <child>
       <widget class="Gtk.VBox" id="vbox2">
         <property name="MemberName" />
@@ -471,9 +475,10 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.Spelling" design-size="576 492">
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.SpellingOptionsPanel" design-size="625 495">
     <property name="MemberName" />
     <property name="Visible">False</property>
+    <property name="GeneratePublic">False</property>
     <child>
       <widget class="Gtk.VBox" id="vbox6">
         <property name="MemberName" />
@@ -1269,9 +1274,10 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.CompanyInformation" design-size="653 300">
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.CompanyInformationOptionsPanel" design-size="663 300">
     <property name="MemberName" />
     <property name="Visible">False</property>
+    <property name="GeneratePublic">False</property>
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
@@ -1418,9 +1424,10 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.Hungarian" design-size="560 378">
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.HungarianOptionsPanel" design-size="607 378">
     <property name="MemberName" />
     <property name="Visible">False</property>
+    <property name="GeneratePublic">False</property>
     <child>
       <widget class="Gtk.VBox" id="vbox4">
         <property name="MemberName" />
@@ -1610,9 +1617,10 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.Rules" design-size="561 460">
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.RulesOptionsPanel" design-size="561 460">
     <property name="MemberName" />
     <property name="Visible">False</property>
+    <property name="GeneratePublic">False</property>
     <child>
       <widget class="Gtk.VBox" id="vbox10">
         <property name="MemberName" />

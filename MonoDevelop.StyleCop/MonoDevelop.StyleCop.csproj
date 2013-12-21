@@ -93,18 +93,19 @@
     <Compile Include="CommandHandler\StartupHandler.cs" />
     <Compile Include="CommandHandler\StyleCopSettingsHandler.cs" />
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="OptionPanels\SettingsFiles.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.StyleCop.SettingsFiles.cs" />
-    <Compile Include="OptionPanels\Options.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Options.cs" />
-    <Compile Include="OptionPanels\Spelling.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Spelling.cs" />
-    <Compile Include="OptionPanels\CompanyInformation.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.StyleCop.CompanyInformation.cs" />
-    <Compile Include="OptionPanels\Hungarian.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Hungarian.cs" />
-    <Compile Include="OptionPanels\Rules.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Rules.cs" />
+    <Compile Include="OptionPanels\CompanyInformationOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.CompanyInformationOptionsPanel.cs" />
+    <Compile Include="OptionPanels\HungarianOptionsPanel.cs" />
+    <Compile Include="OptionPanels\GeneralOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.GeneralOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.HungarianOptionsPanel.cs" />
+    <Compile Include="OptionPanels\RulesOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.RulesOptionsPanel.cs" />
+    <Compile Include="OptionPanels\SettingsFilesOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.SettingsFilesOptionsPanel.cs" />
+    <Compile Include="OptionPanels\SpellingOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.SpellingOptionsPanel.cs" />
+    <Compile Include="OptionPanels\OptionsPanelBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
