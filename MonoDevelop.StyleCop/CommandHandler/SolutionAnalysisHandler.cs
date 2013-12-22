@@ -60,6 +60,16 @@ namespace MonoDevelop.StyleCop
       if (IdeApp.Workspace != null && IdeApp.Workspace.IsOpen)
       {
         base.Update(info);
+
+        if (info.Visible)
+        {
+          info.Visible = false;
+
+          foreach (var project in IdeApp.ProjectOperations.CurrentSelectedSolution.GetAllProjects())
+          {
+            info.Visible |= ProjectUtilities.Instance.IsKnownProjectType(project);
+          }
+        }
       }
       else
       {
