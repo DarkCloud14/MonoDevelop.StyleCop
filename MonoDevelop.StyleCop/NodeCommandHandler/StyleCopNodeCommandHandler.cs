@@ -82,7 +82,7 @@ namespace MonoDevelop.StyleCop
     {
       bool parseAndCacheCurrentSelection = false;
 
-      // Check if the cached tree selection and the current one are the still the same.
+      // Check if the cached tree selection and the current one are still the same.
       if (cachedTreeSelection != null && currentTreeSelection != null && cachedTreeSelection.Length == currentTreeSelection.Length && !forceCaching)
       {
         // Check if the selection is still the same.
@@ -119,6 +119,41 @@ namespace MonoDevelop.StyleCop
       }
       else
       {
+        IList<CodeProject> projects = ProjectUtilities.Instance.CreateStyleCopCodeProjects(temporaryProjectSelectionCache);
+        IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, true, projects);
+      }
+    }
+
+    /// <summary>
+    /// Starts a standard StyleCop analysis.
+    /// </summary>
+    [AllowMultiSelection, NodeAnalysisCommand]
+    [CommandHandler(AnalysisType.NodeAnalysis)]
+    private void OnNodeAnalysis()
+    {
+      if (CancelStypeCopRun && IdeApp.ProjectOperations.IsStyleCopRunning())
+      {
+        dataTypeCounter = 0;
+        IdeApp.ProjectOperations.CancelStyleCopAnalysis();
+      }
+      else
+      {
+        IList<CodeProject> projects = ProjectUtilities.Instance.CreateStyleCopCodeProjects(temporaryProjectSelectionCache);
+        IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, false, projects);
+      }
+    }
+
+    /// <summary>
+    /// Updates the full node analysis command and hides it if necessary.
+    /// </summary>
+    /// <param name="info">A <see cref="CommandInfo"/>.</param>
+    [CommandUpdateHandler(AnalysisType.FullNodeAnalysis)]
+    private void OnUpdateFullNodeAnalysis(CommandInfo info)
+    {
+      if (!CancelStypeCopRun && !IdeApp.ProjectOperations.IsStyleCopRunning())
+      {
+        info.Visible = false;
+
         var currentTreeSelection = Tree.GetSelectedNodes();
 
         // Only do the caching stuff once and not for each data type (function is called for each data type!)
@@ -145,9 +180,6 @@ namespace MonoDevelop.StyleCop
               this.ParseAndCacheCurrentSelection(solutionsInSelection, projectsInSelection, projectFoldersInSelection, projectFilesInSelection);
             }
 
-            IList<CodeProject> projects = ProjectUtilities.Instance.CreateStyleCopCodeProjects(temporaryProjectSelectionCache);
-            IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, true, projects);
-
             dataTypeCounter--;
           }
           catch (Exception ex)
@@ -160,23 +192,25 @@ namespace MonoDevelop.StyleCop
         {
           dataTypeCounter--;
         }
+
+        if (temporaryProjectSelectionCache.Count > 0)
+        {
+          info.Visible = true;
+        }
       }
     }
 
     /// <summary>
-    /// Starts a standard StyleCop analysis.
+    /// Updates the node analysis command and hides it if necessary.
     /// </summary>
-    [AllowMultiSelection, NodeAnalysisCommand]
-    [CommandHandler(AnalysisType.NodeAnalysis)]
-    private void OnNodeAnalysis()
+    /// <param name="info">A <see cref="CommandInfo"/>.</param>
+    [CommandUpdateHandler(AnalysisType.NodeAnalysis)]
+    private void OnUpdateNodeAnalysis(CommandInfo info)
     {
-      if (CancelStypeCopRun && IdeApp.ProjectOperations.IsStyleCopRunning())
+      if (!CancelStypeCopRun && !IdeApp.ProjectOperations.IsStyleCopRunning())
       {
-        dataTypeCounter = 0;
-        IdeApp.ProjectOperations.CancelStyleCopAnalysis();
-      }
-      else
-      {
+        info.Visible = false;
+
         var currentTreeSelection = Tree.GetSelectedNodes();
 
         // Only do the caching stuff once and not for each data type (function is called for each data type!)
@@ -201,9 +235,6 @@ namespace MonoDevelop.StyleCop
               this.ParseAndCacheCurrentSelection(solutionsInSelection, projectsInSelection, projectFoldersInSelection, projectFilesInSelection);
             }
 
-            IList<CodeProject> projects = ProjectUtilities.Instance.CreateStyleCopCodeProjects(temporaryProjectSelectionCache);
-            IdeApp.ProjectOperations.StyleCopAnalysis(IdeApp.ProjectOperations.CurrentSelectedBuildTarget, false, projects);
-
             dataTypeCounter--;
           }
           catch (Exception ex)
@@ -215,6 +246,11 @@ namespace MonoDevelop.StyleCop
         else
         {
           dataTypeCounter--;
+        }
+
+        if (temporaryProjectSelectionCache.Count > 0)
+        {
+          info.Visible = true;
         }
       }
     }
@@ -237,7 +273,10 @@ namespace MonoDevelop.StyleCop
         {
           if (!temporaryProjectSelectionCache.ContainsKey(project))
           {
-            temporaryProjectSelectionCache.Add(project, null);
+            if (ProjectUtilities.Instance.IsKnownProjectType(project))
+            {
+              temporaryProjectSelectionCache.Add(project, null);
+            }
           }
         }
       }
@@ -247,7 +286,10 @@ namespace MonoDevelop.StyleCop
         Project project = projectNode.DataItem as Project;
         if (!temporaryProjectSelectionCache.ContainsKey(project))
         {
-          temporaryProjectSelectionCache.Add(project, null);
+          if (ProjectUtilities.Instance.IsKnownProjectType(project))
+          {
+            temporaryProjectSelectionCache.Add(project, null);
+          }
         }
       }
 
