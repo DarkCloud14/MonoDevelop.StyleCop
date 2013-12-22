@@ -179,12 +179,18 @@ namespace MonoDevelop.StyleCop
         }
       }
 
+      TaskSeverity severity = TaskSeverity.Error;
+      if (e.Warning || !e.SourceCode.Project.ViolationsAsErrors)
+      {
+        severity = TaskSeverity.Warning;
+      }
+
       Task styleCopWarning = new Task(
         fileName,
         string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message),
         e.Location != null ? e.Location.Value.StartPoint.IndexOnLine : 1,
         e.LineNumber,
-        TaskSeverity.Warning,
+        severity,
         TaskPriority.Normal,
         ProjectUtilities.Instance.CachedProjects.GetProjectForFile(fileName),
         ProjectOperationsExtensions.ownerObject);
