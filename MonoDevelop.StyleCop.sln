@@ -235,7 +235,7 @@ Global
 		$38.CommitMessageStyle = $39
 		$39.LastFilePostfix = "@:\n  "
 		$38.inheritsSet = Mono
-		version = 1.0.1.5
+		version = 1.0.1.7
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
