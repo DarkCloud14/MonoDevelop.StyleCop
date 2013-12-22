@@ -346,13 +346,9 @@ namespace MonoDevelop.StyleCop
         {
           return "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
         }
-
-        IdeApp.Workbench.ProgressMonitors.GetBuildProgressMonitor().Log.WriteLine("Hmm Returning Unkown");
       }
       else
       {
-        IdeApp.Workbench.ProgressMonitors.GetBuildProgressMonitor().Log.WriteLine("Returning Unkown");
-
         if (project.SupportedLanguages != null && project.SupportedLanguages.Length > 0 && project.SupportedLanguages.Contains("C#"))
         {
           return "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
