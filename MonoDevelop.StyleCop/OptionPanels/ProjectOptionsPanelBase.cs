@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="OptionsPanelBase.cs">
+// <copyright file="ProjectOptionsPanelBase.cs">
 //   APL 2.0
 // </copyright>
 // <license>
@@ -24,13 +24,28 @@ namespace MonoDevelop.StyleCop
   using Gtk;
   using MonoDevelop.Ide;
   using MonoDevelop.Ide.Gui.Dialogs;
+  using MonoDevelop.Projects;
 
   /// <summary>
-  /// StyleCop Options panel base class.
+  /// StyleCop Project options panel base class.
   /// </summary>
   [System.ComponentModel.ToolboxItem(false)]
-  internal abstract class OptionsPanelBase : Bin, IOptionsPanel
+  internal abstract class ProjectOptionsPanelBase : Bin, IOptionsPanel
   {
+    #region Private Fields
+
+    /// <summary>
+    /// The parent project.
+    /// </summary>
+    private Project parentProject;
+
+    /// <summary>
+    /// The options panel visibility.
+    /// </summary>
+    private bool optionsPanelVisible;
+
+    #endregion Private Fields
+
     #region IOptionsPanel implementation
 
     /// <summary>
@@ -53,9 +68,19 @@ namespace MonoDevelop.StyleCop
     /// Initializes the OptionsPanel.
     /// </summary>
     /// <param name="dialog">Parent dialog.</param>
-    /// <param name="dataObject">Data object.</param>
+    /// <param name="dataObject">Data object (should be the project in our case).</param>
     public virtual void Initialize(OptionsDialog dialog, object dataObject)
     {
+      this.optionsPanelVisible = false;
+      this.parentProject = dataObject as Project;
+
+      // If for some reason the dataObject isn't our project get it over the selection in case that isn't null.
+      if (this.parentProject == null && IdeApp.ProjectOperations.CurrentSelectedProject != null)
+      {
+        this.parentProject = IdeApp.ProjectOperations.CurrentSelectedProject;
+      }
+
+      this.optionsPanelVisible = ProjectUtilities.Instance.IsKnownProjectType(this.parentProject);
     }
 
     /// <summary>
@@ -64,7 +89,7 @@ namespace MonoDevelop.StyleCop
     /// <returns><c>true</c> if this instance is visible; otherwise, <c>false</c>.</returns>
     public virtual bool IsVisible()
     {
-      return true;
+      return this.optionsPanelVisible;
     }
 
     /// <summary>

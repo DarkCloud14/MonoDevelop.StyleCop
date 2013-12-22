@@ -25,7 +25,7 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// StyleCop hungarian options panel.
   /// </summary>
-  internal partial class HungarianOptionsPanel : OptionsPanelBase
+  internal partial class HungarianOptionsPanel : ProjectOptionsPanelBase
   {
     #region Constructor
 

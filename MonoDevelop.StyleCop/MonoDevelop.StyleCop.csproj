@@ -105,7 +105,7 @@
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.SettingsFilesOptionsPanel.cs" />
     <Compile Include="OptionPanels\SpellingOptionsPanel.cs" />
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.SpellingOptionsPanel.cs" />
-    <Compile Include="OptionPanels\OptionsPanelBase.cs" />
+    <Compile Include="OptionPanels\ProjectOptionsPanelBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

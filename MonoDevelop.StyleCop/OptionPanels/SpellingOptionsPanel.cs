@@ -25,7 +25,7 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// StyleCop spelling options panel.
   /// </summary>
-  internal partial class SpellingOptionsPanel : OptionsPanelBase
+  internal partial class SpellingOptionsPanel : ProjectOptionsPanelBase
   {
     #region Constructor
 

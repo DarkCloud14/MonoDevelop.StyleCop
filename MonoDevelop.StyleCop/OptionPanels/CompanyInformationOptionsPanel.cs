@@ -26,7 +26,7 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// StyleCop company information options panel.
   /// </summary>
-  internal partial class CompanyInformationOptionsPanel : OptionsPanelBase
+  internal partial class CompanyInformationOptionsPanel : ProjectOptionsPanelBase
   {
     #region Constructor
 

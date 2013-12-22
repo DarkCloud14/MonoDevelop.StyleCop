@@ -25,7 +25,7 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// StyleCop settings files options panel.
   /// </summary>
-  internal partial class SettingsFilesOptionsPanel : OptionsPanelBase
+  internal partial class SettingsFilesOptionsPanel : ProjectOptionsPanelBase
   {
     #region Constructor
 

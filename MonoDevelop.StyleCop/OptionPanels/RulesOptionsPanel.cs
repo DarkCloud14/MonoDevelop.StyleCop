@@ -25,7 +25,7 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// StyleCop rules options panel.
   /// </summary>
-  internal partial class RulesOptionsPanel : OptionsPanelBase
+  internal partial class RulesOptionsPanel : ProjectOptionsPanelBase
   {
     #region Constructor
 
