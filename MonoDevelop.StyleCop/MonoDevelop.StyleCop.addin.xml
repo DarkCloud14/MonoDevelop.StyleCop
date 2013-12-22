@@ -112,4 +112,17 @@ limitations under the License.
   <Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
   </Extension>
+
+  <Extension path = "/MonoDevelop/ProjectModel/Gui/ItemOptionPanels">
+    <Section id="StyleCop" _label="StyleCop">
+      <Condition id="ItemType" value="Project">
+        <Section id = "StyleCopRulesOptionsPanel" _label = "Rules" fill="true" class="MonoDevelop.StyleCop.RulesOptionsPanel" />
+        <Section id = "StyleCopSettingsFilesOptionsPanel" _label = "Settings Files" fill="true" class="MonoDevelop.StyleCop.SettingsFilesOptionsPanel" />
+        <Section id = "StyleCopGeneralOptionsPanel" _label = "General" fill="true" class="MonoDevelop.StyleCop.GeneralOptionsPanel" />
+        <Section id = "StyleCopSpellingOptionsPanel" _label = "Spelling" fill="true" class="MonoDevelop.StyleCop.SpellingOptionsPanel" />
+        <Section id = "StyleCopCompanyInformationOptionsPanel" _label = "Company Information" fill="true" class="MonoDevelop.StyleCop.CompanyInformationOptionsPanel" />
+        <Section id = "StyleCopHungarianOptionsPanel" _label = "Hungarian" fill="true" class="MonoDevelop.StyleCop.HungarianOptionsPanel" />
+      </Condition>
+    </Section>
+  </Extension>
 </Addin>
