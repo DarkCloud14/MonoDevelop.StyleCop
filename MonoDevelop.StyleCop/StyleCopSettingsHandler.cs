@@ -21,11 +21,8 @@
 namespace MonoDevelop.StyleCop
 {
   using System;
-  using System.Collections.Generic;
   using System.Globalization;
-  using System.Linq;
   using System.Reflection;
-  using System.Text;
   using global::StyleCop;
 
   /// <summary>
@@ -127,5 +124,65 @@ namespace MonoDevelop.StyleCop
     }
 
     #endregion Constructor
+
+    #region Internal Properties
+
+    /// <summary>
+    /// Gets the StyleCop core instance.
+    /// </summary>
+    internal StyleCopCore Core
+    {
+      get
+      {
+        return this.core;
+      }
+    }
+
+    /// <summary>
+    /// Gets the local settings file to read from and write to.
+    /// </summary>
+    internal WritableSettings LocalSettings
+    {
+      get
+      {
+        return this.localSettings;
+      }
+    }
+
+    /// <summary>
+    /// Gets the local settings merged with all parent settings.
+    /// </summary>
+    internal Settings MergedSettings
+    {
+      get
+      {
+        return this.mergedSettings;
+      }
+    }
+
+    /// <summary>
+    /// Gets the settings which the local settings are merged with at runtime, or null if there are
+    /// no settings to merge.
+    /// </summary>
+    internal Settings ParentSettings
+    {
+      get
+      {
+        return this.parentSettings;
+      }
+    }
+
+    /// <summary>
+    /// Gets a comparer that can be used to determine whether local settings are overriding parent settings.
+    /// </summary>
+    internal SettingsComparer SettingsComparer
+    {
+      get
+      {
+        return this.settingsComparer;
+      }
+    }
+
+    #endregion Internal Properties
   }
 }
