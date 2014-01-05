@@ -121,7 +121,7 @@ limitations under the License.
         <Section id = "StyleCopGeneralOptionsPanel" _label = "General" fill="true" class="MonoDevelop.StyleCop.GeneralOptionsPanel" />
         <Section id = "StyleCopSpellingOptionsPanel" _label = "Spelling" fill="true" class="MonoDevelop.StyleCop.SpellingOptionsPanel" />
         <Section id = "StyleCopCompanyInformationOptionsPanel" _label = "Company Information" fill="true" class="MonoDevelop.StyleCop.CompanyInformationOptionsPanel" />
-        <Section id = "StyleCopHungarianOptionsPanel" _label = "Hungarian" fill="true" class="MonoDevelop.StyleCop.HungarianOptionsPanel" />
+        <Section id = "StyleCopValidPrefixesOptionsPanel" _label = "Hungarian" fill="true" class="MonoDevelop.StyleCop.ValidPrefixesOptionsPanel" />
       </Condition>
     </Section>
   </Extension>
