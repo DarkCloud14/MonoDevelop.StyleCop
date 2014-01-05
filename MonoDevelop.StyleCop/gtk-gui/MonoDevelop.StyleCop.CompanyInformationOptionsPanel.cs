@@ -48,8 +48,8 @@ namespace MonoDevelop.StyleCop
 			this.companyNameEntry.Name = "entry1";
 			this.companyNameEntry.IsEditable = true;
 			this.companyNameEntry.InvisibleChar = '●';
-			this.table1.Add (this.entry1);
-			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.entry1]));
+			this.table1.Add(this.companyNameEntry);
+			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1[this.companyNameEntry]));
 			w2.LeftAttach = ((uint)(1));
 			w2.RightAttach = ((uint)(2));
 			w2.XOptions = ((global::Gtk.AttachOptions)(4));

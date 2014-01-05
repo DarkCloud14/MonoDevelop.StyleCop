@@ -202,9 +202,9 @@ namespace MonoDevelop.StyleCop
 			this.mergeWithLinkedFileRadioButton.Name = "radiobutton3";
 			this.mergeWithLinkedFileRadioButton.DrawIndicator = true;
 			this.mergeWithLinkedFileRadioButton.UseUnderline = true;
-			this.radiobutton3.Group = this.noMergeRadioButton.Group;
-			this.table2.Add (this.radiobutton3);
-			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2 [this.radiobutton3]));
+			this.mergeWithLinkedFileRadioButton.Group = this.noMergeRadioButton.Group;
+			this.table2.Add(this.mergeWithLinkedFileRadioButton);
+			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2[this.mergeWithLinkedFileRadioButton]));
 			w15.TopAttach = ((uint)(2));
 			w15.BottomAttach = ((uint)(3));
 			w15.YOptions = ((global::Gtk.AttachOptions)(4));
