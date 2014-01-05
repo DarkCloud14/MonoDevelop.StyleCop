@@ -25,12 +25,62 @@ namespace MonoDevelop.StyleCop
   using System.Globalization;
   using System.IO;
   using System.Reflection;
+  using global::StyleCop;
 
   /// <summary>
   /// StyleCop general options panel.
   /// </summary>
   internal partial class GeneralOptionsPanel : ProjectOptionsPanelBase
   {
+    #region Private Fields
+
+    /// <summary>
+    /// Contains the culture combo box values.
+    /// </summary>
+    private List<string> cultureComboBoxValues;
+
+    /// <summary>
+    /// The global value of the property.
+    /// </summary>
+    private StringProperty cultureParentProperty;
+
+    /// <summary>
+    /// Property culturePropertyDescriptor.
+    /// </summary>
+    private PropertyDescriptor<string> culturePropertyDescriptor;
+
+    /// <summary>
+    /// The global value of the property.
+    /// </summary>
+    private IntProperty maxViolationCountParentProperty;
+
+    /// <summary>
+    /// Property maxViolationCountPropertyDescriptor.
+    /// </summary>
+    private PropertyDescriptor<int> maxViolationCountPropertyDescriptor;
+
+    /// <summary>
+    /// The global value of the property.
+    /// </summary>
+    private BooleanProperty violationsAsErrorsParentProperty;
+
+    /// <summary>
+    /// Property violationsAsErrorsPropertyDescriptor.
+    /// </summary>
+    private PropertyDescriptor<bool> violationsAsErrorsPropertyDescriptor;
+
+    /// <summary>
+    /// The global value of the property.
+    /// </summary>
+    private BooleanProperty writeCacheParentProperty;
+
+    /// <summary>
+    /// Property writeCachePropertyDescriptor.
+    /// </summary>
+    private PropertyDescriptor<bool> writeCachePropertyDescriptor;
+
+    #endregion Private Fields
+
     #region Constructor
 
     /// <summary>
@@ -39,16 +89,101 @@ namespace MonoDevelop.StyleCop
     public GeneralOptionsPanel()
     {
       this.Build();
+      this.cultureComboBoxValues = new List<string>();
+      this.cultureComboBoxValues.Add("en-US");
       this.cultureComboBox.AppendText("en-US");
 
       List<CultureInfo> cultures = new List<CultureInfo>(EnumStyleCopCultureInfos());
       foreach (CultureInfo cultureInfo in cultures)
       {
+        this.cultureComboBoxValues.Add(cultureInfo.IetfLanguageTag);
         this.cultureComboBox.AppendText(cultureInfo.IetfLanguageTag);
       }
     }
 
     #endregion Constructor
+
+    #region Public Override Methods
+
+    /// <summary>
+    /// Initializes the OptionsPanel.
+    /// </summary>
+    /// <param name="dialog">Parent dialog.</param>
+    /// <param name="dataObject">Data object (should be the project in our case).</param>
+    public override void Initialize(Ide.Gui.Dialogs.OptionsDialog dialog, object dataObject)
+    {
+      base.Initialize(dialog, dataObject);
+
+      // Get the write cache setting.
+      this.writeCachePropertyDescriptor = this.SettingsHandler.Core.PropertyDescriptors["WriteCache"] as PropertyDescriptor<bool>;
+
+      this.writeCacheParentProperty = this.SettingsHandler.ParentSettings == null
+                                        ? null
+                                        : this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(this.writeCachePropertyDescriptor.PropertyName) as
+                                          BooleanProperty;
+
+      BooleanProperty mergedWriteCacheProperty = this.SettingsHandler.MergedSettings == null
+                                                  ? null
+                                                  : this.SettingsHandler.MergedSettings.GlobalSettings.GetProperty(this.writeCachePropertyDescriptor.PropertyName) as
+                                                    BooleanProperty;
+
+      this.enableCacheCheckBox.Active = mergedWriteCacheProperty == null ? this.writeCachePropertyDescriptor.DefaultValue : mergedWriteCacheProperty.Value;
+
+      // Errors As Warnings
+      this.violationsAsErrorsPropertyDescriptor = this.SettingsHandler.Core.PropertyDescriptors["ViolationsAsErrors"] as PropertyDescriptor<bool>;
+
+      this.violationsAsErrorsParentProperty = this.SettingsHandler.ParentSettings == null
+                                          ? null
+                                          : this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(this.violationsAsErrorsPropertyDescriptor.PropertyName) as
+                                            BooleanProperty;
+
+      BooleanProperty mergedViolationsAsErrorsProperty = this.SettingsHandler.MergedSettings == null
+                                                          ? null
+                                                          : this.SettingsHandler.MergedSettings.GlobalSettings.GetProperty(
+                                                              this.violationsAsErrorsPropertyDescriptor.PropertyName) as BooleanProperty;
+
+      this.violationsAsErrorsCheckBox.Active = mergedViolationsAsErrorsProperty == null
+                                                    ? this.violationsAsErrorsPropertyDescriptor.DefaultValue
+                                                    : mergedViolationsAsErrorsProperty.Value;
+
+      // Get the max violation count setting
+      this.maxViolationCountPropertyDescriptor = this.SettingsHandler.Core.PropertyDescriptors["MaxViolationCount"] as PropertyDescriptor<int>;
+
+      this.maxViolationCountParentProperty = this.SettingsHandler.ParentSettings == null
+                                              ? null
+                                              : this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(this.maxViolationCountPropertyDescriptor.PropertyName) as
+                                                IntProperty;
+
+      IntProperty mergedMaxViolationCountProperty = this.SettingsHandler.MergedSettings == null
+                                                      ? null
+                                                      : this.SettingsHandler.MergedSettings.GlobalSettings.GetProperty(
+                                                          this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
+
+      this.maxViolationCountEntry.Text = mergedMaxViolationCountProperty == null
+                                          ? this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
+                                          : mergedMaxViolationCountProperty.Value.ToString(CultureInfo.InvariantCulture);
+
+      // Get the culture setting
+      this.culturePropertyDescriptor = this.SettingsHandler.Core.PropertyDescriptors["Culture"] as PropertyDescriptor<string>;
+
+      this.cultureParentProperty = this.SettingsHandler.ParentSettings == null
+                                    ? null
+                                    : this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(this.culturePropertyDescriptor.PropertyName) as StringProperty;
+
+      StringProperty mergedCultureProperty = this.SettingsHandler.MergedSettings == null
+                                              ? null
+                                              : this.SettingsHandler.MergedSettings.GlobalSettings.GetProperty(this.culturePropertyDescriptor.PropertyName) as
+                                                StringProperty;
+
+      int cultureComboBoxIndex = this.cultureComboBoxValues.IndexOf(mergedCultureProperty == null
+                                  ? this.culturePropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
+                                  : mergedCultureProperty.Value.ToString(CultureInfo.InvariantCulture));
+      Gtk.TreeIter cultureIter;
+      this.cultureComboBox.Model.IterNthChild(out cultureIter, cultureComboBoxIndex);
+      this.cultureComboBox.SetActiveIter(cultureIter);
+    }
+
+    #endregion Public Override Methods
 
     #region Private Static Methods
 
