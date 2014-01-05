@@ -78,6 +78,7 @@
     <Compile Include="ProjectUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StyleCopVersion.cs" />
+    <Compile Include="StyleCopSettingsHandler.cs" />
     <Compile Include="ProjectCache.cs" />
     <Compile Include="StaticStringResources.cs" />
     <Compile Include="ClassExtensions\XmlDocumentExtension.cs" />
