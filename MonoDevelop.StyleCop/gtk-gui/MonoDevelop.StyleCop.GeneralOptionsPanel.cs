@@ -5,16 +5,16 @@ namespace MonoDevelop.StyleCop
 	internal partial class GeneralOptionsPanel
 	{
 		private global::Gtk.VBox vbox2;
-		private global::Gtk.CheckButton checkbutton1;
+		private global::Gtk.CheckButton enableCacheCheckBox;
 		private global::Gtk.Label label3;
 		private global::Gtk.Fixed fixed7;
-		private global::Gtk.CheckButton checkbutton3;
+		private global::Gtk.CheckButton violationsAsErrorsCheckBox;
 		private global::Gtk.HBox hbox2;
 		private global::Gtk.Label label4;
-		private global::Gtk.Entry entry2;
+		private global::Gtk.Entry maxViolationCountEntry;
 		private global::Gtk.HBox hbox3;
 		private global::Gtk.Label label5;
-		private global::Gtk.ComboBox combobox2;
+		private global::Gtk.ComboBox cultureComboBox;
 
 		protected virtual void Build ()
 		{
@@ -27,14 +27,14 @@ namespace MonoDevelop.StyleCop
 			this.vbox2.Name = "vbox2";
 			this.vbox2.Spacing = 6;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.checkbutton1 = new global::Gtk.CheckButton ();
-			this.checkbutton1.CanFocus = true;
-			this.checkbutton1.Name = "checkbutton1";
-			this.checkbutton1.Label = global::Mono.Unix.Catalog.GetString ("Cache StyleCop analysis results");
-			this.checkbutton1.DrawIndicator = true;
-			this.checkbutton1.UseUnderline = true;
-			this.vbox2.Add (this.checkbutton1);
-			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton1]));
+			this.enableCacheCheckBox = new global::Gtk.CheckButton ();
+			this.enableCacheCheckBox.CanFocus = true;
+			this.enableCacheCheckBox.Name = "enableCacheCheckBox";
+			this.enableCacheCheckBox.Label = global::Mono.Unix.Catalog.GetString ("Cache StyleCop analysis results");
+			this.enableCacheCheckBox.DrawIndicator = true;
+			this.enableCacheCheckBox.UseUnderline = true;
+			this.vbox2.Add (this.enableCacheCheckBox);
+			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.enableCacheCheckBox]));
 			w1.Position = 0;
 			w1.Expand = false;
 			w1.Fill = false;
@@ -58,14 +58,14 @@ namespace MonoDevelop.StyleCop
 			w3.Expand = false;
 			w3.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.checkbutton3 = new global::Gtk.CheckButton ();
-			this.checkbutton3.CanFocus = true;
-			this.checkbutton3.Name = "checkbutton3";
-			this.checkbutton3.Label = global::Mono.Unix.Catalog.GetString ("Treat violations as errors");
-			this.checkbutton3.DrawIndicator = true;
-			this.checkbutton3.UseUnderline = true;
-			this.vbox2.Add (this.checkbutton3);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.checkbutton3]));
+			this.violationsAsErrorsCheckBox = new global::Gtk.CheckButton ();
+			this.violationsAsErrorsCheckBox.CanFocus = true;
+			this.violationsAsErrorsCheckBox.Name = "violationsAsErrorsCheckBox";
+			this.violationsAsErrorsCheckBox.Label = global::Mono.Unix.Catalog.GetString ("Treat violations as errors");
+			this.violationsAsErrorsCheckBox.DrawIndicator = true;
+			this.violationsAsErrorsCheckBox.UseUnderline = true;
+			this.vbox2.Add (this.violationsAsErrorsCheckBox);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.violationsAsErrorsCheckBox]));
 			w4.Position = 3;
 			w4.Expand = false;
 			w4.Fill = false;
@@ -83,13 +83,13 @@ namespace MonoDevelop.StyleCop
 			w5.Expand = false;
 			w5.Fill = false;
 			// Container child hbox2.Gtk.Box+BoxChild
-			this.entry2 = new global::Gtk.Entry ();
-			this.entry2.CanFocus = true;
-			this.entry2.Name = "entry2";
-			this.entry2.IsEditable = true;
-			this.entry2.InvisibleChar = '●';
-			this.hbox2.Add (this.entry2);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.entry2]));
+			this.maxViolationCountEntry = new global::Gtk.Entry ();
+			this.maxViolationCountEntry.CanFocus = true;
+			this.maxViolationCountEntry.Name = "maxViolationCountEntry";
+			this.maxViolationCountEntry.IsEditable = true;
+			this.maxViolationCountEntry.InvisibleChar = '●';
+			this.hbox2.Add (this.maxViolationCountEntry);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.maxViolationCountEntry]));
 			w6.Position = 1;
 			w6.Expand = false;
 			w6.Fill = false;
@@ -112,10 +112,10 @@ namespace MonoDevelop.StyleCop
 			w8.Expand = false;
 			w8.Fill = false;
 			// Container child hbox3.Gtk.Box+BoxChild
-			this.combobox2 = global::Gtk.ComboBox.NewText ();
-			this.combobox2.Name = "combobox2";
-			this.hbox3.Add (this.combobox2);
-			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.combobox2]));
+			this.cultureComboBox = global::Gtk.ComboBox.NewText ();
+			this.cultureComboBox.Name = "cultureComboBox";
+			this.hbox3.Add (this.cultureComboBox);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.cultureComboBox]));
 			w9.Position = 1;
 			w9.Expand = false;
 			w9.Fill = false;

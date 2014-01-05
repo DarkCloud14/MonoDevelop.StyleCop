@@ -253,7 +253,7 @@
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.CheckButton" id="checkbutton1">
+          <widget class="Gtk.CheckButton" id="enableCacheCheckBox">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
             <property name="Label" translatable="yes">Cache StyleCop analysis results</property>
@@ -294,7 +294,7 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.CheckButton" id="checkbutton3">
+          <widget class="Gtk.CheckButton" id="violationsAsErrorsCheckBox">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
             <property name="Label" translatable="yes">Treat violations as errors</property>
@@ -326,7 +326,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Entry" id="entry2">
+              <widget class="Gtk.Entry" id="maxViolationCountEntry">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="IsEditable">True</property>
@@ -364,7 +364,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ComboBox" id="combobox2">
+              <widget class="Gtk.ComboBox" id="cultureComboBox">
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
