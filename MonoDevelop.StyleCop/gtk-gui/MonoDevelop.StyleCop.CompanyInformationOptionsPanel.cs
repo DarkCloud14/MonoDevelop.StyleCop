@@ -5,11 +5,11 @@ namespace MonoDevelop.StyleCop
 	internal partial class CompanyInformationOptionsPanel
 	{
 		private global::Gtk.VBox vbox1;
-		private global::Gtk.CheckButton checkbutton1;
+		private global::Gtk.CheckButton checkBox;
 		private global::Gtk.Table table1;
-		private global::Gtk.Entry entry1;
+		private global::Gtk.Entry companyNameEntry;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
-		private global::Gtk.TextView textview1;
+		private global::Gtk.TextView copyrightEntry;
 		private global::Gtk.Label label1;
 		private global::Gtk.VBox vbox2;
 		private global::Gtk.Label label2;
@@ -26,14 +26,14 @@ namespace MonoDevelop.StyleCop
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.checkbutton1 = new global::Gtk.CheckButton ();
-			this.checkbutton1.CanFocus = true;
-			this.checkbutton1.Name = "checkbutton1";
-			this.checkbutton1.Label = global::Mono.Unix.Catalog.GetString ("Specify the company name and copyright text which must appear in the file header for each file in the project.");
-			this.checkbutton1.DrawIndicator = true;
-			this.checkbutton1.UseUnderline = true;
-			this.vbox1.Add (this.checkbutton1);
-			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.checkbutton1]));
+			this.checkBox = new global::Gtk.CheckButton ();
+			this.checkBox.CanFocus = true;
+			this.checkBox.Name = "checkbutton1";
+			this.checkBox.Label = global::Mono.Unix.Catalog.GetString ("Specify the company name and copyright text which must appear in the file header for each file in the project.");
+			this.checkBox.DrawIndicator = true;
+			this.checkBox.UseUnderline = true;
+			this.vbox1.Add (this.checkBox);
+			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.checkBox]));
 			w1.Position = 0;
 			w1.Expand = false;
 			w1.Fill = false;
@@ -43,11 +43,11 @@ namespace MonoDevelop.StyleCop
 			this.table1.RowSpacing = ((uint)(6));
 			this.table1.ColumnSpacing = ((uint)(6));
 			// Container child table1.Gtk.Table+TableChild
-			this.entry1 = new global::Gtk.Entry ();
-			this.entry1.CanFocus = true;
-			this.entry1.Name = "entry1";
-			this.entry1.IsEditable = true;
-			this.entry1.InvisibleChar = '●';
+			this.companyNameEntry = new global::Gtk.Entry ();
+			this.companyNameEntry.CanFocus = true;
+			this.companyNameEntry.Name = "entry1";
+			this.companyNameEntry.IsEditable = true;
+			this.companyNameEntry.InvisibleChar = '●';
 			this.table1.Add (this.entry1);
 			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.entry1]));
 			w2.LeftAttach = ((uint)(1));
@@ -59,10 +59,10 @@ namespace MonoDevelop.StyleCop
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-			this.textview1 = new global::Gtk.TextView ();
-			this.textview1.CanFocus = true;
-			this.textview1.Name = "textview1";
-			this.GtkScrolledWindow.Add (this.textview1);
+			this.copyrightEntry = new global::Gtk.TextView ();
+			this.copyrightEntry.CanFocus = true;
+			this.copyrightEntry.Name = "textview1";
+			this.GtkScrolledWindow.Add (this.copyrightEntry);
 			this.table1.Add (this.GtkScrolledWindow);
 			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.GtkScrolledWindow]));
 			w4.TopAttach = ((uint)(1));

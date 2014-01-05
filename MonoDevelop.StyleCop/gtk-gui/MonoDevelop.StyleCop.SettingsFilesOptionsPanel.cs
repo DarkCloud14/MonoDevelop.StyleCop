@@ -9,7 +9,7 @@ namespace MonoDevelop.StyleCop
 		private global::Gtk.Table table2;
 		private global::Gtk.Button button1;
 		private global::Gtk.Button button2;
-		private global::Gtk.Button button3;
+		private global::Gtk.Button browseButton;
 		private global::Gtk.Fixed fixed1;
 		private global::Gtk.Fixed fixed2;
 		private global::Gtk.Fixed fixed3;
@@ -17,10 +17,10 @@ namespace MonoDevelop.StyleCop
 		private global::Gtk.Fixed fixed5;
 		private global::Gtk.HBox hbox1;
 		private global::Gtk.Label label2;
-		private global::Gtk.Entry entry1;
-		private global::Gtk.RadioButton radiobutton1;
-		private global::Gtk.RadioButton radiobutton2;
-		private global::Gtk.RadioButton radiobutton3;
+		private global::Gtk.Entry linkedFilePathEntry;
+		private global::Gtk.RadioButton noMergeRadioButton;
+		private global::Gtk.RadioButton mergeWithParentsRadioButton;
+		private global::Gtk.RadioButton mergeWithLinkedFileRadioButton;
 
 		protected virtual void Build ()
 		{
@@ -76,13 +76,13 @@ namespace MonoDevelop.StyleCop
 			w3.XOptions = ((global::Gtk.AttachOptions)(4));
 			w3.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.button3 = new global::Gtk.Button ();
-			this.button3.CanFocus = true;
-			this.button3.Name = "button3";
-			this.button3.UseUnderline = true;
-			this.button3.Label = global::Mono.Unix.Catalog.GetString ("...");
-			this.table2.Add (this.button3);
-			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table2 [this.button3]));
+			this.browseButton = new global::Gtk.Button ();
+			this.browseButton.CanFocus = true;
+			this.browseButton.Name = "button3";
+			this.browseButton.UseUnderline = true;
+			this.browseButton.Label = global::Mono.Unix.Catalog.GetString ("...");
+			this.table2.Add (this.browseButton);
+			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table2 [this.browseButton]));
 			w4.TopAttach = ((uint)(3));
 			w4.BottomAttach = ((uint)(4));
 			w4.LeftAttach = ((uint)(1));
@@ -160,13 +160,13 @@ namespace MonoDevelop.StyleCop
 			w10.Expand = false;
 			w10.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.entry1 = new global::Gtk.Entry ();
-			this.entry1.CanFocus = true;
-			this.entry1.Name = "entry1";
-			this.entry1.IsEditable = true;
-			this.entry1.InvisibleChar = '●';
-			this.hbox1.Add (this.entry1);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.entry1]));
+			this.linkedFilePathEntry = new global::Gtk.Entry ();
+			this.linkedFilePathEntry.CanFocus = true;
+			this.linkedFilePathEntry.Name = "entry1";
+			this.linkedFilePathEntry.IsEditable = true;
+			this.linkedFilePathEntry.InvisibleChar = '●';
+			this.hbox1.Add (this.linkedFilePathEntry);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.linkedFilePathEntry]));
 			w11.Position = 1;
 			this.table2.Add (this.hbox1);
 			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table2 [this.hbox1]));
@@ -174,35 +174,35 @@ namespace MonoDevelop.StyleCop
 			w12.BottomAttach = ((uint)(4));
 			w12.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.radiobutton1 = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Do not merge with any other settings files"));
-			this.radiobutton1.CanFocus = true;
-			this.radiobutton1.Name = "radiobutton1";
-			this.radiobutton1.Active = true;
-			this.radiobutton1.DrawIndicator = true;
-			this.radiobutton1.UseUnderline = true;
-			this.radiobutton1.Group = new global::GLib.SList (global::System.IntPtr.Zero);
-			this.table2.Add (this.radiobutton1);
-			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table2 [this.radiobutton1]));
+			this.noMergeRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Do not merge with any other settings files"));
+			this.noMergeRadioButton.CanFocus = true;
+			this.noMergeRadioButton.Name = "radiobutton1";
+			this.noMergeRadioButton.Active = true;
+			this.noMergeRadioButton.DrawIndicator = true;
+			this.noMergeRadioButton.UseUnderline = true;
+			this.noMergeRadioButton.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.table2.Add (this.noMergeRadioButton);
+			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table2 [this.noMergeRadioButton]));
 			w13.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.radiobutton2 = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Merge with settings file found in parent folders"));
-			this.radiobutton2.CanFocus = true;
-			this.radiobutton2.Name = "radiobutton2";
-			this.radiobutton2.DrawIndicator = true;
-			this.radiobutton2.UseUnderline = true;
-			this.radiobutton2.Group = this.radiobutton1.Group;
-			this.table2.Add (this.radiobutton2);
-			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table2 [this.radiobutton2]));
+			this.mergeWithParentsRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Merge with settings file found in parent folders"));
+			this.mergeWithParentsRadioButton.CanFocus = true;
+			this.mergeWithParentsRadioButton.Name = "radiobutton2";
+			this.mergeWithParentsRadioButton.DrawIndicator = true;
+			this.mergeWithParentsRadioButton.UseUnderline = true;
+			this.mergeWithParentsRadioButton.Group = this.noMergeRadioButton.Group;
+			this.table2.Add (this.mergeWithParentsRadioButton);
+			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table2 [this.mergeWithParentsRadioButton]));
 			w14.TopAttach = ((uint)(1));
 			w14.BottomAttach = ((uint)(2));
 			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.radiobutton3 = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Merge with the following settings file:"));
-			this.radiobutton3.CanFocus = true;
-			this.radiobutton3.Name = "radiobutton3";
-			this.radiobutton3.DrawIndicator = true;
-			this.radiobutton3.UseUnderline = true;
-			this.radiobutton3.Group = this.radiobutton1.Group;
+			this.mergeWithLinkedFileRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Merge with the following settings file:"));
+			this.mergeWithLinkedFileRadioButton.CanFocus = true;
+			this.mergeWithLinkedFileRadioButton.Name = "radiobutton3";
+			this.mergeWithLinkedFileRadioButton.DrawIndicator = true;
+			this.mergeWithLinkedFileRadioButton.UseUnderline = true;
+			this.radiobutton3.Group = this.noMergeRadioButton.Group;
 			this.table2.Add (this.radiobutton3);
 			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2 [this.radiobutton3]));
 			w15.TopAttach = ((uint)(2));

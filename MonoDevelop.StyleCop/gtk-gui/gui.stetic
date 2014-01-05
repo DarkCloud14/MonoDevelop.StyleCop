@@ -38,7 +38,7 @@
             <property name="RowSpacing">6</property>
             <property name="ColumnSpacing">6</property>
             <child>
-              <widget class="Gtk.Button" id="button3">
+              <widget class="Gtk.Button" id="browseButton">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Type">TextOnly</property>
@@ -140,7 +140,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Entry" id="entry1">
+                  <widget class="Gtk.Entry" id="linkedFilePathEntry">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="IsEditable">True</property>
@@ -166,17 +166,18 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.RadioButton" id="radiobutton1">
+              <widget class="Gtk.RadioButton" id="mergeWithLinkedFileRadioButton">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Label" translatable="yes">Do not merge with any other settings files</property>
-                <property name="Active">True</property>
+                <property name="Label" translatable="yes">Merge with the following settings file:</property>
                 <property name="DrawIndicator">True</property>
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
                 <property name="Group">group1</property>
               </widget>
               <packing>
+                <property name="TopAttach">2</property>
+                <property name="BottomAttach">3</property>
                 <property name="AutoSize">True</property>
                 <property name="YOptions">Fill</property>
                 <property name="XExpand">True</property>
@@ -188,7 +189,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.RadioButton" id="radiobutton2">
+              <widget class="Gtk.RadioButton" id="mergeWithParentsRadioButton">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Label" translatable="yes">Merge with settings file found in parent folders</property>
@@ -211,18 +212,17 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.RadioButton" id="radiobutton3">
+              <widget class="Gtk.RadioButton" id="noMergeRadioButton">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Label" translatable="yes">Merge with the following settings file:</property>
+                <property name="Label" translatable="yes">Do not merge with any other settings files</property>
+                <property name="Active">True</property>
                 <property name="DrawIndicator">True</property>
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
                 <property name="Group">group1</property>
               </widget>
               <packing>
-                <property name="TopAttach">2</property>
-                <property name="BottomAttach">3</property>
                 <property name="AutoSize">True</property>
                 <property name="YOptions">Fill</property>
                 <property name="XExpand">True</property>
@@ -443,7 +443,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Entry" id="entry5">
+                          <widget class="Gtk.Entry" id="addRecognizedWordEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="IsEditable">True</property>
@@ -459,7 +459,7 @@
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Button" id="button9">
+                              <widget class="Gtk.Button" id="addRecognizedWordButton">
                                 <property name="MemberName" />
                                 <property name="WidthRequest">55</property>
                                 <property name="CanFocus">True</property>
@@ -527,7 +527,7 @@
                                 <property name="MemberName" />
                                 <property name="ShadowType">In</property>
                                 <child>
-                                  <widget class="Gtk.NodeView" id="nodeview3">
+                                  <widget class="Gtk.NodeView" id="recognizedWordsNodeView">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="ShowScrollbars">True</property>
@@ -562,7 +562,7 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Button" id="button8">
+                              <widget class="Gtk.Button" id="removeRecognizedWordButton">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextOnly</property>
@@ -674,7 +674,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Entry" id="entry6">
+                          <widget class="Gtk.Entry" id="addDeprecatedWordEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="IsEditable">True</property>
@@ -690,7 +690,7 @@
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Button" id="button10">
+                              <widget class="Gtk.Button" id="addDeprecatedWordButton">
                                 <property name="MemberName" />
                                 <property name="WidthRequest">55</property>
                                 <property name="CanFocus">True</property>
@@ -752,7 +752,7 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Entry" id="entry8">
+                              <widget class="Gtk.Entry" id="addAlternateWordEntry">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="IsEditable">True</property>
@@ -853,7 +853,7 @@
                                 <property name="MemberName" />
                                 <property name="ShadowType">In</property>
                                 <child>
-                                  <widget class="Gtk.NodeView" id="nodeview4">
+                                  <widget class="Gtk.NodeView" id="deprecatedWordsNodeView">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="ShowScrollbars">True</property>
@@ -888,7 +888,7 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Button" id="button11">
+                              <widget class="Gtk.Button" id="removeDeprecatedWordButton">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextOnly</property>
@@ -1000,7 +1000,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Entry" id="entry7">
+                          <widget class="Gtk.Entry" id="addFolderEntry">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="IsEditable">True</property>
@@ -1016,7 +1016,7 @@
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Button" id="button12">
+                              <widget class="Gtk.Button" id="addFolderButton">
                                 <property name="MemberName" />
                                 <property name="WidthRequest">55</property>
                                 <property name="CanFocus">True</property>
@@ -1084,7 +1084,7 @@
                                 <property name="MemberName" />
                                 <property name="ShadowType">In</property>
                                 <child>
-                                  <widget class="Gtk.NodeView" id="nodeview5">
+                                  <widget class="Gtk.NodeView" id="foldersNodeView">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="ShowScrollbars">True</property>
@@ -1119,7 +1119,7 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Button" id="button13">
+                              <widget class="Gtk.Button" id="removeFolderButton">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextOnly</property>
@@ -1195,7 +1195,7 @@
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.CheckButton" id="checkbutton1">
+          <widget class="Gtk.CheckButton" id="checkBox">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
             <property name="Label" translatable="yes">Specify the company name and copyright text which must appear in the file header for each file in the project.</property>
@@ -1218,7 +1218,7 @@
             <property name="RowSpacing">6</property>
             <property name="ColumnSpacing">6</property>
             <child>
-              <widget class="Gtk.Entry" id="entry1">
+              <widget class="Gtk.Entry" id="companyNameEntry">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="IsEditable">True</property>
@@ -1243,7 +1243,7 @@
                 <property name="MemberName" />
                 <property name="ShadowType">In</property>
                 <child>
-                  <widget class="Gtk.TextView" id="textview1">
+                  <widget class="Gtk.TextView" id="copyrightEntry">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
@@ -1336,7 +1336,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.HungarianOptionsPanel" design-size="607 378">
+  <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.ValidPrefixesOptionsPanel" design-size="607 378">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <property name="GeneratePublic">False</property>
@@ -1390,7 +1390,7 @@
             <property name="MemberName" />
             <property name="Spacing">6</property>
             <child>
-              <widget class="Gtk.Entry" id="entry4">
+              <widget class="Gtk.Entry" id="addPrefixEntry">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="IsEditable">True</property>
@@ -1403,7 +1403,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="button4">
+              <widget class="Gtk.Button" id="addPrefixButton">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Type">TextOnly</property>
@@ -1459,7 +1459,7 @@
                 <property name="MemberName" />
                 <property name="ShadowType">In</property>
                 <child>
-                  <widget class="Gtk.NodeView" id="nodeview1">
+                  <widget class="Gtk.NodeView" id="prefixNodeView">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
