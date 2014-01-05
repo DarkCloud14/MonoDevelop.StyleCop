@@ -21,12 +21,21 @@
 namespace MonoDevelop.StyleCop
 {
   using System;
+  using global::StyleCop;
 
   /// <summary>
   /// StyleCop valid prefixes options panel.
   /// </summary>
   internal partial class ValidPrefixesOptionsPanel : ProjectOptionsPanelBase
   {
+    #region Private Fields
+
+    /// <summary>
+    /// The analyzer that this settings page is attached to.
+    /// </summary>
+    private readonly SourceAnalyzer analyzer;
+
+    #endregion Private Fields
 
     #region Constructor
 
@@ -36,9 +45,24 @@ namespace MonoDevelop.StyleCop
     public ValidPrefixesOptionsPanel()
     {
       this.Build();
+
+      this.analyzer = ProjectUtilities.Instance.Core.GetAnalyzer("StyleCop.CSharp.NamingRules");
     }
 
     #endregion Constructor
 
+    #region Public Override Methods
+
+    /// <summary>
+    /// Initializes the OptionsPanel.
+    /// </summary>
+    /// <param name="dialog">Parent dialog.</param>
+    /// <param name="dataObject">Data object (should be the project in our case).</param>
+    public override void Initialize(Ide.Gui.Dialogs.OptionsDialog dialog, object dataObject)
+    {
+      base.Initialize(dialog, dataObject);
+    }
+
+    #endregion Public Override Methods
   }
 }
