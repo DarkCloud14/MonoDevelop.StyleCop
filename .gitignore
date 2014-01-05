@@ -2,6 +2,7 @@ bin
 obj
 .DS_Store
 *.userprefs
+*.user
 *.pidb
 *.suo
 *.Cache
