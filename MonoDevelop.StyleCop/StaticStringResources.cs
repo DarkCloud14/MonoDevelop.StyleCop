@@ -32,14 +32,25 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     static StaticStringResources()
     {
+      ProjectSettingsFileNotLoadedOrCreated = "The settings file for the project could not be loaded or created: {0}";
       StyleCopCancelText = "Cancel StyleCop";
       StyleCopFullAnalysisText = "Run StyleCop (Rescan All)";
       StyleCopRunText = "Run StyleCop";
+      Title = "StyleCop";
     }
 
     #endregion Constructors
 
     #region Public properties
+
+    /// <summary>
+    /// Gets the ProjectSettingsFileNotLoadedOrCreated message.
+    /// </summary>
+    public static string ProjectSettingsFileNotLoadedOrCreated
+    {
+      get;
+      private set;
+    }
 
     /// <summary>
     /// Gets the text of cancel StyleCop context menu entry.
@@ -63,6 +74,15 @@ namespace MonoDevelop.StyleCop
     /// Gets the text of default StyleCop analysis context menu entry.
     /// </summary>
     public static string StyleCopRunText
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
+    /// Gets the Title text.
+    /// </summary>
+    public static string Title
     {
       get;
       private set;
