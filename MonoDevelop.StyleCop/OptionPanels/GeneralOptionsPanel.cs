@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013 Alexander Jochum
+//   Copyright 2014 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -21,6 +21,10 @@
 namespace MonoDevelop.StyleCop
 {
   using System;
+  using System.Collections.Generic;
+  using System.Globalization;
+  using System.IO;
+  using System.Reflection;
 
   /// <summary>
   /// StyleCop general options panel.
@@ -35,8 +39,59 @@ namespace MonoDevelop.StyleCop
     public GeneralOptionsPanel()
     {
       this.Build();
+      this.cultureComboBox.AppendText("en-US");
+
+      List<CultureInfo> cultures = new List<CultureInfo>(EnumStyleCopCultureInfos());
+      foreach (CultureInfo cultureInfo in cultures)
+      {
+        this.cultureComboBox.AppendText(cultureInfo.IetfLanguageTag);
+      }
     }
 
     #endregion Constructor
+
+    #region Private Static Methods
+
+    /// <summary>
+    /// Enumerates StyleCop culture information available in sub directories of the executing assembly.
+    /// </summary>
+    /// <returns>All available and valid StyleCop culture information.</returns>
+    private static IEnumerable<CultureInfo> EnumStyleCopCultureInfos()
+    {
+      string directoryName = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+      foreach (string directory in Directory.GetDirectories(directoryName))
+      {
+        string name = System.IO.Path.GetFileNameWithoutExtension(directory);
+
+        // Culture format is XX-YY, we discard directories that can't match.
+        if (name.Length > 5)
+        {
+          continue;
+        }
+
+        CultureInfo culture = null;
+        try
+        {
+          culture = CultureInfo.GetCultureInfo(name);
+        }
+        catch (ArgumentNullException)
+        {
+          continue;
+        }
+        catch (ArgumentException)
+        {
+          continue;
+        }
+
+        string resName = "StyleCop.CSharp.Rules.resources.dll";
+        if (File.Exists(System.IO.Path.Combine(System.IO.Path.Combine(directoryName, name), resName)))
+        {
+          yield return culture;
+        }
+      }
+    }
+
+    #endregion Private Static Methods
   }
 }
