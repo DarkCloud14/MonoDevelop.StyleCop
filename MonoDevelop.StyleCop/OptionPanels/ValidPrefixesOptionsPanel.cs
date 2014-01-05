@@ -1,9 +1,9 @@
 //-----------------------------------------------------------------------
-// <copyright file="HungarianOptionsPanel.cs">
+// <copyright file="ValidPrefixesOptionsPanel.cs">
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013 Alexander Jochum
+//   Copyright 2014 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -23,20 +23,22 @@ namespace MonoDevelop.StyleCop
   using System;
 
   /// <summary>
-  /// StyleCop hungarian options panel.
+  /// StyleCop valid prefixes options panel.
   /// </summary>
-  internal partial class HungarianOptionsPanel : ProjectOptionsPanelBase
+  internal partial class ValidPrefixesOptionsPanel : ProjectOptionsPanelBase
   {
+
     #region Constructor
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MonoDevelop.StyleCop.HungarianOptionsPanel"/> class.
+    /// Initializes a new instance of the <see cref="MonoDevelop.StyleCop.ValidPrefixesOptionsPanel"/> class.
     /// </summary>
-    public HungarianOptionsPanel()
+    public ValidPrefixesOptionsPanel()
     {
       this.Build();
     }
 
     #endregion Constructor
+
   }
 }

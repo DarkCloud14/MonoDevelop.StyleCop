@@ -96,10 +96,8 @@
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="OptionPanels\CompanyInformationOptionsPanel.cs" />
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.CompanyInformationOptionsPanel.cs" />
-    <Compile Include="OptionPanels\HungarianOptionsPanel.cs" />
     <Compile Include="OptionPanels\GeneralOptionsPanel.cs" />
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.GeneralOptionsPanel.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.StyleCop.HungarianOptionsPanel.cs" />
     <Compile Include="OptionPanels\RulesOptionsPanel.cs" />
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.RulesOptionsPanel.cs" />
     <Compile Include="OptionPanels\SettingsFilesOptionsPanel.cs" />
@@ -107,6 +105,8 @@
     <Compile Include="OptionPanels\SpellingOptionsPanel.cs" />
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.SpellingOptionsPanel.cs" />
     <Compile Include="OptionPanels\ProjectOptionsPanelBase.cs" />
+    <Compile Include="OptionPanels\ValidPrefixesOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.ValidPrefixesOptionsPanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
