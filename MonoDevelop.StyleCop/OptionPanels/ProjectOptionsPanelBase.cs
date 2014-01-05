@@ -20,11 +20,11 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
-  using System;
   using Gtk;
   using MonoDevelop.Ide;
   using MonoDevelop.Ide.Gui.Dialogs;
   using MonoDevelop.Projects;
+  using global::StyleCop;
 
   /// <summary>
   /// StyleCop Project options panel base class.
@@ -32,6 +32,15 @@ namespace MonoDevelop.StyleCop
   [System.ComponentModel.ToolboxItem(false)]
   internal abstract class ProjectOptionsPanelBase : Bin, IOptionsPanel
   {
+    #region Private Static Fields
+
+    /// <summary>
+    /// Settings handler to get and set StyleCop settings values.
+    /// </summary>
+    private static StyleCopSettingsHandler settingsHandler;
+
+    #endregion Private Static Fields
+
     #region Private Fields
 
     /// <summary>
@@ -45,6 +54,18 @@ namespace MonoDevelop.StyleCop
     private bool optionsPanelVisible;
 
     #endregion Private Fields
+
+    #region Protected Properties
+
+    /// <summary>
+    /// Gets the StyleCop settings handler object.
+    /// </summary>
+    protected StyleCopSettingsHandler SettingsHandler
+    {
+      get { return settingsHandler; }
+    }
+
+    #endregion Protected Properties
 
     #region IOptionsPanel implementation
 
@@ -81,6 +102,41 @@ namespace MonoDevelop.StyleCop
       }
 
       this.optionsPanelVisible = ProjectUtilities.Instance.IsKnownProjectType(this.parentProject);
+
+      if (this.optionsPanelVisible)
+      {
+        string localSettingsFileFolder = this.parentProject.BaseDirectory;
+        string settingsFilePath = System.IO.Path.Combine(localSettingsFileFolder, global::StyleCop.Settings.DefaultFileName);
+
+        if (!System.IO.File.Exists(settingsFilePath))
+        {
+          string deprecatedSettingsFile = System.IO.Path.Combine(localSettingsFileFolder, global::StyleCop.Settings.AlternateFileName);
+          if (System.IO.File.Exists(deprecatedSettingsFile))
+          {
+            settingsFilePath = deprecatedSettingsFile;
+          }
+          else
+          {
+            deprecatedSettingsFile = System.IO.Path.Combine(localSettingsFileFolder, V101Settings.DefaultFileName);
+            if (System.IO.File.Exists(deprecatedSettingsFile))
+            {
+              settingsFilePath = deprecatedSettingsFile;
+            }
+          }
+        }
+
+        if (settingsHandler == null)
+        {
+          try
+          {
+            settingsHandler = new StyleCopSettingsHandler(settingsFilePath, ProjectUtilities.Instance.Core);
+          }
+          catch
+          {
+            this.optionsPanelVisible = false;
+          }
+        }
+      }
     }
 
     /// <summary>
