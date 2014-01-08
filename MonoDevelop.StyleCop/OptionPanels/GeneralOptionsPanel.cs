@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2014 Alexander Jochum
+//   Copyright 2013-2014 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -140,7 +140,7 @@ namespace MonoDevelop.StyleCop
       BooleanProperty mergedViolationsAsErrorsProperty = this.SettingsHandler.MergedSettings == null
                                                           ? null
                                                           : this.SettingsHandler.MergedSettings.GlobalSettings.GetProperty(
-                                                              this.violationsAsErrorsPropertyDescriptor.PropertyName) as BooleanProperty;
+        this.violationsAsErrorsPropertyDescriptor.PropertyName) as BooleanProperty;
 
       this.violationsAsErrorsCheckBox.Active = mergedViolationsAsErrorsProperty == null
                                                     ? this.violationsAsErrorsPropertyDescriptor.DefaultValue
@@ -157,7 +157,7 @@ namespace MonoDevelop.StyleCop
       IntProperty mergedMaxViolationCountProperty = this.SettingsHandler.MergedSettings == null
                                                       ? null
                                                       : this.SettingsHandler.MergedSettings.GlobalSettings.GetProperty(
-                                                          this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
+        this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
 
       this.maxViolationCountEntry.Text = mergedMaxViolationCountProperty == null
                                           ? this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
