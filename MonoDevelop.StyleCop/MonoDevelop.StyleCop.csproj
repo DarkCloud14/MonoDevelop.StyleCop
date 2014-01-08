@@ -91,7 +91,7 @@
     <Compile Include="CommandHandler\SolutionFullAnalysisHandler.cs" />
     <Compile Include="CommandHandler\SolutionAnalysisHandler.cs" />
     <Compile Include="CommandHandler\StartupHandler.cs" />
-    <Compile Include="CommandHandler\StyleCopSettingsHandler.cs" />
+    <Compile Include="CommandHandler\StyleCopSettingsCommandHandler.cs" />
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="OptionPanels\CompanyInformationOptionsPanel.cs" />
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.CompanyInformationOptionsPanel.cs" />

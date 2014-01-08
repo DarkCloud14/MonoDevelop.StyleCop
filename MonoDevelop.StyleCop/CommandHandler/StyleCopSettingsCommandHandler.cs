@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="StyleCopSettingsHandler.cs">
+// <copyright file="StyleCopSettingsCommandHandler.cs">
 //   APL 2.0
 // </copyright>
 // <license>
@@ -28,7 +28,7 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// Class which handles the StyleCop settings dialog.
   /// </summary>
-  internal class StyleCopSettingsHandler : CommandHandler
+  internal class StyleCopSettingsCommandHandler : CommandHandler
   {
     #region Protected Override Methods
 

@@ -66,7 +66,7 @@ limitations under the License.
              defaultHandler="MonoDevelop.StyleCop.SolutionFullAnalysisHandler"/>
     <Command id="MonoDevelop.StyleCop.Commands.StyleCopSettings"
              _label="StyleCop Settings"
-             defaultHandler="MonoDevelop.StyleCop.StyleCopSettingsHandler"/>
+             defaultHandler="MonoDevelop.StyleCop.StyleCopSettingsCommandHandler"/>
     <Command id="MonoDevelop.StyleCop.AnalysisType.NodeAnalysis"
              _label="Run Stylecop"
              description="Analyse the selected items with StyleCop."/>
