@@ -194,6 +194,7 @@ namespace MonoDevelop.StyleCop
     /// <param name="e">The event arguments.</param>
     protected void CultureComboBoxChanged(object sender, EventArgs e)
     {
+      this.SetBoldState();
     }
 
     /// <summary>
@@ -203,6 +204,7 @@ namespace MonoDevelop.StyleCop
     /// <param name="e">The event arguments.</param>
     protected void EnableCacheCheckBoxToggled(object sender, EventArgs e)
     {
+      this.SetBoldState();
     }
 
     /// <summary>
@@ -212,6 +214,7 @@ namespace MonoDevelop.StyleCop
     /// <param name="e">The event arguments.</param>
     protected void MaxViolationCountSpinButtonValueChanged(object sender, EventArgs e)
     {
+      this.SetBoldState();
     }
 
     /// <summary>
@@ -221,6 +224,7 @@ namespace MonoDevelop.StyleCop
     /// <param name="e">The event arguments.</param>
     protected void ViolationsAsErrorsCheckBoxToggled(object sender, EventArgs e)
     {
+      this.SetBoldState();
     }
 
     #endregion Protected Signal Methods
@@ -268,5 +272,67 @@ namespace MonoDevelop.StyleCop
     }
 
     #endregion Private Static Methods
+
+    #region Private Methods
+
+    /// <summary>
+    /// Sets the bold state of the controls.
+    /// </summary>
+    private void SetBoldState()
+    {
+      bool bold;
+      Pango.FontDescription fontDescription;
+
+      if (this.culturePropertyDescriptor != null)
+      {
+        if (this.cultureParentProperty == null)
+        {
+          bold = this.cultureComboBox.ActiveText != this.culturePropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture);
+        }
+        else
+        {
+          bold = this.cultureComboBox.ActiveText != this.cultureParentProperty.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        fontDescription = this.cultureComboBox.Child.Style.FontDescription;
+        fontDescription.Weight = bold ? Pango.Weight.Bold : Pango.Weight.Normal;
+        this.cultureComboBox.Child.ModifyFont(fontDescription);
+      }
+
+      if (this.maxViolationCountPropertyDescriptor != null)
+      {
+        bold = this.maxViolationCountParentProperty == null
+                   ? this.maxViolationCountSpinButton.Text != this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
+                   : this.maxViolationCountSpinButton.Text != this.maxViolationCountParentProperty.Value.ToString(CultureInfo.InvariantCulture);
+
+        fontDescription = this.maxViolationCountSpinButton.Style.FontDescription;
+        fontDescription.Weight = bold ? Pango.Weight.Bold : Pango.Weight.Normal;
+        this.maxViolationCountSpinButton.ModifyFont(fontDescription);
+      }
+
+      if (this.violationsAsErrorsPropertyDescriptor != null)
+      {
+        bold = this.violationsAsErrorsParentProperty == null
+                   ? this.violationsAsErrorsCheckBox.Active != this.violationsAsErrorsPropertyDescriptor.DefaultValue
+                   : this.violationsAsErrorsCheckBox.Active != this.violationsAsErrorsParentProperty.Value;
+
+        fontDescription = this.violationsAsErrorsCheckBox.Child.Style.FontDescription;
+        fontDescription.Weight = bold ? Pango.Weight.Bold : Pango.Weight.Normal;
+        this.violationsAsErrorsCheckBox.Child.ModifyFont(fontDescription);
+      }
+
+      if (this.writeCachePropertyDescriptor != null)
+      {
+        bold = this.writeCacheParentProperty == null
+                   ? this.enableCacheCheckBox.Active != this.writeCachePropertyDescriptor.DefaultValue
+                   : this.enableCacheCheckBox.Active != this.writeCacheParentProperty.Value;
+
+        fontDescription = this.enableCacheCheckBox.Child.Style.FontDescription;
+        fontDescription.Weight = bold ? Pango.Weight.Bold : Pango.Weight.Normal;
+        this.enableCacheCheckBox.Child.ModifyFont(fontDescription);
+      }
+    }
+
+    #endregion Private Methods
   }
 }
