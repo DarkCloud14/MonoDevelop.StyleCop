@@ -104,7 +104,7 @@ namespace MonoDevelop.StyleCop
     #endregion Constructor
 
     #region Public Override Methods
-    
+
     /// <summary>
     /// Initializes the options panel values just before the panel is shown to user for the first time.
     /// </summary>
@@ -138,7 +138,7 @@ namespace MonoDevelop.StyleCop
       BooleanProperty mergedViolationsAsErrorsProperty = this.SettingsHandler.MergedSettings == null
                                                           ? null
                                                           : this.SettingsHandler.MergedSettings.GlobalSettings.GetProperty(
-        this.violationsAsErrorsPropertyDescriptor.PropertyName) as BooleanProperty;
+                                                           this.violationsAsErrorsPropertyDescriptor.PropertyName) as BooleanProperty;
 
       this.violationsAsErrorsCheckBox.Active = mergedViolationsAsErrorsProperty == null
                                                     ? this.violationsAsErrorsPropertyDescriptor.DefaultValue
@@ -155,11 +155,11 @@ namespace MonoDevelop.StyleCop
       IntProperty mergedMaxViolationCountProperty = this.SettingsHandler.MergedSettings == null
                                                       ? null
                                                       : this.SettingsHandler.MergedSettings.GlobalSettings.GetProperty(
-        this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
+                                                      this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
 
-      this.maxViolationCountEntry.Text = mergedMaxViolationCountProperty == null
-                                          ? this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
-                                          : mergedMaxViolationCountProperty.Value.ToString(CultureInfo.InvariantCulture);
+      this.maxViolationCountSpinButton.Value = Convert.ToDouble(mergedMaxViolationCountProperty == null
+                                                ? this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
+                                                : mergedMaxViolationCountProperty.Value.ToString(CultureInfo.InvariantCulture));
 
       // Get the culture setting
       this.culturePropertyDescriptor = this.SettingsHandler.Core.PropertyDescriptors["Culture"] as PropertyDescriptor<string>;
@@ -184,6 +184,46 @@ namespace MonoDevelop.StyleCop
     }
 
     #endregion Public Override Methods
+
+    #region Protected Signal Methods
+
+    /// <summary>
+    /// Called when the cultureComboBox value changed.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void CultureComboBoxChanged(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Called when the enableCacheCheckBox is checked or unchecked.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void EnableCacheCheckBoxToggled(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Called when the maxViolationCountSpinButton value changed.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void MaxViolationCountSpinButtonValueChanged(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Called when the violationsAsErrorsCheckBox is checked or unchecked.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void ViolationsAsErrorsCheckBoxToggled(object sender, EventArgs e)
+    {
+    }
+
+    #endregion Protected Signal Methods
 
     #region Private Static Methods
 

@@ -115,6 +115,7 @@ namespace MonoDevelop.StyleCop
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
+			this.checkBox.Toggled += new global::System.EventHandler(this.CheckBoxToggled);
 		}
 	}
 }

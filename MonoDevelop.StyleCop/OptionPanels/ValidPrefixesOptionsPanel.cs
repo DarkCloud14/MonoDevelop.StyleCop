@@ -51,6 +51,30 @@ namespace MonoDevelop.StyleCop
 
     #endregion Constructor
 
+    #region Protected Signal Methods
+
+    /// <summary>
+    /// Called when the addPrefixButton is clicked.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void AddPrefixButtonClicked(object sender, EventArgs e)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    /// <summary>
+    /// Called when the removePrefixButton is clicked.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void RemovePrefixButtonClicked(object sender, EventArgs e)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    #endregion Protected Signal Methods
+
     #region Public Override Methods
 
     /// <summary>

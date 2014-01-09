@@ -20,6 +20,7 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
+  using System;
   using System.Reflection;
   using global::StyleCop;
   using global::StyleCop.CSharp;
@@ -61,6 +62,21 @@ namespace MonoDevelop.StyleCop
 
     #endregion Constructor
 
+    #region Protected Signal Methods
+    
+    /// <summary>
+    /// Called when the checkbox is checked or unchecked.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void CheckBoxToggled(object sender, EventArgs e)
+    {
+      this.companyNameEntry.Sensitive = this.checkBox.Active;
+      this.copyrightTextView.Sensitive = this.checkBox.Active;
+    }
+
+    #endregion Protected Signal Methods
+
     #region Public Override Methods
 
     /// <summary>
@@ -101,6 +117,7 @@ namespace MonoDevelop.StyleCop
         }
 
         this.checkBox.Active = companyNameProperty != null || copyrightProperty != null;
+        this.CheckBoxToggled(this.checkBox, EventArgs.Empty);
       }
 
       return base.CreatePanelWidget();

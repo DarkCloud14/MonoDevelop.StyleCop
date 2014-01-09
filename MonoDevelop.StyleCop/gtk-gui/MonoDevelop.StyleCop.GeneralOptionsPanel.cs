@@ -11,7 +11,7 @@ namespace MonoDevelop.StyleCop
 		private global::Gtk.CheckButton violationsAsErrorsCheckBox;
 		private global::Gtk.HBox hbox2;
 		private global::Gtk.Label label4;
-		private global::Gtk.Entry maxViolationCountEntry;
+		private global::Gtk.SpinButton maxViolationCountSpinButton;
 		private global::Gtk.HBox hbox3;
 		private global::Gtk.Label label5;
 		private global::Gtk.ComboBox cultureComboBox;
@@ -42,7 +42,8 @@ namespace MonoDevelop.StyleCop
 			this.label3 = new global::Gtk.Label ();
 			this.label3.Name = "label3";
 			this.label3.Xalign = 0F;
-			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("To increase the overall performance of StyleCop, results can be cached after each analysis.");
+			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("To increase the overall performance of StyleCop, results can be cached after each" +
+			" analysis.");
 			this.vbox2.Add (this.label3);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label3]));
 			w2.Position = 1;
@@ -83,13 +84,14 @@ namespace MonoDevelop.StyleCop
 			w5.Expand = false;
 			w5.Fill = false;
 			// Container child hbox2.Gtk.Box+BoxChild
-			this.maxViolationCountEntry = new global::Gtk.Entry ();
-			this.maxViolationCountEntry.CanFocus = true;
-			this.maxViolationCountEntry.Name = "maxViolationCountEntry";
-			this.maxViolationCountEntry.IsEditable = true;
-			this.maxViolationCountEntry.InvisibleChar = '●';
-			this.hbox2.Add (this.maxViolationCountEntry);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.maxViolationCountEntry]));
+			this.maxViolationCountSpinButton = new global::Gtk.SpinButton (0D, 2147483647D, 1D);
+			this.maxViolationCountSpinButton.CanFocus = true;
+			this.maxViolationCountSpinButton.Name = "maxViolationCountSpinButton";
+			this.maxViolationCountSpinButton.Adjustment.PageIncrement = 10D;
+			this.maxViolationCountSpinButton.ClimbRate = 1D;
+			this.maxViolationCountSpinButton.Numeric = true;
+			this.hbox2.Add (this.maxViolationCountSpinButton);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.maxViolationCountSpinButton]));
 			w6.Position = 1;
 			w6.Expand = false;
 			w6.Fill = false;
@@ -129,6 +131,10 @@ namespace MonoDevelop.StyleCop
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
+			this.enableCacheCheckBox.Toggled += new global::System.EventHandler (this.EnableCacheCheckBoxToggled);
+			this.violationsAsErrorsCheckBox.Toggled += new global::System.EventHandler (this.ViolationsAsErrorsCheckBoxToggled);
+			this.maxViolationCountSpinButton.ValueChanged += new global::System.EventHandler (this.MaxViolationCountSpinButtonValueChanged);
+			this.cultureComboBox.Changed += new global::System.EventHandler (this.CultureComboBoxChanged);
 		}
 	}
 }
