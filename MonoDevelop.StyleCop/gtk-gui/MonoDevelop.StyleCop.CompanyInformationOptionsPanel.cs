@@ -28,7 +28,7 @@ namespace MonoDevelop.StyleCop
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.checkBox = new global::Gtk.CheckButton ();
 			this.checkBox.CanFocus = true;
-			this.checkBox.Name = "checkbutton1";
+			this.checkBox.Name = "checkBox";
 			this.checkBox.Label = global::Mono.Unix.Catalog.GetString ("Specify the company name and copyright text which must appear in the file header for each file in the project.");
 			this.checkBox.DrawIndicator = true;
 			this.checkBox.UseUnderline = true;
@@ -45,11 +45,11 @@ namespace MonoDevelop.StyleCop
 			// Container child table1.Gtk.Table+TableChild
 			this.companyNameEntry = new global::Gtk.Entry ();
 			this.companyNameEntry.CanFocus = true;
-			this.companyNameEntry.Name = "entry1";
+			this.companyNameEntry.Name = "companyNameEntry";
 			this.companyNameEntry.IsEditable = true;
 			this.companyNameEntry.InvisibleChar = '●';
-			this.table1.Add(this.companyNameEntry);
-			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1[this.companyNameEntry]));
+			this.table1.Add (this.companyNameEntry);
+			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.companyNameEntry]));
 			w2.LeftAttach = ((uint)(1));
 			w2.RightAttach = ((uint)(2));
 			w2.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -61,7 +61,7 @@ namespace MonoDevelop.StyleCop
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
 			this.copyrightTextView = new global::Gtk.TextView ();
 			this.copyrightTextView.CanFocus = true;
-			this.copyrightTextView.Name = "textview1";
+			this.copyrightTextView.Name = "copyrightTextView";
 			this.GtkScrolledWindow.Add (this.copyrightTextView);
 			this.table1.Add (this.GtkScrolledWindow);
 			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.GtkScrolledWindow]));
@@ -115,7 +115,7 @@ namespace MonoDevelop.StyleCop
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
-			this.checkBox.Toggled += new global::System.EventHandler(this.CheckBoxToggled);
+			this.checkBox.Toggled += new global::System.EventHandler (this.CheckBoxToggled);
 		}
 	}
 }

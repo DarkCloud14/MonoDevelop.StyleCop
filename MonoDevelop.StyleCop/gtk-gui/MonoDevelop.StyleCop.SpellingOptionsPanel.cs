@@ -126,7 +126,7 @@ namespace MonoDevelop.StyleCop
 			// Container child hbox7.Gtk.Box+BoxChild
 			this.addRecognizedWordEntry = new global::Gtk.Entry ();
 			this.addRecognizedWordEntry.CanFocus = true;
-			this.addRecognizedWordEntry.Name = "entry5";
+			this.addRecognizedWordEntry.Name = "addRecognizedWordEntry";
 			this.addRecognizedWordEntry.IsEditable = true;
 			this.addRecognizedWordEntry.InvisibleChar = '●';
 			this.hbox7.Add (this.addRecognizedWordEntry);
@@ -140,11 +140,11 @@ namespace MonoDevelop.StyleCop
 			this.addRecognizedWordButton = new global::Gtk.Button ();
 			this.addRecognizedWordButton.WidthRequest = 55;
 			this.addRecognizedWordButton.CanFocus = true;
-			this.addRecognizedWordButton.Name = "button9";
+			this.addRecognizedWordButton.Name = "addRecognizedWordButton";
 			this.addRecognizedWordButton.UseUnderline = true;
-			this.addRecognizedWordButton.Label = global::Mono.Unix.Catalog.GetString("Add");
-			this.hbox8.Add(this.addRecognizedWordButton);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox8[this.addRecognizedWordButton]));
+			this.addRecognizedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
+			this.hbox8.Add (this.addRecognizedWordButton);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox8 [this.addRecognizedWordButton]));
 			w4.Position = 0;
 			this.hbox7.Add (this.hbox8);
 			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.hbox8]));
@@ -191,7 +191,7 @@ namespace MonoDevelop.StyleCop
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
 			this.recognizedWordsNodeView = new global::Gtk.NodeView ();
 			this.recognizedWordsNodeView.CanFocus = true;
-			this.recognizedWordsNodeView.Name = "nodeview3";
+			this.recognizedWordsNodeView.Name = "recognizedWordsNodeView";
 			this.GtkScrolledWindow.Add (this.recognizedWordsNodeView);
 			this.hbox9.Add (this.GtkScrolledWindow);
 			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox9 [this.GtkScrolledWindow]));
@@ -215,7 +215,7 @@ namespace MonoDevelop.StyleCop
 			// Container child vbox8.Gtk.Box+BoxChild
 			this.removeRecognizedWordButton = new global::Gtk.Button ();
 			this.removeRecognizedWordButton.CanFocus = true;
-			this.removeRecognizedWordButton.Name = "button8";
+			this.removeRecognizedWordButton.Name = "removeRecognizedWordButton";
 			this.removeRecognizedWordButton.UseUnderline = true;
 			this.removeRecognizedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Remove");
 			this.vbox8.Add (this.removeRecognizedWordButton);
@@ -296,7 +296,7 @@ namespace MonoDevelop.StyleCop
 			// Container child hbox10.Gtk.Box+BoxChild
 			this.addDeprecatedWordEntry = new global::Gtk.Entry ();
 			this.addDeprecatedWordEntry.CanFocus = true;
-			this.addDeprecatedWordEntry.Name = "entry6";
+			this.addDeprecatedWordEntry.Name = "addDeprecatedWordEntry";
 			this.addDeprecatedWordEntry.IsEditable = true;
 			this.addDeprecatedWordEntry.InvisibleChar = '●';
 			this.hbox10.Add (this.addDeprecatedWordEntry);
@@ -310,7 +310,7 @@ namespace MonoDevelop.StyleCop
 			this.addDeprecatedWordButton = new global::Gtk.Button ();
 			this.addDeprecatedWordButton.WidthRequest = 55;
 			this.addDeprecatedWordButton.CanFocus = true;
-			this.addDeprecatedWordButton.Name = "button10";
+			this.addDeprecatedWordButton.Name = "addDeprecatedWordButton";
 			this.addDeprecatedWordButton.UseUnderline = true;
 			this.addDeprecatedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
 			this.hbox11.Add (this.addDeprecatedWordButton);
@@ -355,7 +355,7 @@ namespace MonoDevelop.StyleCop
 			// Container child hbox15.Gtk.Box+BoxChild
 			this.addAlternateWordEntry = new global::Gtk.Entry ();
 			this.addAlternateWordEntry.CanFocus = true;
-			this.addAlternateWordEntry.Name = "entry8";
+			this.addAlternateWordEntry.Name = "addAlternateWordEntry";
 			this.addAlternateWordEntry.IsEditable = true;
 			this.addAlternateWordEntry.InvisibleChar = '●';
 			this.hbox15.Add (this.addAlternateWordEntry);
@@ -432,7 +432,7 @@ namespace MonoDevelop.StyleCop
 			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
 			this.deprecatedWordsNodeView = new global::Gtk.NodeView ();
 			this.deprecatedWordsNodeView.CanFocus = true;
-			this.deprecatedWordsNodeView.Name = "nodeview4";
+			this.deprecatedWordsNodeView.Name = "deprecatedWordsNodeView";
 			this.GtkScrolledWindow1.Add (this.deprecatedWordsNodeView);
 			this.hbox13.Add (this.GtkScrolledWindow1);
 			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.hbox13 [this.GtkScrolledWindow1]));
@@ -456,11 +456,11 @@ namespace MonoDevelop.StyleCop
 			// Container child vbox10.Gtk.Box+BoxChild
 			this.removeDeprecatedWordButton = new global::Gtk.Button ();
 			this.removeDeprecatedWordButton.CanFocus = true;
-			this.removeDeprecatedWordButton.Name = "button11";
+			this.removeDeprecatedWordButton.Name = "removeDeprecatedWordButton";
 			this.removeDeprecatedWordButton.UseUnderline = true;
-			this.removeDeprecatedWordButton.Label = global::Mono.Unix.Catalog.GetString("Remove");
-			this.vbox10.Add(this.removeDeprecatedWordButton);
-			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox10[this.removeDeprecatedWordButton]));
+			this.removeDeprecatedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Remove");
+			this.vbox10.Add (this.removeDeprecatedWordButton);
+			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.removeDeprecatedWordButton]));
 			w40.Position = 1;
 			w40.Expand = false;
 			w40.Fill = false;
@@ -537,7 +537,7 @@ namespace MonoDevelop.StyleCop
 			// Container child hbox16.Gtk.Box+BoxChild
 			this.addFolderEntry = new global::Gtk.Entry ();
 			this.addFolderEntry.CanFocus = true;
-			this.addFolderEntry.Name = "entry7";
+			this.addFolderEntry.Name = "addFolderEntry";
 			this.addFolderEntry.IsEditable = true;
 			this.addFolderEntry.InvisibleChar = '●';
 			this.hbox16.Add (this.addFolderEntry);
@@ -551,7 +551,7 @@ namespace MonoDevelop.StyleCop
 			this.addFolderButton = new global::Gtk.Button ();
 			this.addFolderButton.WidthRequest = 55;
 			this.addFolderButton.CanFocus = true;
-			this.addFolderButton.Name = "button12";
+			this.addFolderButton.Name = "addFolderButton";
 			this.addFolderButton.UseUnderline = true;
 			this.addFolderButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
 			this.hbox17.Add (this.addFolderButton);
@@ -602,7 +602,7 @@ namespace MonoDevelop.StyleCop
 			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
 			this.foldersNodeView = new global::Gtk.NodeView ();
 			this.foldersNodeView.CanFocus = true;
-			this.foldersNodeView.Name = "nodeview5";
+			this.foldersNodeView.Name = "foldersNodeView";
 			this.GtkScrolledWindow2.Add (this.foldersNodeView);
 			this.hbox19.Add (this.GtkScrolledWindow2);
 			global::Gtk.Box.BoxChild w56 = ((global::Gtk.Box.BoxChild)(this.hbox19 [this.GtkScrolledWindow2]));
@@ -626,7 +626,7 @@ namespace MonoDevelop.StyleCop
 			// Container child vbox13.Gtk.Box+BoxChild
 			this.removeFolderButton = new global::Gtk.Button ();
 			this.removeFolderButton.CanFocus = true;
-			this.removeFolderButton.Name = "button13";
+			this.removeFolderButton.Name = "removeFolderButton";
 			this.removeFolderButton.UseUnderline = true;
 			this.removeFolderButton.Label = global::Mono.Unix.Catalog.GetString ("Remove");
 			this.vbox13.Add (this.removeFolderButton);

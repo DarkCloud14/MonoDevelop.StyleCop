@@ -42,8 +42,7 @@ namespace MonoDevelop.StyleCop
 			this.label3 = new global::Gtk.Label ();
 			this.label3.Name = "label3";
 			this.label3.Xalign = 0F;
-			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("To increase the overall performance of StyleCop, results can be cached after each" +
-			" analysis.");
+			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("To increase the overall performance of StyleCop, results can be cached after each analysis.");
 			this.vbox2.Add (this.label3);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label3]));
 			w2.Position = 1;
@@ -84,11 +83,11 @@ namespace MonoDevelop.StyleCop
 			w5.Expand = false;
 			w5.Fill = false;
 			// Container child hbox2.Gtk.Box+BoxChild
-			this.maxViolationCountSpinButton = new global::Gtk.SpinButton (0D, 2147483647D, 1D);
+			this.maxViolationCountSpinButton = new global::Gtk.SpinButton (0, 2147483647, 1);
 			this.maxViolationCountSpinButton.CanFocus = true;
 			this.maxViolationCountSpinButton.Name = "maxViolationCountSpinButton";
-			this.maxViolationCountSpinButton.Adjustment.PageIncrement = 10D;
-			this.maxViolationCountSpinButton.ClimbRate = 1D;
+			this.maxViolationCountSpinButton.Adjustment.PageIncrement = 10;
+			this.maxViolationCountSpinButton.ClimbRate = 1;
 			this.maxViolationCountSpinButton.Numeric = true;
 			this.hbox2.Add (this.maxViolationCountSpinButton);
 			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.maxViolationCountSpinButton]));

@@ -62,21 +62,6 @@ namespace MonoDevelop.StyleCop
 
     #endregion Constructor
 
-    #region Protected Signal Methods
-    
-    /// <summary>
-    /// Called when the checkbox is checked or unchecked.
-    /// </summary>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    protected void CheckBoxToggled(object sender, EventArgs e)
-    {
-      this.companyNameEntry.Sensitive = this.checkBox.Active;
-      this.copyrightTextView.Sensitive = this.checkBox.Active;
-    }
-
-    #endregion Protected Signal Methods
-
     #region Public Override Methods
 
     /// <summary>
@@ -124,5 +109,20 @@ namespace MonoDevelop.StyleCop
     }
 
     #endregion Public Override Methods
+
+    #region Protected Signal Methods
+
+    /// <summary>
+    /// Called when the checkbox is checked or unchecked.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void CheckBoxToggled(object sender, EventArgs e)
+    {
+      this.companyNameEntry.Sensitive = this.checkBox.Active;
+      this.copyrightTextView.Sensitive = this.checkBox.Active;
+    }
+
+    #endregion Protected Signal Methods
   }
 }

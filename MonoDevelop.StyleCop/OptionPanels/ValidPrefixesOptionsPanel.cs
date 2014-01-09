@@ -51,6 +51,20 @@ namespace MonoDevelop.StyleCop
 
     #endregion Constructor
 
+    #region Public Override Methods
+
+    /// <summary>
+    /// Initializes the options panel values just before the panel is shown to user for the first time.
+    /// </summary>
+    /// <returns>The options panel widget.</returns>
+    /// <remarks>Will only be called if the user really gets to see the options panel.</remarks>
+    public override Gtk.Widget CreatePanelWidget()
+    {
+      return base.CreatePanelWidget();
+    }
+
+    #endregion Public Override Methods
+
     #region Protected Signal Methods
 
     /// <summary>
@@ -74,19 +88,5 @@ namespace MonoDevelop.StyleCop
     }
 
     #endregion Protected Signal Methods
-
-    #region Public Override Methods
-
-    /// <summary>
-    /// Initializes the options panel values just before the panel is shown to user for the first time.
-    /// </summary>
-    /// <returns>The options panel widget.</returns>
-    /// <remarks>Will only be called if the user really gets to see the options panel.</remarks>
-    public override Gtk.Widget CreatePanelWidget()
-    {
-      return base.CreatePanelWidget();
-    }
-
-    #endregion Public Override Methods
   }
 }
