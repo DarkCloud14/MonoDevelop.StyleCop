@@ -104,16 +104,14 @@ namespace MonoDevelop.StyleCop
     #endregion Constructor
 
     #region Public Override Methods
-
+    
     /// <summary>
-    /// Initializes the OptionsPanel.
+    /// Initializes the options panel values just before the panel is shown to user for the first time.
     /// </summary>
-    /// <param name="dialog">Parent dialog.</param>
-    /// <param name="dataObject">Data object (should be the project in our case).</param>
-    public override void Initialize(Ide.Gui.Dialogs.OptionsDialog dialog, object dataObject)
+    /// <returns>The options panel widget.</returns>
+    /// <remarks>Will only be called if the user really gets to see the options panel.</remarks>
+    public override Gtk.Widget CreatePanelWidget()
     {
-      base.Initialize(dialog, dataObject);
-
       // Get the write cache setting.
       this.writeCachePropertyDescriptor = this.SettingsHandler.Core.PropertyDescriptors["WriteCache"] as PropertyDescriptor<bool>;
 
@@ -181,6 +179,8 @@ namespace MonoDevelop.StyleCop
       Gtk.TreeIter cultureIter;
       this.cultureComboBox.Model.IterNthChild(out cultureIter, cultureComboBoxIndex);
       this.cultureComboBox.SetActiveIter(cultureIter);
+
+      return base.CreatePanelWidget();
     }
 
     #endregion Public Override Methods
