@@ -39,6 +39,12 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     private static StyleCopSettingsHandler settingsHandler;
 
+    /// <summary>
+    /// Counts how many objects may really access the settingsHandler object.
+    /// </summary>
+    /// <remarks>This is counted up in CreatePanelWidget method which gets only called if user accesses this option panel.</remarks>
+    private static int settingsHandlerAccessCount = 0;
+
     #endregion Private Static Fields
 
     #region Private Fields
@@ -80,8 +86,11 @@ namespace MonoDevelop.StyleCop
     /// Creates the options panel widget.
     /// </summary>
     /// <returns>The options panel widget.</returns>
+    /// <remarks>Will only be called if the user really gets to see the options panel.</remarks>
     public virtual Widget CreatePanelWidget()
     {
+      // We count this up here as now the option panel gets really shown to the user.
+      settingsHandlerAccessCount++;
       return this;
     }
 
@@ -90,7 +99,7 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     /// <param name="dialog">Parent dialog.</param>
     /// <param name="dataObject">Data object (should be the project in our case).</param>
-    public virtual void Initialize(OptionsDialog dialog, object dataObject)
+    public void Initialize(OptionsDialog dialog, object dataObject)
     {
       this.optionsPanelVisible = false;
       this.parentProject = dataObject as Project;
@@ -158,5 +167,35 @@ namespace MonoDevelop.StyleCop
     }
 
     #endregion
+
+    #region Public Override Methods
+
+    /// <summary>
+    /// Releases all resource used by the <see cref="MonoDevelop.StyleCop.ProjectOptionsPanelBase"/> object.
+    /// </summary>
+    /// <remarks>Call <see cref="Dispose()"/> when you are finished using the <see cref="MonoDevelop.StyleCop.ProjectOptionsPanelBase"/>.
+    /// The <see cref="Dispose()"/> method leaves the <see cref="MonoDevelop.StyleCop.ProjectOptionsPanelBase"/> in an unusable
+    /// state. After calling <see cref="Dispose()"/>, you must release all references to the
+    /// <see cref="MonoDevelop.StyleCop.ProjectOptionsPanelBase"/> so the garbage collector can reclaim the memory that the
+    /// <see cref="MonoDevelop.StyleCop.ProjectOptionsPanelBase"/> was occupying.</remarks>
+    public override void Dispose()
+    {
+      if (settingsHandler != null)
+      {
+        if (settingsHandlerAccessCount > 0)
+        {
+          settingsHandlerAccessCount--;
+        }
+
+        if (settingsHandlerAccessCount == 0)
+        {
+          settingsHandler = null;
+        }
+      }
+
+      base.Dispose();
+    }
+
+    #endregion Public Override Methods
   }
 }
