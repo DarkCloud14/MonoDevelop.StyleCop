@@ -20,9 +20,9 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
-  using System;
-  using MonoDevelop.Ide.Gui.Dialogs;
+  using System.Reflection;
   using global::StyleCop;
+  using global::StyleCop.CSharp;
 
   /// <summary>
   /// StyleCop company information options panel.
@@ -35,6 +35,16 @@ namespace MonoDevelop.StyleCop
     /// The analyzer that this settings page is attached to.
     /// </summary>
     private readonly SourceAnalyzer analyzer;
+
+    /// <summary>
+    /// The name of the property contains the company name.
+    /// </summary>
+    private string companyNameProperty = "CompanyName";
+
+    /// <summary>
+    /// The name of the property which contains the copyright.
+    /// </summary>
+    private string copyrightProperty = "Copyright";
 
     #endregion Private Fields
 
@@ -54,13 +64,46 @@ namespace MonoDevelop.StyleCop
     #region Public Override Methods
 
     /// <summary>
-    /// Initializes the OptionsPanel.
+    /// Initializes the options panel values just before the panel is shown to user for the first time.
     /// </summary>
-    /// <param name="dialog">Parent dialog.</param>
-    /// <param name="dataObject">Data object (should be the project in our case).</param>
-    public override void Initialize(Ide.Gui.Dialogs.OptionsDialog dialog, object dataObject)
+    /// <returns>The options panel widget.</returns>
+    /// <remarks>Will only be called if the user really gets to see the options panel.</remarks>
+    public override Gtk.Widget CreatePanelWidget()
     {
-      base.Initialize(dialog, dataObject);
+      if (this.analyzer != null)
+      {
+        // We use reflection and try to get the DocumentationRules CompanyNameProperty and CopyrightProperty values.
+        FieldInfo field = typeof(DocumentationRules).GetField("CompanyNameProperty", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+        if (field != null)
+        {
+          this.companyNameProperty = field.GetValue(null) as string;
+        }
+
+        field = typeof(DocumentationRules).GetField("CopyrightProperty", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+        if (field != null)
+        {
+          this.copyrightProperty = field.GetValue(null) as string;
+        }
+
+        // Get the properties.
+        StringProperty companyNameProperty = this.analyzer.GetSetting(this.SettingsHandler.MergedSettings, this.companyNameProperty) as StringProperty;
+
+        if (companyNameProperty != null)
+        {
+          this.companyNameEntry.Text = companyNameProperty.Value;
+        }
+
+        StringProperty copyrightProperty = this.analyzer.GetSetting(this.SettingsHandler.MergedSettings, this.copyrightProperty) as StringProperty;
+
+        if (copyrightProperty != null)
+        {
+          this.copyrightTextView.Buffer.Text = copyrightProperty.Value;
+        }
+
+        this.checkBox.Active = companyNameProperty != null || copyrightProperty != null;
+      }
+
+      return base.CreatePanelWidget();
     }
 
     #endregion Public Override Methods
