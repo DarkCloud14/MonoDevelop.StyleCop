@@ -9,7 +9,7 @@ namespace MonoDevelop.StyleCop
 		private global::Gtk.Table table1;
 		private global::Gtk.Entry companyNameEntry;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
-		private global::Gtk.TextView copyrightEntry;
+		private global::Gtk.TextView copyrightTextView;
 		private global::Gtk.Label label1;
 		private global::Gtk.VBox vbox2;
 		private global::Gtk.Label label2;
@@ -59,10 +59,10 @@ namespace MonoDevelop.StyleCop
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-			this.copyrightEntry = new global::Gtk.TextView ();
-			this.copyrightEntry.CanFocus = true;
-			this.copyrightEntry.Name = "textview1";
-			this.GtkScrolledWindow.Add (this.copyrightEntry);
+			this.copyrightTextView = new global::Gtk.TextView ();
+			this.copyrightTextView.CanFocus = true;
+			this.copyrightTextView.Name = "textview1";
+			this.GtkScrolledWindow.Add (this.copyrightTextView);
 			this.table1.Add (this.GtkScrolledWindow);
 			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.GtkScrolledWindow]));
 			w4.TopAttach = ((uint)(1));
