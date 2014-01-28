@@ -154,6 +154,21 @@ namespace MonoDevelop.StyleCop
 
     #endregion Public Override Methods
 
+    #region Private Static Methods
+
+    /// <summary>
+    /// Depending on <paramref name="bold"/> parameter the function returns <paramref name="inputText"/> with or without bold markup.
+    /// </summary>
+    /// <param name="inputText">Input text.</param>
+    /// <param name="bold">True if bold markup should be added, false otherwise.</param>
+    /// <returns>Returns <paramref name="inputText"/> with or without bold markup.</returns>
+    private static string GetBoldMarkup(string inputText, bool bold)
+    {
+      return bold ? string.Format("<b>{0}</b>", inputText) : inputText;
+    }
+
+    #endregion Private Static Methods
+
     #region Private Methods
 
     /// <summary>
@@ -171,13 +186,7 @@ namespace MonoDevelop.StyleCop
       // Compare this with the parent value.
       bool overridden = this.SettingsHandler.SettingsComparer.IsAddInSettingOverwritten(propertyAddInPair.AddIn, propertyAddInPair.Property.PropertyName, localValue);
 
-      string text = propertyAddInPair.Property.FriendlyName;
-      if (overridden)
-      {
-        text = string.Format("<b>{0}</b>", text);
-      }
-
-      return text;
+      return GetBoldMarkup(propertyAddInPair.Property.FriendlyName, overridden);
     }
 
     /// <summary>
