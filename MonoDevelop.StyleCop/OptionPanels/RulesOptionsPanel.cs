@@ -99,9 +99,9 @@ namespace MonoDevelop.StyleCop
       Toggle = 0,
 
       /// <summary>
-      /// Column index number of the text cell renderer
+      /// Column index number of the text cell renderer markup property
       /// </summary>
-      Text = 1,
+      Markup = 1,
 
       /// <summary>
       /// Column index number of the column which can contain any object
@@ -125,9 +125,9 @@ namespace MonoDevelop.StyleCop
       PixBuf = 1,
 
       /// <summary>
-      /// Column index number of the text cell renderer
+      /// Column index number of the text cell renderer markup property
       /// </summary>
-      Text = 2,
+      Markup = 2,
 
       /// <summary>
       /// Column index number of the column which can contain any object
@@ -159,18 +159,25 @@ namespace MonoDevelop.StyleCop
     /// <summary>
     /// Checks if the given detailed settings property is overridden 
     /// </summary>
+    /// <param name="iter">Tree iterator to use.</param>
     /// <param name="propertyAddInPair">Property addin pair to check.</param>
     /// <param name="isChecked">Is checked value.</param>
-    private void DetectDetailsSettingsBoldState(PropertyAddInPair propertyAddInPair, bool isChecked)
+    /// <returns>Property friendly name with appropriate markup.</returns>
+    private string DetectDetailsSettingsBoldState(Gtk.TreeIter iter, PropertyAddInPair propertyAddInPair, bool isChecked)
     {
-      if (propertyAddInPair != null)
-      {
-        // Create a property representing the current value of the selection.
-        BooleanProperty localValue = new BooleanProperty((PropertyDescriptor<bool>)propertyAddInPair.Property.PropertyDescriptor, isChecked);
+      // Create a property representing the current value of the selection.
+      BooleanProperty localValue = new BooleanProperty((PropertyDescriptor<bool>)propertyAddInPair.Property.PropertyDescriptor, isChecked);
 
-        // Compare this with the parent value.
-        propertyAddInPair.IsOverridden = this.SettingsHandler.SettingsComparer.IsAddInSettingOverwritten(propertyAddInPair.AddIn, propertyAddInPair.Property.PropertyName, localValue);
+      // Compare this with the parent value.
+      bool overridden = this.SettingsHandler.SettingsComparer.IsAddInSettingOverwritten(propertyAddInPair.AddIn, propertyAddInPair.Property.PropertyName, localValue);
+
+      string text = propertyAddInPair.Property.FriendlyName;
+      if (overridden)
+      {
+        text = string.Format("<b>{0}</b>", text);
       }
+
+      return text;
     }
 
     /// <summary>
@@ -239,8 +246,8 @@ namespace MonoDevelop.StyleCop
               propertyAddInPair.Property = property;
               propertyAddInPair.AddIn = addIn;
 
-              this.detailedSettingsStore.AppendValues(property.Value, property.FriendlyName, propertyAddInPair);
-              this.DetectDetailsSettingsBoldState(propertyAddInPair, property.Value);
+              string propertyFriendlyName = this.DetectDetailsSettingsBoldState(selectedNodeIter, propertyAddInPair, property.Value);
+              this.detailedSettingsStore.AppendValues(property.Value, propertyFriendlyName, propertyAddInPair);
             }
           }
         }
@@ -265,11 +272,10 @@ namespace MonoDevelop.StyleCop
       detailedSettingsColumn.PackStart(detailedSettingsToggleRenderer, false);
       detailedSettingsColumn.PackStart(detailedSettingsTextRenderer, false);
       detailedSettingsColumn.AddAttribute(detailedSettingsToggleRenderer, "active", (int)ListStoreColumns.Toggle);
-      detailedSettingsColumn.AddAttribute(detailedSettingsTextRenderer, "text", (int)ListStoreColumns.Text);
-      detailedSettingsColumn.SetCellDataFunc(detailedSettingsTextRenderer, new Gtk.CellLayoutDataFunc(this.RenderDetailedSettingsText));
+      detailedSettingsColumn.AddAttribute(detailedSettingsTextRenderer, "markup", (int)ListStoreColumns.Markup);
       this.nodeview4.AppendColumn(detailedSettingsColumn);
 
-      this.detailedSettingsStore = new Gtk.ListStore(typeof(bool), typeof(string), typeof(object));
+      this.detailedSettingsStore = new Gtk.ListStore(typeof(bool), typeof(string), typeof(PropertyAddInPair));
       this.nodeview4.Model = this.detailedSettingsStore;
       this.nodeview4.Selection.Changed += new EventHandler(this.OnNodeViewSelectionChanged);
     }
@@ -296,7 +302,7 @@ namespace MonoDevelop.StyleCop
       rulesColumn.PackStart(ruleTextRenderer, false);
       rulesColumn.AddAttribute(ruleToggleRenderer, "active", (int)TreeStoreColumns.Toggle);
       rulesColumn.AddAttribute(rulePixBufRenderer, "pixbuf", (int)TreeStoreColumns.PixBuf);
-      rulesColumn.AddAttribute(ruleTextRenderer, "text", (int)TreeStoreColumns.Text);
+      rulesColumn.AddAttribute(ruleTextRenderer, "markup", (int)TreeStoreColumns.Markup);
       this.treeview1.AppendColumn(rulesColumn);
 
       this.rulesStore = new Gtk.TreeStore(typeof(bool), typeof(Gdk.Pixbuf), typeof(string), typeof(object));
@@ -341,12 +347,11 @@ namespace MonoDevelop.StyleCop
         bool newValue = !(bool)this.detailedSettingsStore.GetValue(iter, (int)ListStoreColumns.Toggle);
         this.detailedSettingsStore.SetValue(iter, (int)ListStoreColumns.Toggle, newValue);
 
-        PropertyAddInPair propertyAddInPair = this.detailedSettingsStore.GetValue(iter, (int)ListStoreColumns.Object) as PropertyAddInPair;
-        if (propertyAddInPair != null)
-        {
-          propertyAddInPair.Property.Value = newValue;
-          this.DetectDetailsSettingsBoldState(propertyAddInPair, newValue);
-        }
+        PropertyAddInPair propertyAddInPair = (PropertyAddInPair)this.detailedSettingsStore.GetValue(iter, (int)ListStoreColumns.Object);
+        propertyAddInPair.Property.Value = newValue;
+
+        string newPropertyFriendlyName = this.DetectDetailsSettingsBoldState(iter, propertyAddInPair, newValue);
+        this.detailedSettingsStore.SetValue(iter, (int)ListStoreColumns.Markup, newPropertyFriendlyName);
       }
     }
 
@@ -363,11 +368,8 @@ namespace MonoDevelop.StyleCop
       this.textview1.Buffer.Clear();
       if (this.nodeview4.Selection.GetSelected(out selectedNodeIter))
       {
-        PropertyAddInPair propertyAddInPair = this.detailedSettingsStore.GetValue(selectedNodeIter, (int)ListStoreColumns.Object) as PropertyAddInPair;
-        if (propertyAddInPair != null)
-        {
-          this.textview1.Buffer.Text = propertyAddInPair.Property.Description;
-        }
+        PropertyAddInPair propertyAddInPair = (PropertyAddInPair)this.detailedSettingsStore.GetValue(selectedNodeIter, (int)ListStoreColumns.Object);
+        this.textview1.Buffer.Text = propertyAddInPair.Property.Description;
       }
     }
 
@@ -421,32 +423,6 @@ namespace MonoDevelop.StyleCop
           {
             this.textview1.Buffer.Clear();
           }
-        }
-      }
-    }
-
-    /// <summary>
-    /// Renders the detailed settings node text.
-    /// </summary>
-    /// <param name="cellLayout">Current cell layout.</param>
-    /// <param name="cellRenderer">Current cell renderer.</param>
-    /// <param name="model">NodeView model.</param>
-    /// <param name="iter">Current iterator.</param>
-    private void RenderDetailedSettingsText(Gtk.CellLayout cellLayout, Gtk.CellRenderer cellRenderer, Gtk.TreeModel model, Gtk.TreeIter iter)
-    {
-      Gtk.CellRendererText cellRendererText = cellRenderer as Gtk.CellRendererText;
-      Gtk.ListStore listStore = model as Gtk.ListStore;
-
-      if (listStore != null)
-      {
-        PropertyAddInPair propertyAddInPair = listStore.GetValue(iter, (int)ListStoreColumns.Object) as PropertyAddInPair;
-
-        if (propertyAddInPair != null && cellRendererText != null)
-        {
-          // Set the bold state depending upon whether the setting is overriden.
-          Pango.FontDescription fontDescription = cellRendererText.FontDesc;
-          fontDescription.Weight = propertyAddInPair.IsOverridden ? Pango.Weight.Bold : Pango.Weight.Normal;
-          cellRendererText.FontDesc = fontDescription;
         }
       }
     }
@@ -604,45 +580,28 @@ namespace MonoDevelop.StyleCop
 
     #endregion Private methods
 
-    #region Private Classes
+    #region Private Structs
 
     /// <summary>
     /// A property addin pair.
     /// </summary>
-    private class PropertyAddInPair
+    private struct PropertyAddInPair
     {
       #region Public Fields
 
       /// <summary>
       /// Gets or sets the add-in property.
       /// </summary>
-      public StyleCopAddIn AddIn
-      {
-        get;
-        set;
-      }
-
-      /// <summary>
-      /// Gets or sets a value indicating whether the property is overridden.
-      /// </summary>
-      public bool IsOverridden
-      {
-        get;
-        set;
-      }
+      public StyleCopAddIn AddIn;
 
       /// <summary>
       /// Gets or sets the boolean property.
       /// </summary>
-      public BooleanProperty Property
-      {
-        get;
-        set;
-      }
+      public BooleanProperty Property;
 
       #endregion Public Fields
     }
 
-    #endregion Private Classes
+    #endregion Private Structs
   }
 }
