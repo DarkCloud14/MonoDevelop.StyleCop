@@ -1,0 +1,69 @@
+#   Copyright 2014 Alexander Jochum
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+# Makefile for compiling, installing and packing MonoDevelop.StyleCop plugin on Mono
+#
+#   run 'make' to compile the plugin against the installed version of MonoDevelop detected by ./configure.sh
+#   run 'make install' to compile and install the plugin against the installed version of MonoDevelop detected by ./configure.sh
+#   run 'make pack/all' to create a deployment binary packages for the known set of supported MonoDevelop versions
+
+VERSION=INSERT_VERSION
+
+MDTOOL = mono 'INSERT_MDROOT/bin/mdtool.exe'
+
+# (MDVERSION4) can be set to something like (3.0.4, 3.0.4.7) to compile
+# against the dependencies/... binaries for a specific version of MonoDevelop. This allows
+# us to prepare new editions of the binding for several different versions of MonoDevelop.
+MDVERSION4=INSERT_MDVERSION4
+
+ifeq ($(USE_KNOWN_BINARIES),true)
+MDROOT=../dependencies/monodevelop.$(MDVERSION4)
+else
+MDROOT=INSERT_MDROOT
+endif
+
+
+# The default configuration is Release
+ifeq ($(config),)
+config=Release
+endif
+
+.PHONY: all
+
+all: pack
+
+build:
+	xbuild MonoDevelop.StyleCop.sln /p:Configuration=$(config)
+
+pack: build
+	-rm -fr pack/$(VERSION)/$(config)
+	@-mkdir -p pack/$(VERSION)/$(config)
+	$(MDTOOL) setup pack MonoDevelop.StyleCop/bin/$(config)/MonoDevelop.StyleCop.dll -d:pack/$(VERSION)/$(config)
+
+install: pack
+	$(MDTOOL) setup install -y pack/$(VERSION)/$(config)/MonoDevelop.StyleCop_$(VERSION).mpack 
+
+uninstall:
+	$(MDTOOL) setup uninstall MonoDevelop.StyleCop
+
+clean:
+	-rm -fr pack
+	-rm -fr MonoDevelop.StyleCop/bin
+	-rm -fr MonoDevelop.StyleCop/obj
+
+distclean: clean
+	-rm -fr Makefile
+	-rm -fr MonoDevelop.StyleCop/Properties/AssemblyInfo.cs
+	-rm -fr MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
+	-rm -fr MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj
