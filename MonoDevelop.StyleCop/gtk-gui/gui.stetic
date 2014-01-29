@@ -5,8 +5,8 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../../../../../../../../Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin/MonoDevelop.Ide.dll" />
-    <widget-library name="../../../../../../../../Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/bin/Mono.TextEditor.dll" />
+    <widget-library name="../Dependencies/4.0/MonoDevelop.Ide.dll" />
+    <widget-library name="../Dependencies/4.0/Mono.TextEditor.dll" />
     <widget-library name="../bin/Debug/MonoDevelop.StyleCop.dll" internal="true" />
   </import>
   <widget class="Gtk.Bin" id="MonoDevelop.StyleCop.SettingsFilesOptionsPanel" design-size="517 144">
