@@ -7,3 +7,8 @@ obj
 *.suo
 *.Cache
 *.mpack
+Makefile
+MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
+MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj
+MonoDevelop.StyleCop/Properties/AssemblyInfo.cs
+pack
