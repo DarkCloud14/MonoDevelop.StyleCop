@@ -138,9 +138,11 @@ Console.WriteLine ("Detected version: {0}", mdVersion)
 
 let assemblyFile = "MonoDevelop.StyleCop/Properties/AssemblyInfo.cs"
 let csprojFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj"
+let guiSteticFile = "MonoDevelop.StyleCop/gtk-gui/gui.stetic"
 let xmlFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml"
 
 FileReplace ("MonoDevelop.StyleCop/Properties/AssemblyInfo.cs.orig", assemblyFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
 FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj.orig", csprojFile, "INSERT_CSPROJ_MDROOT", mdDir)
 FileReplace (csprojFile, csprojFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
+FileReplace ("MonoDevelop.StyleCop/gtk-gui/gui.stetic.orig", guiSteticFile, "INSERT_CSPROJ_MDROOT", mdDir)
 FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml.orig", xmlFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)

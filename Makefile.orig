@@ -64,6 +64,7 @@ clean:
 
 distclean: clean
 	-rm -fr Makefile
+	-rm -fr MonoDevelop.StyleCop/gtk-gui/gui.stetic
 	-rm -fr MonoDevelop.StyleCop/Properties/AssemblyInfo.cs
 	-rm -fr MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
 	-rm -fr MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj
