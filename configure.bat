@@ -13,4 +13,4 @@
 @REM   limitations under the License.
 
 @ECHO Configuring...
-@"%ProgramFiles(x86)%\Microsoft SDKs\F#\3.0\Framework\v4.0\fsi" configure.fsx
+@"%ProgramFiles(x86)%\Microsoft SDKs\F#\3.1\Framework\v4.0\fsi" configure.fsx
