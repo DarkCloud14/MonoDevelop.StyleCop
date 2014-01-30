@@ -43,7 +43,7 @@ endif
 
 all: pack
 
-build:
+build: projectclean
 	xbuild MonoDevelop.StyleCop.sln /p:Configuration=$(config)
 
 pack: build
@@ -57,10 +57,8 @@ install: pack
 uninstall:
 	$(MDTOOL) setup uninstall MonoDevelop.StyleCop
 
-clean:
+clean: projectclean
 	-rm -fr pack
-	-rm -fr MonoDevelop.StyleCop/bin
-	-rm -fr MonoDevelop.StyleCop/obj
 
 distclean: clean
 	-rm -fr Makefile
@@ -68,3 +66,8 @@ distclean: clean
 	-rm -fr MonoDevelop.StyleCop/Properties/AssemblyInfo.cs
 	-rm -fr MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
 	-rm -fr MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj
+
+projectclean:
+	-rm -fr MonoDevelop.StyleCop/bin
+	-rm -fr MonoDevelop.StyleCop/obj
+	-rm -fr StyleCop.Files/obj
