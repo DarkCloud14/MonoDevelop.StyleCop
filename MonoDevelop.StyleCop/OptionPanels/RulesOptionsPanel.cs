@@ -125,14 +125,19 @@ namespace MonoDevelop.StyleCop
       PixBuf = 1,
 
       /// <summary>
-      /// Column index number of the text cell renderer markup property
-      /// </summary>
-      Markup = 2,
-
-      /// <summary>
       /// Column index number of the column which can contain any object
       /// </summary>
-      Object = 3
+      Object = 2,
+
+      /// <summary>
+      /// Column index number of the column which can contain a SourceAnalyzer
+      /// </summary>
+      SourceAnalyzer = 3,
+
+      /// <summary>
+      /// Column index number of the column which contains the information if the rule is overridden or not
+      /// </summary>
+      Overridden = 4
     }
 
     #endregion Private Enumerators
@@ -190,7 +195,36 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
-    /// Fills the give analyzer node with it's rules
+    /// Checks if the given analyzer rule setting is overridden.
+    /// </summary>
+    /// <param name="analyzer">Source analyzer of the rule to check.</param>
+    /// <param name="ruleToCheck">The rule that should be checked.</param>
+    /// <param name="isChecked">Is the check box checked or unchecked?</param>
+    /// <param name="hasOverriddenChilds">Value that is used for cells that don't have a analyzer.</param>
+    /// <returns>True if the rule is overridden, false otherwise.</returns>
+    private bool DetectRuleOverride(SourceAnalyzer analyzer, Rule ruleToCheck, bool isChecked, bool hasOverriddenChilds)
+    {
+      bool overridden = false;
+
+      if (analyzer != null)
+      {
+        // Create a property representing the current value of the selection.
+        string propertyName = ruleToCheck.Name + "#Enabled";
+        BooleanProperty localValue = new BooleanProperty(analyzer, propertyName, isChecked);
+
+        // Compare this with the parent value.
+        overridden = this.SettingsHandler.SettingsComparer.IsAddInSettingOverwritten(analyzer, propertyName, localValue);
+      }
+      else
+      {
+        overridden = hasOverriddenChilds;
+      }
+
+      return overridden;
+    }
+
+    /// <summary>
+    /// Fills the given analyzer node with it's rules.
     /// </summary>
     /// <param name="analyzer">Source analyzer</param>
     /// <param name="analyzerIter">Analyzer node iterator.</param>
@@ -220,12 +254,27 @@ namespace MonoDevelop.StyleCop
             {
               if (!tempRuleGroups.TryGetValue(rule.RuleGroup, out ruleParentIter))
               {
-                ruleParentIter = this.rulesStore.AppendValues(analyzerIter, false, null, rule.RuleGroup, rule);
+                ruleParentIter = this.rulesStore.AppendValues(analyzerIter, false, null, rule, null, false);
                 tempRuleGroups.Add(rule.RuleGroup, ruleParentIter);
               }
             }
 
-            this.rulesStore.AppendValues(ruleParentIter, false, null, string.Format("{0}: {1}", rule.CheckId, rule.Name), rule);
+            bool isChecked = rule.EnabledByDefault;
+            BooleanProperty enabledDisabledSetting = analyzer.GetRuleSetting(this.SettingsHandler.MergedSettings, rule.Name, "Enabled") as BooleanProperty;
+            if (enabledDisabledSetting != null)
+            {
+              isChecked = enabledDisabledSetting.Value;
+            }
+
+            bool isOverridden = this.DetectRuleOverride(analyzer, rule, isChecked, false);
+            Gtk.TreeIter ruleIter = this.rulesStore.AppendValues(ruleParentIter, isChecked, null, rule, analyzer, isOverridden);
+            this.SetParentIterValues(ruleIter, isChecked, null);
+
+            if (isOverridden)
+            {
+              this.rulesStore.SetValue(ruleParentIter, (int)TreeStoreColumns.Overridden, true);
+              this.rulesStore.SetValue(analyzerIter, (int)TreeStoreColumns.Overridden, true);
+            }
           }
         }
       }
@@ -264,7 +313,65 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
-    /// Initializes the node view
+    /// Initializes and fills the tree view.
+    /// </summary>
+    private void InitializeAndFillTreeView()
+    {
+      Gtk.CellRendererPixbuf rulePixBufRenderer = new Gtk.CellRendererPixbuf();
+      rulePixBufRenderer.Mode = Gtk.CellRendererMode.Activatable;
+      Gtk.CellRendererText ruleTextRenderer = new Gtk.CellRendererText();
+      ruleTextRenderer.Mode = Gtk.CellRendererMode.Activatable;
+      Gtk.CellRendererToggle ruleToggleRenderer = new Gtk.CellRendererToggle();
+      ruleToggleRenderer.Activatable = true;
+      ruleToggleRenderer.Toggled += new Gtk.ToggledHandler(this.OnRuleToggled);
+
+      Gtk.TreeViewColumn rulesColumn = new Gtk.TreeViewColumn();
+      rulesColumn.Clickable = false;
+      rulesColumn.Reorderable = false;
+      rulesColumn.Title = GettextCatalog.GetString("Enabled rules");
+      rulesColumn.PackStart(ruleToggleRenderer, false);
+      rulesColumn.PackStart(rulePixBufRenderer, false);
+      rulesColumn.PackStart(ruleTextRenderer, false);
+      rulesColumn.AddAttribute(ruleToggleRenderer, "active", (int)TreeStoreColumns.Toggle);
+      rulesColumn.AddAttribute(rulePixBufRenderer, "pixbuf", (int)TreeStoreColumns.PixBuf);
+      rulesColumn.SetCellDataFunc(ruleTextRenderer, new Gtk.TreeCellDataFunc(this.RenderRule));
+      this.treeview1.AppendColumn(rulesColumn);
+
+      this.rulesStore = new Gtk.TreeStore(typeof(bool), typeof(Gdk.Pixbuf), typeof(object), typeof(SourceAnalyzer), typeof(bool));
+      this.treeview1.Model = this.rulesStore;
+      this.treeview1.Selection.Changed += new EventHandler(this.OnTreeViewSelectionChanged);
+
+      if (this.rulesStore != null)
+      {
+        // Add each of the parsers and analyzers to the tree.
+        foreach (SourceParser parser in this.SettingsHandler.Core.Parsers)
+        {
+          Gtk.TreeIter parserIter = this.rulesStore.AppendValues(false, null, parser, null, false);
+
+          // Add each of the boolean properties exposed by the parser.
+          this.StoreAddinProperties(parser);
+
+          // Iterate through each of the analyzers and add a checkbox for each.
+          foreach (SourceAnalyzer analyzer in parser.Analyzers)
+          {
+            Gtk.TreeIter analyzerIter = this.rulesStore.AppendValues(parserIter, false, null, analyzer, null, false);
+
+            // Add each of the boolean properties exposed by the analyzer.
+            this.StoreAddinProperties(analyzer);
+
+            this.FillAnalyzerRules(analyzer, analyzerIter);
+
+            if ((bool)this.rulesStore.GetValue(analyzerIter, (int)TreeStoreColumns.Overridden))
+            {
+              this.rulesStore.SetValue(parserIter, (int)TreeStoreColumns.Overridden, true);
+            }
+          }
+        }
+      }
+    }
+
+    /// <summary>
+    /// Initializes the node view.
     /// </summary>
     private void InitializeNodeView()
     {
@@ -290,55 +397,27 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
-    /// Initializes and fills the tree view
+    /// Sets the check state for the given property.
     /// </summary>
-    private void InitializeAndFillTreeView()
+    /// <param name="addIn">
+    /// The addin that owns the property.
+    /// </param>
+    /// <param name="property">
+    /// The property.
+    /// </param>
+    private void InitializePropertyState(StyleCopAddIn addIn, BooleanProperty property)
     {
-      Gtk.CellRendererPixbuf rulePixBufRenderer = new Gtk.CellRendererPixbuf();
-      rulePixBufRenderer.Mode = Gtk.CellRendererMode.Activatable;
-      Gtk.CellRendererText ruleTextRenderer = new Gtk.CellRendererText();
-      ruleTextRenderer.Mode = Gtk.CellRendererMode.Activatable;
-      Gtk.CellRendererToggle ruleToggleRenderer = new Gtk.CellRendererToggle();
-      ruleToggleRenderer.Activatable = true;
-      ruleToggleRenderer.Toggled += new Gtk.ToggledHandler(this.OnRuleToggled);
+      Param.AssertNotNull(addIn, "addIn");
+      Param.AssertNotNull(property, "property");
 
-      Gtk.TreeViewColumn rulesColumn = new Gtk.TreeViewColumn();
-      rulesColumn.Clickable = false;
-      rulesColumn.Reorderable = false;
-      rulesColumn.Title = GettextCatalog.GetString("Enabled rules");
-      rulesColumn.PackStart(ruleToggleRenderer, false);
-      rulesColumn.PackStart(rulePixBufRenderer, false);
-      rulesColumn.PackStart(ruleTextRenderer, false);
-      rulesColumn.AddAttribute(ruleToggleRenderer, "active", (int)TreeStoreColumns.Toggle);
-      rulesColumn.AddAttribute(rulePixBufRenderer, "pixbuf", (int)TreeStoreColumns.PixBuf);
-      rulesColumn.AddAttribute(ruleTextRenderer, "markup", (int)TreeStoreColumns.Markup);
-      this.treeview1.AppendColumn(rulesColumn);
-
-      this.rulesStore = new Gtk.TreeStore(typeof(bool), typeof(Gdk.Pixbuf), typeof(string), typeof(object));
-      this.treeview1.Model = this.rulesStore;
-      this.treeview1.Selection.Changed += new EventHandler(this.OnTreeViewSelectionChanged);
-
-      if (this.rulesStore != null)
+      BooleanProperty mergedProperty = addIn.GetSetting(this.SettingsHandler.MergedSettings, property.PropertyName) as BooleanProperty;
+      if (mergedProperty == null)
       {
-        // Add each of the parsers and analyzers to the tree.
-        foreach (SourceParser parser in this.SettingsHandler.Core.Parsers)
-        {
-          Gtk.TreeIter parserIter = this.rulesStore.AppendValues(false, null, parser.Name, parser);
-
-          // Add each of the boolean properties exposed by the parser.
-          this.StoreAddinProperties(parser);
-
-          // Iterate through each of the analyzers and add a checkbox for each.
-          foreach (SourceAnalyzer analyzer in parser.Analyzers)
-          {
-            Gtk.TreeIter analyzerIter = this.rulesStore.AppendValues(parserIter, false, null, analyzer.Name, analyzer);
-
-            // Add each of the boolean properties exposed by the analyzer.
-            this.StoreAddinProperties(analyzer);
-
-            this.FillAnalyzerRules(analyzer, analyzerIter);
-          }
-        }
+        property.Value = property.DefaultValue;
+      }
+      else
+      {
+        property.Value = mergedProperty.Value;
       }
     }
 
@@ -395,8 +474,8 @@ namespace MonoDevelop.StyleCop
       {
         bool newValue = !(bool)this.rulesStore.GetValue(iter, (int)TreeStoreColumns.Toggle);
         this.rulesStore.SetValue(iter, (int)TreeStoreColumns.Toggle, newValue);
-        this.SetChildIterValues(iter, newValue);
-        this.SetParentIterValues(iter, newValue);
+        bool hasOverriddenChilds = this.SetChildIterValues(iter, newValue);
+        this.SetParentIterValues(iter, newValue, hasOverriddenChilds);
       }
     }
 
@@ -437,12 +516,61 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
+    /// Renders the rule text.
+    /// </summary>
+    /// <param name="column">A Gtk.TreeViewColumn.</param>
+    /// <param name="cell">The Gtk.CellRenderer that is being rendered by <paramref name="column"/>.</param>
+    /// <param name="model">The Gtk.TreeModel being rendered.</param>
+    /// <param name="iter">A Gtk.TreeIter of the current row rendered.</param>
+    private void RenderRule(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+    {
+      string textToDisplay = "Unkown";
+
+      Rule currentRule = model.GetValue(iter, (int)TreeStoreColumns.Object) as Rule;
+      SourceAnalyzer analyzer = model.GetValue(iter, (int)TreeStoreColumns.SourceAnalyzer) as SourceAnalyzer;
+      bool isOverridden = (bool)model.GetValue(iter, (int)TreeStoreColumns.Overridden);
+
+      if (currentRule != null && analyzer != null)
+      {
+        textToDisplay = string.Format("{0}: {1}", currentRule.CheckId, currentRule.Name);
+      }
+      else
+      {
+        if (currentRule != null && !string.IsNullOrEmpty(currentRule.RuleGroup))
+        {
+          textToDisplay = currentRule.Name;
+        }
+        else
+        {
+          SourceParser parser = model.GetValue(iter, (int)TreeStoreColumns.Object) as SourceParser;
+          if (parser != null)
+          {
+            textToDisplay = parser.Name;
+          }
+          else
+          {
+            analyzer = model.GetValue(iter, (int)TreeStoreColumns.Object) as SourceAnalyzer;
+            if (analyzer != null)
+            {
+              textToDisplay = analyzer.Name;
+            }
+          }
+        }
+      }
+
+      (cell as Gtk.CellRendererText).Markup = GetBoldMarkup(textToDisplay, isOverridden);
+    }
+
+    /// <summary>
     /// Goes through all children of the parent iterator and sets the given value.
     /// </summary>
     /// <param name="parentIter">Parent iterator.</param>
     /// <param name="valueToSet">Value that should be set.</param>
-    private void SetChildIterValues(Gtk.TreeIter parentIter, bool valueToSet)
+    /// <returns>True if overridden childs are available, false otherwise.</returns>
+    private bool SetChildIterValues(Gtk.TreeIter parentIter, bool valueToSet)
     {
+      bool hasOverriddenChilds = false;
+
       // Go through all childs and set the same value.
       if (this.rulesStore.IterHasChild(parentIter))
       {
@@ -454,19 +582,27 @@ namespace MonoDevelop.StyleCop
           do
           {
             this.rulesStore.SetValue(childIter, (int)TreeStoreColumns.Toggle, valueToSet);
-            this.SetChildIterValues(childIter, valueToSet);
+            hasOverriddenChilds |= this.SetChildIterValues(childIter, valueToSet);
           }
           while (this.rulesStore.IterNext(ref childIter));
         }
       }
+
+      Rule currentRule = this.rulesStore.GetValue(parentIter, (int)TreeStoreColumns.Object) as Rule;
+      SourceAnalyzer analyzer = this.rulesStore.GetValue(parentIter, (int)TreeStoreColumns.SourceAnalyzer) as SourceAnalyzer;
+      hasOverriddenChilds |= this.DetectRuleOverride(analyzer, currentRule, valueToSet, hasOverriddenChilds);
+      this.rulesStore.SetValue(parentIter, (int)TreeStoreColumns.Overridden, hasOverriddenChilds);
+
+      return hasOverriddenChilds;
     }
 
     /// <summary>
-    /// Goes through all parents of the child iterator and tries to set the give value.
+    /// Goes through all parents of the child iterator, tries to set the given property value and  the correct override value.
     /// </summary>
     /// <param name="childIter">Child iterator.</param>
     /// <param name="valueToSet">Value that should be set.</param>
-    private void SetParentIterValues(Gtk.TreeIter childIter, bool valueToSet)
+    /// <param name="hasOverriddenChilds">If not null this will lead to an additional check of the parents override value and make sure it's set correctly.</param>
+    private void SetParentIterValues(Gtk.TreeIter childIter, bool valueToSet, bool? hasOverriddenChilds)
     {
       Gtk.TreeIter parentIter;
 
@@ -474,6 +610,7 @@ namespace MonoDevelop.StyleCop
       if (this.rulesStore.IterParent(out parentIter, childIter))
       {
         bool parentIterValue = (bool)this.rulesStore.GetValue(parentIter, (int)TreeStoreColumns.Toggle);
+        bool parentIterOverrideValue = (bool)this.rulesStore.GetValue(parentIter, (int)TreeStoreColumns.Overridden);
 
         if (parentIterValue != valueToSet)
         {
@@ -481,7 +618,7 @@ namespace MonoDevelop.StyleCop
           if (valueToSet)
           {
             this.rulesStore.SetValue(parentIter, (int)TreeStoreColumns.Toggle, valueToSet);
-            this.SetParentIterValues(parentIter, valueToSet);
+            this.SetParentIterValues(parentIter, valueToSet, hasOverriddenChilds);
           }
           else
           {
@@ -509,9 +646,31 @@ namespace MonoDevelop.StyleCop
                 if (modifyParentIterValue)
                 {
                   this.rulesStore.SetValue(parentIter, (int)TreeStoreColumns.Toggle, valueToSet);
-                  this.SetParentIterValues(parentIter, valueToSet);
+                  this.SetParentIterValues(parentIter, valueToSet, hasOverriddenChilds);
                 }
               }
+            }
+          }
+        }
+
+        if (hasOverriddenChilds != null && parentIterOverrideValue != hasOverriddenChilds)
+        {
+          bool newParentIterOverrideValue = false;
+
+          // Go through each child and get the correct override value..
+          if (this.rulesStore.IterHasChild(parentIter))
+          {
+            if (this.rulesStore.IterChildren(out childIter, parentIter))
+            {
+              do
+              {
+                bool childIterOverrideValue = (bool)this.rulesStore.GetValue(childIter, (int)TreeStoreColumns.Overridden);
+                newParentIterOverrideValue |= childIterOverrideValue;
+              }
+              while (this.rulesStore.IterNext(ref childIter));
+
+              this.rulesStore.SetValue(parentIter, (int)TreeStoreColumns.Overridden, newParentIterOverrideValue);
+              this.SetParentIterValues(parentIter, valueToSet, hasOverriddenChilds);
             }
           }
         }
@@ -559,31 +718,6 @@ namespace MonoDevelop.StyleCop
         }
 
         this.properties.Add(addIn, storedProperties.ToArray());
-      }
-    }
-
-    /// <summary>
-    /// Sets the check state for the given property.
-    /// </summary>
-    /// <param name="addIn">
-    /// The addin that owns the property.
-    /// </param>
-    /// <param name="property">
-    /// The property.
-    /// </param>
-    private void InitializePropertyState(StyleCopAddIn addIn, BooleanProperty property)
-    {
-      Param.AssertNotNull(addIn, "addIn");
-      Param.AssertNotNull(property, "property");
-
-      BooleanProperty mergedProperty = addIn.GetSetting(this.SettingsHandler.MergedSettings, property.PropertyName) as BooleanProperty;
-      if (mergedProperty == null)
-      {
-        property.Value = property.DefaultValue;
-      }
-      else
-      {
-        property.Value = mergedProperty.Value;
       }
     }
 
