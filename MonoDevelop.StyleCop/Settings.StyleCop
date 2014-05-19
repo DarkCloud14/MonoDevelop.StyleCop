@@ -1,6 +1,8 @@
 <StyleCopSettings Version="105">
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
+      <Value>Gtk</Value>
+      <Value>Iter</Value>
       <Value>mdmonitor</Value>
     </CollectionProperty>
   </GlobalSettings>
