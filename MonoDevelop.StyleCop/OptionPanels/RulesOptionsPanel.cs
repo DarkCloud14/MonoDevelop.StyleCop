@@ -366,6 +366,8 @@ namespace MonoDevelop.StyleCop
               this.rulesStore.SetValue(parserIter, (int)TreeStoreColumns.Overridden, true);
             }
           }
+
+          this.treeview1.ExpandRow(this.rulesStore.GetPath(parserIter), false);
         }
       }
     }
