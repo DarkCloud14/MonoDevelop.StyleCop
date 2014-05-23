@@ -23,6 +23,8 @@ namespace MonoDevelop.StyleCop
 			global::Stetic.Gui.Initialize (this);
 			// Widget MonoDevelop.StyleCop.SettingsFilesOptionsPanel
 			global::Stetic.BinContainer.Attach (this);
+			this.WidthRequest = 625;
+			this.HeightRequest = 495;
 			this.Name = "MonoDevelop.StyleCop.SettingsFilesOptionsPanel";
 			// Container child MonoDevelop.StyleCop.SettingsFilesOptionsPanel.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
@@ -123,7 +125,6 @@ namespace MonoDevelop.StyleCop
 			this.mergeWithLinkedFileRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Merge with the following settings file:"));
 			this.mergeWithLinkedFileRadioButton.CanFocus = true;
 			this.mergeWithLinkedFileRadioButton.Name = "mergeWithLinkedFileRadioButton";
-			this.mergeWithLinkedFileRadioButton.Active = true;
 			this.mergeWithLinkedFileRadioButton.DrawIndicator = true;
 			this.mergeWithLinkedFileRadioButton.UseUnderline = true;
 			this.mergeWithLinkedFileRadioButton.Group = new global::GLib.SList (global::System.IntPtr.Zero);

@@ -20,6 +20,8 @@ namespace MonoDevelop.StyleCop
 			global::Stetic.Gui.Initialize (this);
 			// Widget MonoDevelop.StyleCop.CompanyInformationOptionsPanel
 			global::Stetic.BinContainer.Attach (this);
+			this.WidthRequest = 625;
+			this.HeightRequest = 495;
 			this.Name = "MonoDevelop.StyleCop.CompanyInformationOptionsPanel";
 			// Container child MonoDevelop.StyleCop.CompanyInformationOptionsPanel.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
@@ -29,7 +31,8 @@ namespace MonoDevelop.StyleCop
 			this.checkBox = new global::Gtk.CheckButton ();
 			this.checkBox.CanFocus = true;
 			this.checkBox.Name = "checkBox";
-			this.checkBox.Label = global::Mono.Unix.Catalog.GetString ("Specify the company name and copyright text which must appear in the file header for each file in the project.");
+			this.checkBox.Label = global::Mono.Unix.Catalog.GetString ("Specify the company name and copyright text which must appear in the file header " +
+			"for each file in the project.");
 			this.checkBox.DrawIndicator = true;
 			this.checkBox.UseUnderline = true;
 			this.vbox1.Add (this.checkBox);

@@ -289,7 +289,7 @@ namespace MonoDevelop.StyleCop
 
       this.detailedSettingsStore.Clear();
 
-      if (this.treeview1.Selection.GetSelected(out selectedNodeIter))
+      if (this.rulesTreeView.Selection.GetSelected(out selectedNodeIter))
       {
         StyleCopAddIn addIn = this.rulesStore.GetValue(selectedNodeIter, (int)TreeStoreColumns.Object) as StyleCopAddIn;
         if (addIn != null)
@@ -335,11 +335,11 @@ namespace MonoDevelop.StyleCop
       rulesColumn.AddAttribute(ruleToggleRenderer, "active", (int)TreeStoreColumns.Toggle);
       rulesColumn.AddAttribute(rulePixBufRenderer, "pixbuf", (int)TreeStoreColumns.PixBuf);
       rulesColumn.SetCellDataFunc(ruleTextRenderer, new Gtk.TreeCellDataFunc(this.RenderRule));
-      this.treeview1.AppendColumn(rulesColumn);
+      this.rulesTreeView.AppendColumn(rulesColumn);
 
       this.rulesStore = new Gtk.TreeStore(typeof(bool), typeof(Gdk.Pixbuf), typeof(object), typeof(SourceAnalyzer), typeof(bool));
-      this.treeview1.Model = this.rulesStore;
-      this.treeview1.Selection.Changed += new EventHandler(this.OnTreeViewSelectionChanged);
+      this.rulesTreeView.Model = this.rulesStore;
+      this.rulesTreeView.Selection.Changed += new EventHandler(this.OnTreeViewSelectionChanged);
 
       if (this.rulesStore != null)
       {
@@ -367,7 +367,7 @@ namespace MonoDevelop.StyleCop
             }
           }
 
-          this.treeview1.ExpandRow(this.rulesStore.GetPath(parserIter), false);
+          this.rulesTreeView.ExpandRow(this.rulesStore.GetPath(parserIter), false);
         }
       }
     }
@@ -391,11 +391,11 @@ namespace MonoDevelop.StyleCop
       detailedSettingsColumn.PackStart(detailedSettingsTextRenderer, false);
       detailedSettingsColumn.AddAttribute(detailedSettingsToggleRenderer, "active", (int)ListStoreColumns.Toggle);
       detailedSettingsColumn.AddAttribute(detailedSettingsTextRenderer, "markup", (int)ListStoreColumns.Markup);
-      this.nodeview4.AppendColumn(detailedSettingsColumn);
+      this.detailedSettingsNodeView.AppendColumn(detailedSettingsColumn);
 
       this.detailedSettingsStore = new Gtk.ListStore(typeof(bool), typeof(string), typeof(PropertyAddInPair));
-      this.nodeview4.Model = this.detailedSettingsStore;
-      this.nodeview4.Selection.Changed += new EventHandler(this.OnNodeViewSelectionChanged);
+      this.detailedSettingsNodeView.Model = this.detailedSettingsStore;
+      this.detailedSettingsNodeView.Selection.Changed += new EventHandler(this.OnNodeViewSelectionChanged);
     }
 
     /// <summary>
@@ -455,11 +455,11 @@ namespace MonoDevelop.StyleCop
     {
       Gtk.TreeIter selectedNodeIter;
 
-      this.textview1.Buffer.Clear();
-      if (this.nodeview4.Selection.GetSelected(out selectedNodeIter))
+      this.descriptionTextView.Buffer.Clear();
+      if (this.detailedSettingsNodeView.Selection.GetSelected(out selectedNodeIter))
       {
         PropertyAddInPair propertyAddInPair = (PropertyAddInPair)this.detailedSettingsStore.GetValue(selectedNodeIter, (int)ListStoreColumns.Object);
-        this.textview1.Buffer.Text = propertyAddInPair.Property.Description;
+        this.descriptionTextView.Buffer.Text = propertyAddInPair.Property.Description;
       }
     }
 
@@ -491,27 +491,27 @@ namespace MonoDevelop.StyleCop
     {
       Gtk.TreeIter selectedNodeIter;
 
-      this.textview1.Buffer.Clear();
+      this.descriptionTextView.Buffer.Clear();
       this.FillDetailsNodeView();
-      if (this.treeview1.Selection.GetSelected(out selectedNodeIter))
+      if (this.rulesTreeView.Selection.GetSelected(out selectedNodeIter))
       {
         object objectOfSelectedNode = this.rulesStore.GetValue(selectedNodeIter, (int)TreeStoreColumns.Object);
         StyleCopAddIn addIn = objectOfSelectedNode as StyleCopAddIn;
 
         if (addIn != null)
         {
-          this.textview1.Buffer.Text = addIn.Description;
+          this.descriptionTextView.Buffer.Text = addIn.Description;
         }
         else
         {
           Rule rule = objectOfSelectedNode as Rule;
           if (rule != null)
           {
-            this.textview1.Buffer.Text = rule.Description;
+            this.descriptionTextView.Buffer.Text = rule.Description;
           }
           else
           {
-            this.textview1.Buffer.Clear();
+            this.descriptionTextView.Buffer.Clear();
           }
         }
       }

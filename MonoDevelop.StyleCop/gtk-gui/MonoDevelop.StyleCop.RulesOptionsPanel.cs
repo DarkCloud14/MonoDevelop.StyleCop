@@ -12,20 +12,22 @@ namespace MonoDevelop.StyleCop
 		private global::Gtk.Button button10;
 		private global::Gtk.Table table3;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
-		private global::Gtk.NodeView nodeview4;
+		private global::Gtk.NodeView detailedSettingsNodeView;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
-		private global::Gtk.TreeView treeview1;
+		private global::Gtk.TreeView rulesTreeView;
 		private global::Gtk.Label label18;
 		private global::Gtk.Label label19;
 		private global::Gtk.Fixed fixed18;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
-		private global::Gtk.TextView textview1;
+		private global::Gtk.TextView descriptionTextView;
 
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
 			// Widget MonoDevelop.StyleCop.RulesOptionsPanel
 			global::Stetic.BinContainer.Attach (this);
+			this.WidthRequest = 625;
+			this.HeightRequest = 495;
 			this.Name = "MonoDevelop.StyleCop.RulesOptionsPanel";
 			// Container child MonoDevelop.StyleCop.RulesOptionsPanel.Gtk.Container+ContainerChild
 			this.vbox10 = new global::Gtk.VBox ();
@@ -90,10 +92,10 @@ namespace MonoDevelop.StyleCop
 			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
 			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
-			this.nodeview4 = new global::Gtk.NodeView ();
-			this.nodeview4.CanFocus = true;
-			this.nodeview4.Name = "nodeview4";
-			this.GtkScrolledWindow1.Add (this.nodeview4);
+			this.detailedSettingsNodeView = new global::Gtk.NodeView ();
+			this.detailedSettingsNodeView.CanFocus = true;
+			this.detailedSettingsNodeView.Name = "detailedSettingsNodeView";
+			this.GtkScrolledWindow1.Add (this.detailedSettingsNodeView);
 			this.table3.Add (this.GtkScrolledWindow1);
 			global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table3 [this.GtkScrolledWindow1]));
 			w7.TopAttach = ((uint)(1));
@@ -106,10 +108,10 @@ namespace MonoDevelop.StyleCop
 			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
 			this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
-			this.treeview1 = new global::Gtk.TreeView ();
-			this.treeview1.CanFocus = true;
-			this.treeview1.Name = "treeview1";
-			this.GtkScrolledWindow2.Add (this.treeview1);
+			this.rulesTreeView = new global::Gtk.TreeView ();
+			this.rulesTreeView.CanFocus = true;
+			this.rulesTreeView.Name = "rulesTreeView";
+			this.GtkScrolledWindow2.Add (this.rulesTreeView);
 			this.table3.Add (this.GtkScrolledWindow2);
 			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table3 [this.GtkScrolledWindow2]));
 			w9.TopAttach = ((uint)(1));
@@ -151,10 +153,10 @@ namespace MonoDevelop.StyleCop
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-			this.textview1 = new global::Gtk.TextView ();
-			this.textview1.CanFocus = true;
-			this.textview1.Name = "textview1";
-			this.GtkScrolledWindow.Add (this.textview1);
+			this.descriptionTextView = new global::Gtk.TextView ();
+			this.descriptionTextView.CanFocus = true;
+			this.descriptionTextView.Name = "descriptionTextView";
+			this.GtkScrolledWindow.Add (this.descriptionTextView);
 			this.vbox10.Add (this.GtkScrolledWindow);
 			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.GtkScrolledWindow]));
 			w15.Position = 3;

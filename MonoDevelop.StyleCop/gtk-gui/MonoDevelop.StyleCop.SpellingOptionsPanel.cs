@@ -9,69 +9,49 @@ namespace MonoDevelop.StyleCop
 		private global::Gtk.Alignment GtkAlignment;
 		private global::Gtk.VBox vbox7;
 		private global::Gtk.Label label11;
-		private global::Gtk.HBox hbox7;
-		private global::Gtk.Label label12;
-		private global::Gtk.Entry addRecognizedWordEntry;
-		private global::Gtk.HBox hbox8;
+		private global::Gtk.Table table3;
 		private global::Gtk.Button addRecognizedWordButton;
-		private global::Gtk.HBox hbox6;
-		private global::Gtk.Label label13;
-		private global::Gtk.HBox hbox9;
-		private global::Gtk.Fixed fixed15;
+		private global::Gtk.Entry addRecognizedWordEntry;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		private global::Gtk.NodeView recognizedWordsNodeView;
-		private global::Gtk.VBox vbox8;
-		private global::Gtk.Fixed fixed13;
+		private global::Gtk.Label label7;
+		private global::Gtk.Label label8;
+		private global::Gtk.VBox vbox4;
 		private global::Gtk.Button removeRecognizedWordButton;
-		private global::Gtk.Fixed fixed14;
+		private global::Gtk.Fixed fixed4;
 		private global::Gtk.Label GtkLabel2;
 		private global::Gtk.Frame frame2;
 		private global::Gtk.Alignment GtkAlignment1;
 		private global::Gtk.VBox vbox9;
 		private global::Gtk.Label label14;
-		private global::Gtk.HBox hbox10;
-		private global::Gtk.Label label15;
-		private global::Gtk.Entry addDeprecatedWordEntry;
-		private global::Gtk.HBox hbox11;
-		private global::Gtk.Button addDeprecatedWordButton;
-		private global::Gtk.HBox hbox14;
-		private global::Gtk.Label label18;
-		private global::Gtk.HBox hbox15;
-		private global::Gtk.Fixed fixed20;
+		private global::Gtk.Table table1;
 		private global::Gtk.Entry addAlternateWordEntry;
-		private global::Gtk.Fixed fixed19;
-		private global::Gtk.HBox hbox12;
-		private global::Gtk.VBox vbox11;
-		private global::Gtk.Label label16;
-		private global::Gtk.Label label17;
-		private global::Gtk.HBox hbox13;
-		private global::Gtk.Fixed fixed16;
+		private global::Gtk.Button addDeprecatedWordButton;
+		private global::Gtk.Entry addDeprecatedWordEntry;
+		private global::Gtk.Fixed fixed2;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
 		private global::Gtk.NodeView deprecatedWordsNodeView;
-		private global::Gtk.VBox vbox10;
-		private global::Gtk.Fixed fixed17;
+		private global::Gtk.Label label4;
+		private global::Gtk.Label label5;
+		private global::Gtk.Label label6;
+		private global::Gtk.VBox vbox3;
 		private global::Gtk.Button removeDeprecatedWordButton;
-		private global::Gtk.Fixed fixed18;
+		private global::Gtk.Fixed fixed3;
 		private global::Gtk.Label GtkLabel5;
 		private global::Gtk.Frame frame3;
 		private global::Gtk.Alignment GtkAlignment2;
-		private global::Gtk.VBox vbox12;
-		private global::Gtk.Label label19;
-		private global::Gtk.HBox hbox16;
-		private global::Gtk.Label label20;
-		private global::Gtk.Entry addFolderEntry;
-		private global::Gtk.HBox hbox17;
+		private global::Gtk.VBox vbox1;
+		private global::Gtk.Label label1;
+		private global::Gtk.Table table2;
 		private global::Gtk.Button addFolderButton;
-		private global::Gtk.HBox hbox18;
-		private global::Gtk.Label label21;
-		private global::Gtk.HBox hbox19;
-		private global::Gtk.Fixed fixed21;
+		private global::Gtk.Entry addFolderEntry;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
 		private global::Gtk.NodeView foldersNodeView;
-		private global::Gtk.VBox vbox13;
-		private global::Gtk.Fixed fixed22;
-		private global::Gtk.Button removeFolderButton;
-		private global::Gtk.Fixed fixed23;
+		private global::Gtk.Label label2;
+		private global::Gtk.Label label3;
+		private global::Gtk.VBox vbox2;
+		private global::Gtk.Button button3;
+		private global::Gtk.Fixed fixed1;
 		private global::Gtk.Label GtkLabel8;
 
 		protected virtual void Build ()
@@ -79,6 +59,8 @@ namespace MonoDevelop.StyleCop
 			global::Stetic.Gui.Initialize (this);
 			// Widget MonoDevelop.StyleCop.SpellingOptionsPanel
 			global::Stetic.BinContainer.Attach (this);
+			this.WidthRequest = 625;
+			this.HeightRequest = 495;
 			this.Name = "MonoDevelop.StyleCop.SpellingOptionsPanel";
 			// Container child MonoDevelop.StyleCop.SpellingOptionsPanel.Gtk.Container+ContainerChild
 			this.vbox6 = new global::Gtk.VBox ();
@@ -87,7 +69,7 @@ namespace MonoDevelop.StyleCop
 			// Container child vbox6.Gtk.Box+BoxChild
 			this.frame1 = new global::Gtk.Frame ();
 			this.frame1.Name = "frame1";
-			this.frame1.ShadowType = ((global::Gtk.ShadowType)(0));
+			this.frame1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame1.Gtk.Container+ContainerChild
 			this.GtkAlignment = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment.Name = "GtkAlignment";
@@ -100,7 +82,8 @@ namespace MonoDevelop.StyleCop
 			this.label11 = new global::Gtk.Label ();
 			this.label11.Name = "label11";
 			this.label11.Xalign = 0F;
-			this.label11.LabelProp = global::Mono.Unix.Catalog.GetString ("Any words in the following list will not be reported as spelling mistakes. Add words to this list if they should be ignored by spelling rules.");
+			this.label11.LabelProp = global::Mono.Unix.Catalog.GetString ("Any words in the following list will not be reported as spelling mistakes. Add wo" +
+			"rds to this list if they should be ignored by spelling rules.");
 			this.label11.Wrap = true;
 			this.label11.Justify = ((global::Gtk.Justification)(3));
 			this.label11.WidthChars = 80;
@@ -110,81 +93,35 @@ namespace MonoDevelop.StyleCop
 			w1.Expand = false;
 			w1.Fill = false;
 			// Container child vbox7.Gtk.Box+BoxChild
-			this.hbox7 = new global::Gtk.HBox ();
-			this.hbox7.Name = "hbox7";
-			this.hbox7.Spacing = 6;
-			// Container child hbox7.Gtk.Box+BoxChild
-			this.label12 = new global::Gtk.Label ();
-			this.label12.Name = "label12";
-			this.label12.Xalign = 0F;
-			this.label12.LabelProp = global::Mono.Unix.Catalog.GetString ("Recognized word to add:");
-			this.hbox7.Add (this.label12);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.label12]));
-			w2.Position = 0;
-			w2.Expand = false;
-			w2.Fill = false;
-			// Container child hbox7.Gtk.Box+BoxChild
+			this.table3 = new global::Gtk.Table (((uint)(2)), ((uint)(3)), false);
+			this.table3.Name = "table3";
+			this.table3.RowSpacing = ((uint)(6));
+			this.table3.ColumnSpacing = ((uint)(6));
+			// Container child table3.Gtk.Table+TableChild
+			this.addRecognizedWordButton = new global::Gtk.Button ();
+			this.addRecognizedWordButton.CanFocus = true;
+			this.addRecognizedWordButton.Name = "addRecognizedWordButton";
+			this.addRecognizedWordButton.UseUnderline = true;
+			this.addRecognizedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
+			this.table3.Add (this.addRecognizedWordButton);
+			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table3 [this.addRecognizedWordButton]));
+			w2.LeftAttach = ((uint)(2));
+			w2.RightAttach = ((uint)(3));
+			w2.XOptions = ((global::Gtk.AttachOptions)(4));
+			w2.YOptions = ((global::Gtk.AttachOptions)(0));
+			// Container child table3.Gtk.Table+TableChild
 			this.addRecognizedWordEntry = new global::Gtk.Entry ();
 			this.addRecognizedWordEntry.CanFocus = true;
 			this.addRecognizedWordEntry.Name = "addRecognizedWordEntry";
 			this.addRecognizedWordEntry.IsEditable = true;
 			this.addRecognizedWordEntry.InvisibleChar = '●';
-			this.hbox7.Add (this.addRecognizedWordEntry);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.addRecognizedWordEntry]));
-			w3.Position = 1;
-			// Container child hbox7.Gtk.Box+BoxChild
-			this.hbox8 = new global::Gtk.HBox ();
-			this.hbox8.Name = "hbox8";
-			this.hbox8.Spacing = 6;
-			// Container child hbox8.Gtk.Box+BoxChild
-			this.addRecognizedWordButton = new global::Gtk.Button ();
-			this.addRecognizedWordButton.WidthRequest = 55;
-			this.addRecognizedWordButton.CanFocus = true;
-			this.addRecognizedWordButton.Name = "addRecognizedWordButton";
-			this.addRecognizedWordButton.UseUnderline = true;
-			this.addRecognizedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
-			this.hbox8.Add (this.addRecognizedWordButton);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox8 [this.addRecognizedWordButton]));
-			w4.Position = 0;
-			this.hbox7.Add (this.hbox8);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.hbox8]));
-			w5.Position = 2;
-			w5.Expand = false;
-			w5.Fill = false;
-			this.vbox7.Add (this.hbox7);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.hbox7]));
-			w6.Position = 1;
-			w6.Expand = false;
-			w6.Fill = false;
-			// Container child vbox7.Gtk.Box+BoxChild
-			this.hbox6 = new global::Gtk.HBox ();
-			this.hbox6.Name = "hbox6";
-			this.hbox6.Spacing = 6;
-			// Container child hbox6.Gtk.Box+BoxChild
-			this.label13 = new global::Gtk.Label ();
-			this.label13.Name = "label13";
-			this.label13.Xalign = 0F;
-			this.label13.LabelProp = global::Mono.Unix.Catalog.GetString ("Recognized words:");
-			this.hbox6.Add (this.label13);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.label13]));
-			w7.Position = 0;
-			w7.Expand = false;
-			w7.Fill = false;
-			// Container child hbox6.Gtk.Box+BoxChild
-			this.hbox9 = new global::Gtk.HBox ();
-			this.hbox9.Name = "hbox9";
-			this.hbox9.Spacing = 6;
-			// Container child hbox9.Gtk.Box+BoxChild
-			this.fixed15 = new global::Gtk.Fixed ();
-			this.fixed15.WidthRequest = 30;
-			this.fixed15.Name = "fixed15";
-			this.fixed15.HasWindow = false;
-			this.hbox9.Add (this.fixed15);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox9 [this.fixed15]));
-			w8.Position = 0;
-			w8.Expand = false;
-			w8.Fill = false;
-			// Container child hbox9.Gtk.Box+BoxChild
+			this.table3.Add (this.addRecognizedWordEntry);
+			global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table3 [this.addRecognizedWordEntry]));
+			w3.LeftAttach = ((uint)(1));
+			w3.RightAttach = ((uint)(2));
+			w3.XOptions = ((global::Gtk.AttachOptions)(4));
+			w3.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table3.Gtk.Table+TableChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -193,55 +130,67 @@ namespace MonoDevelop.StyleCop
 			this.recognizedWordsNodeView.CanFocus = true;
 			this.recognizedWordsNodeView.Name = "recognizedWordsNodeView";
 			this.GtkScrolledWindow.Add (this.recognizedWordsNodeView);
-			this.hbox9.Add (this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox9 [this.GtkScrolledWindow]));
-			w10.Position = 1;
-			this.hbox6.Add (this.hbox9);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.hbox9]));
-			w11.Position = 1;
-			// Container child hbox6.Gtk.Box+BoxChild
-			this.vbox8 = new global::Gtk.VBox ();
-			this.vbox8.Name = "vbox8";
-			this.vbox8.Spacing = 6;
-			// Container child vbox8.Gtk.Box+BoxChild
-			this.fixed13 = new global::Gtk.Fixed ();
-			this.fixed13.Name = "fixed13";
-			this.fixed13.HasWindow = false;
-			this.vbox8.Add (this.fixed13);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.fixed13]));
-			w12.Position = 0;
-			w12.Expand = false;
-			w12.Fill = false;
-			// Container child vbox8.Gtk.Box+BoxChild
+			this.table3.Add (this.GtkScrolledWindow);
+			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table3 [this.GtkScrolledWindow]));
+			w5.TopAttach = ((uint)(1));
+			w5.BottomAttach = ((uint)(2));
+			w5.LeftAttach = ((uint)(1));
+			w5.RightAttach = ((uint)(2));
+			// Container child table3.Gtk.Table+TableChild
+			this.label7 = new global::Gtk.Label ();
+			this.label7.Name = "label7";
+			this.label7.Xalign = 0F;
+			this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("Recognized words:");
+			this.table3.Add (this.label7);
+			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table3 [this.label7]));
+			w6.TopAttach = ((uint)(1));
+			w6.BottomAttach = ((uint)(2));
+			w6.XOptions = ((global::Gtk.AttachOptions)(4));
+			w6.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table3.Gtk.Table+TableChild
+			this.label8 = new global::Gtk.Label ();
+			this.label8.Name = "label8";
+			this.label8.Xalign = 0F;
+			this.label8.LabelProp = global::Mono.Unix.Catalog.GetString ("Recognized word to add:");
+			this.table3.Add (this.label8);
+			global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table3 [this.label8]));
+			w7.XOptions = ((global::Gtk.AttachOptions)(4));
+			w7.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table3.Gtk.Table+TableChild
+			this.vbox4 = new global::Gtk.VBox ();
+			this.vbox4.Name = "vbox4";
+			this.vbox4.Spacing = 6;
+			// Container child vbox4.Gtk.Box+BoxChild
 			this.removeRecognizedWordButton = new global::Gtk.Button ();
 			this.removeRecognizedWordButton.CanFocus = true;
 			this.removeRecognizedWordButton.Name = "removeRecognizedWordButton";
 			this.removeRecognizedWordButton.UseUnderline = true;
 			this.removeRecognizedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Remove");
-			this.vbox8.Add (this.removeRecognizedWordButton);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.removeRecognizedWordButton]));
-			w13.Position = 1;
-			w13.Expand = false;
-			w13.Fill = false;
-			// Container child vbox8.Gtk.Box+BoxChild
-			this.fixed14 = new global::Gtk.Fixed ();
-			this.fixed14.Name = "fixed14";
-			this.fixed14.HasWindow = false;
-			this.vbox8.Add (this.fixed14);
-			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox8 [this.fixed14]));
-			w14.Position = 2;
-			w14.Expand = false;
-			w14.Fill = false;
-			this.hbox6.Add (this.vbox8);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.vbox8]));
-			w15.Position = 2;
-			w15.Expand = false;
-			w15.Fill = false;
-			this.vbox7.Add (this.hbox6);
-			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.hbox6]));
-			w16.Position = 2;
-			w16.Expand = false;
-			w16.Fill = false;
+			this.vbox4.Add (this.removeRecognizedWordButton);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.removeRecognizedWordButton]));
+			w8.Position = 0;
+			w8.Expand = false;
+			w8.Fill = false;
+			// Container child vbox4.Gtk.Box+BoxChild
+			this.fixed4 = new global::Gtk.Fixed ();
+			this.fixed4.Name = "fixed4";
+			this.fixed4.HasWindow = false;
+			this.vbox4.Add (this.fixed4);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.fixed4]));
+			w9.Position = 1;
+			w9.Expand = false;
+			w9.Fill = false;
+			this.table3.Add (this.vbox4);
+			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table3 [this.vbox4]));
+			w10.TopAttach = ((uint)(1));
+			w10.BottomAttach = ((uint)(2));
+			w10.LeftAttach = ((uint)(2));
+			w10.RightAttach = ((uint)(3));
+			w10.XOptions = ((global::Gtk.AttachOptions)(4));
+			w10.YOptions = ((global::Gtk.AttachOptions)(4));
+			this.vbox7.Add (this.table3);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.table3]));
+			w11.Position = 1;
 			this.GtkAlignment.Add (this.vbox7);
 			this.frame1.Add (this.GtkAlignment);
 			this.GtkLabel2 = new global::Gtk.Label ();
@@ -250,14 +199,12 @@ namespace MonoDevelop.StyleCop
 			this.GtkLabel2.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel2;
 			this.vbox6.Add (this.frame1);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame1]));
-			w19.Position = 0;
-			w19.Expand = false;
-			w19.Fill = false;
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame1]));
+			w14.Position = 0;
 			// Container child vbox6.Gtk.Box+BoxChild
 			this.frame2 = new global::Gtk.Frame ();
 			this.frame2.Name = "frame2";
-			this.frame2.ShadowType = ((global::Gtk.ShadowType)(0));
+			this.frame2.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame2.Gtk.Container+ContainerChild
 			this.GtkAlignment1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment1.Name = "GtkAlignment1";
@@ -270,162 +217,72 @@ namespace MonoDevelop.StyleCop
 			this.label14 = new global::Gtk.Label ();
 			this.label14.Name = "label14";
 			this.label14.Xalign = 0F;
-			this.label14.LabelProp = global::Mono.Unix.Catalog.GetString ("Any words in the following list will not be reported as spelling mistakes. Add words to this list so that spelling suggestions may be made.");
+			this.label14.LabelProp = global::Mono.Unix.Catalog.GetString ("Any words in the following list will not be reported as spelling mistakes. Add wo" +
+			"rds to this list so that spelling suggestions may be made.");
 			this.label14.Wrap = true;
 			this.label14.Justify = ((global::Gtk.Justification)(3));
 			this.label14.WidthChars = 80;
 			this.vbox9.Add (this.label14);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.label14]));
-			w20.Position = 0;
-			w20.Expand = false;
-			w20.Fill = false;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.label14]));
+			w15.Position = 0;
+			w15.Expand = false;
+			w15.Fill = false;
 			// Container child vbox9.Gtk.Box+BoxChild
-			this.hbox10 = new global::Gtk.HBox ();
-			this.hbox10.Name = "hbox10";
-			this.hbox10.Spacing = 6;
-			// Container child hbox10.Gtk.Box+BoxChild
-			this.label15 = new global::Gtk.Label ();
-			this.label15.Name = "label15";
-			this.label15.Xalign = 0F;
-			this.label15.LabelProp = global::Mono.Unix.Catalog.GetString ("Deprecated word to add:");
-			this.hbox10.Add (this.label15);
-			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.label15]));
-			w21.Position = 0;
-			w21.Expand = false;
-			w21.Fill = false;
-			// Container child hbox10.Gtk.Box+BoxChild
-			this.addDeprecatedWordEntry = new global::Gtk.Entry ();
-			this.addDeprecatedWordEntry.CanFocus = true;
-			this.addDeprecatedWordEntry.Name = "addDeprecatedWordEntry";
-			this.addDeprecatedWordEntry.IsEditable = true;
-			this.addDeprecatedWordEntry.InvisibleChar = '●';
-			this.hbox10.Add (this.addDeprecatedWordEntry);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.addDeprecatedWordEntry]));
-			w22.Position = 1;
-			// Container child hbox10.Gtk.Box+BoxChild
-			this.hbox11 = new global::Gtk.HBox ();
-			this.hbox11.Name = "hbox11";
-			this.hbox11.Spacing = 6;
-			// Container child hbox11.Gtk.Box+BoxChild
-			this.addDeprecatedWordButton = new global::Gtk.Button ();
-			this.addDeprecatedWordButton.WidthRequest = 55;
-			this.addDeprecatedWordButton.CanFocus = true;
-			this.addDeprecatedWordButton.Name = "addDeprecatedWordButton";
-			this.addDeprecatedWordButton.UseUnderline = true;
-			this.addDeprecatedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
-			this.hbox11.Add (this.addDeprecatedWordButton);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.hbox11 [this.addDeprecatedWordButton]));
-			w23.Position = 0;
-			this.hbox10.Add (this.hbox11);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.hbox11]));
-			w24.Position = 2;
-			w24.Expand = false;
-			w24.Fill = false;
-			this.vbox9.Add (this.hbox10);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.hbox10]));
-			w25.Position = 1;
-			w25.Expand = false;
-			w25.Fill = false;
-			// Container child vbox9.Gtk.Box+BoxChild
-			this.hbox14 = new global::Gtk.HBox ();
-			this.hbox14.Name = "hbox14";
-			this.hbox14.Spacing = 6;
-			// Container child hbox14.Gtk.Box+BoxChild
-			this.label18 = new global::Gtk.Label ();
-			this.label18.Name = "label18";
-			this.label18.LabelProp = global::Mono.Unix.Catalog.GetString ("Alternative word:");
-			this.hbox14.Add (this.label18);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox14 [this.label18]));
-			w26.Position = 0;
-			w26.Expand = false;
-			w26.Fill = false;
-			// Container child hbox14.Gtk.Box+BoxChild
-			this.hbox15 = new global::Gtk.HBox ();
-			this.hbox15.Name = "hbox15";
-			this.hbox15.Spacing = 6;
-			// Container child hbox15.Gtk.Box+BoxChild
-			this.fixed20 = new global::Gtk.Fixed ();
-			this.fixed20.WidthRequest = 38;
-			this.fixed20.Name = "fixed20";
-			this.fixed20.HasWindow = false;
-			this.hbox15.Add (this.fixed20);
-			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.hbox15 [this.fixed20]));
-			w27.Position = 0;
-			w27.Expand = false;
-			// Container child hbox15.Gtk.Box+BoxChild
+			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(3)), false);
+			this.table1.Name = "table1";
+			this.table1.RowSpacing = ((uint)(6));
+			this.table1.ColumnSpacing = ((uint)(6));
+			// Container child table1.Gtk.Table+TableChild
 			this.addAlternateWordEntry = new global::Gtk.Entry ();
 			this.addAlternateWordEntry.CanFocus = true;
 			this.addAlternateWordEntry.Name = "addAlternateWordEntry";
 			this.addAlternateWordEntry.IsEditable = true;
 			this.addAlternateWordEntry.InvisibleChar = '●';
-			this.hbox15.Add (this.addAlternateWordEntry);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.hbox15 [this.addAlternateWordEntry]));
-			w28.Position = 1;
-			// Container child hbox15.Gtk.Box+BoxChild
-			this.fixed19 = new global::Gtk.Fixed ();
-			this.fixed19.WidthRequest = 55;
-			this.fixed19.Name = "fixed19";
-			this.fixed19.HasWindow = false;
-			this.hbox15.Add (this.fixed19);
-			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.hbox15 [this.fixed19]));
-			w29.Position = 2;
-			w29.Expand = false;
-			this.hbox14.Add (this.hbox15);
-			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.hbox14 [this.hbox15]));
-			w30.Position = 1;
-			this.vbox9.Add (this.hbox14);
-			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.hbox14]));
-			w31.Position = 2;
-			w31.Expand = false;
-			w31.Fill = false;
-			// Container child vbox9.Gtk.Box+BoxChild
-			this.hbox12 = new global::Gtk.HBox ();
-			this.hbox12.Name = "hbox12";
-			this.hbox12.Spacing = 6;
-			// Container child hbox12.Gtk.Box+BoxChild
-			this.vbox11 = new global::Gtk.VBox ();
-			this.vbox11.Name = "vbox11";
-			this.vbox11.Spacing = 6;
-			// Container child vbox11.Gtk.Box+BoxChild
-			this.label16 = new global::Gtk.Label ();
-			this.label16.Name = "label16";
-			this.label16.Xalign = 0F;
-			this.label16.LabelProp = global::Mono.Unix.Catalog.GetString ("Deprecated word,");
-			this.vbox11.Add (this.label16);
-			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox11 [this.label16]));
-			w32.Position = 0;
-			w32.Expand = false;
-			w32.Fill = false;
-			// Container child vbox11.Gtk.Box+BoxChild
-			this.label17 = new global::Gtk.Label ();
-			this.label17.Name = "label17";
-			this.label17.Xalign = 0F;
-			this.label17.LabelProp = global::Mono.Unix.Catalog.GetString ("alternative word:");
-			this.vbox11.Add (this.label17);
-			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox11 [this.label17]));
-			w33.Position = 1;
-			w33.Expand = false;
-			w33.Fill = false;
-			this.hbox12.Add (this.vbox11);
-			global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.hbox12 [this.vbox11]));
-			w34.Position = 0;
-			w34.Expand = false;
-			w34.Fill = false;
-			// Container child hbox12.Gtk.Box+BoxChild
-			this.hbox13 = new global::Gtk.HBox ();
-			this.hbox13.Name = "hbox13";
-			this.hbox13.Spacing = 6;
-			// Container child hbox13.Gtk.Box+BoxChild
-			this.fixed16 = new global::Gtk.Fixed ();
-			this.fixed16.WidthRequest = 35;
-			this.fixed16.Name = "fixed16";
-			this.fixed16.HasWindow = false;
-			this.hbox13.Add (this.fixed16);
-			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.hbox13 [this.fixed16]));
-			w35.Position = 0;
-			w35.Expand = false;
-			w35.Fill = false;
-			// Container child hbox13.Gtk.Box+BoxChild
+			this.table1.Add (this.addAlternateWordEntry);
+			global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table1 [this.addAlternateWordEntry]));
+			w16.TopAttach = ((uint)(1));
+			w16.BottomAttach = ((uint)(2));
+			w16.LeftAttach = ((uint)(1));
+			w16.RightAttach = ((uint)(2));
+			w16.XOptions = ((global::Gtk.AttachOptions)(4));
+			w16.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
+			this.addDeprecatedWordButton = new global::Gtk.Button ();
+			this.addDeprecatedWordButton.CanFocus = true;
+			this.addDeprecatedWordButton.Name = "addDeprecatedWordButton";
+			this.addDeprecatedWordButton.UseUnderline = true;
+			this.addDeprecatedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
+			this.table1.Add (this.addDeprecatedWordButton);
+			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table1 [this.addDeprecatedWordButton]));
+			w17.LeftAttach = ((uint)(2));
+			w17.RightAttach = ((uint)(3));
+			w17.XOptions = ((global::Gtk.AttachOptions)(4));
+			w17.YOptions = ((global::Gtk.AttachOptions)(0));
+			// Container child table1.Gtk.Table+TableChild
+			this.addDeprecatedWordEntry = new global::Gtk.Entry ();
+			this.addDeprecatedWordEntry.CanFocus = true;
+			this.addDeprecatedWordEntry.Name = "addDeprecatedWordEntry";
+			this.addDeprecatedWordEntry.IsEditable = true;
+			this.addDeprecatedWordEntry.InvisibleChar = '●';
+			this.table1.Add (this.addDeprecatedWordEntry);
+			global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table1 [this.addDeprecatedWordEntry]));
+			w18.LeftAttach = ((uint)(1));
+			w18.RightAttach = ((uint)(2));
+			w18.XOptions = ((global::Gtk.AttachOptions)(4));
+			w18.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
+			this.fixed2 = new global::Gtk.Fixed ();
+			this.fixed2.Name = "fixed2";
+			this.fixed2.HasWindow = false;
+			this.table1.Add (this.fixed2);
+			global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table1 [this.fixed2]));
+			w19.TopAttach = ((uint)(1));
+			w19.BottomAttach = ((uint)(2));
+			w19.LeftAttach = ((uint)(2));
+			w19.RightAttach = ((uint)(3));
+			w19.XOptions = ((global::Gtk.AttachOptions)(4));
+			w19.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
 			this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
 			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -434,55 +291,78 @@ namespace MonoDevelop.StyleCop
 			this.deprecatedWordsNodeView.CanFocus = true;
 			this.deprecatedWordsNodeView.Name = "deprecatedWordsNodeView";
 			this.GtkScrolledWindow1.Add (this.deprecatedWordsNodeView);
-			this.hbox13.Add (this.GtkScrolledWindow1);
-			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.hbox13 [this.GtkScrolledWindow1]));
-			w37.Position = 1;
-			this.hbox12.Add (this.hbox13);
-			global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.hbox12 [this.hbox13]));
-			w38.Position = 1;
-			// Container child hbox12.Gtk.Box+BoxChild
-			this.vbox10 = new global::Gtk.VBox ();
-			this.vbox10.Name = "vbox10";
-			this.vbox10.Spacing = 6;
-			// Container child vbox10.Gtk.Box+BoxChild
-			this.fixed17 = new global::Gtk.Fixed ();
-			this.fixed17.Name = "fixed17";
-			this.fixed17.HasWindow = false;
-			this.vbox10.Add (this.fixed17);
-			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.fixed17]));
-			w39.Position = 0;
-			w39.Expand = false;
-			w39.Fill = false;
-			// Container child vbox10.Gtk.Box+BoxChild
+			this.table1.Add (this.GtkScrolledWindow1);
+			global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table1 [this.GtkScrolledWindow1]));
+			w21.TopAttach = ((uint)(2));
+			w21.BottomAttach = ((uint)(3));
+			w21.LeftAttach = ((uint)(1));
+			w21.RightAttach = ((uint)(2));
+			// Container child table1.Gtk.Table+TableChild
+			this.label4 = new global::Gtk.Label ();
+			this.label4.Name = "label4";
+			this.label4.Xalign = 0F;
+			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Deprecated word to add:");
+			this.table1.Add (this.label4);
+			global::Gtk.Table.TableChild w22 = ((global::Gtk.Table.TableChild)(this.table1 [this.label4]));
+			w22.XOptions = ((global::Gtk.AttachOptions)(4));
+			w22.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
+			this.label5 = new global::Gtk.Label ();
+			this.label5.Name = "label5";
+			this.label5.Xalign = 0F;
+			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Alternative word:");
+			this.table1.Add (this.label5);
+			global::Gtk.Table.TableChild w23 = ((global::Gtk.Table.TableChild)(this.table1 [this.label5]));
+			w23.TopAttach = ((uint)(1));
+			w23.BottomAttach = ((uint)(2));
+			w23.XOptions = ((global::Gtk.AttachOptions)(4));
+			w23.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
+			this.label6 = new global::Gtk.Label ();
+			this.label6.Name = "label6";
+			this.label6.Xalign = 0F;
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Deprecated word,\nalternative word:");
+			this.table1.Add (this.label6);
+			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.table1 [this.label6]));
+			w24.TopAttach = ((uint)(2));
+			w24.BottomAttach = ((uint)(3));
+			w24.XOptions = ((global::Gtk.AttachOptions)(4));
+			w24.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table1.Gtk.Table+TableChild
+			this.vbox3 = new global::Gtk.VBox ();
+			this.vbox3.Name = "vbox3";
+			this.vbox3.Spacing = 6;
+			// Container child vbox3.Gtk.Box+BoxChild
 			this.removeDeprecatedWordButton = new global::Gtk.Button ();
 			this.removeDeprecatedWordButton.CanFocus = true;
 			this.removeDeprecatedWordButton.Name = "removeDeprecatedWordButton";
 			this.removeDeprecatedWordButton.UseUnderline = true;
 			this.removeDeprecatedWordButton.Label = global::Mono.Unix.Catalog.GetString ("Remove");
-			this.vbox10.Add (this.removeDeprecatedWordButton);
-			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.removeDeprecatedWordButton]));
-			w40.Position = 1;
-			w40.Expand = false;
-			w40.Fill = false;
-			// Container child vbox10.Gtk.Box+BoxChild
-			this.fixed18 = new global::Gtk.Fixed ();
-			this.fixed18.Name = "fixed18";
-			this.fixed18.HasWindow = false;
-			this.vbox10.Add (this.fixed18);
-			global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox10 [this.fixed18]));
-			w41.Position = 2;
-			w41.Expand = false;
-			w41.Fill = false;
-			this.hbox12.Add (this.vbox10);
-			global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.hbox12 [this.vbox10]));
-			w42.Position = 2;
-			w42.Expand = false;
-			w42.Fill = false;
-			this.vbox9.Add (this.hbox12);
-			global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.hbox12]));
-			w43.Position = 3;
-			w43.Expand = false;
-			w43.Fill = false;
+			this.vbox3.Add (this.removeDeprecatedWordButton);
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.removeDeprecatedWordButton]));
+			w25.Position = 0;
+			w25.Expand = false;
+			w25.Fill = false;
+			// Container child vbox3.Gtk.Box+BoxChild
+			this.fixed3 = new global::Gtk.Fixed ();
+			this.fixed3.Name = "fixed3";
+			this.fixed3.HasWindow = false;
+			this.vbox3.Add (this.fixed3);
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.fixed3]));
+			w26.Position = 1;
+			w26.Expand = false;
+			w26.Fill = false;
+			this.table1.Add (this.vbox3);
+			global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.table1 [this.vbox3]));
+			w27.TopAttach = ((uint)(2));
+			w27.BottomAttach = ((uint)(3));
+			w27.LeftAttach = ((uint)(2));
+			w27.RightAttach = ((uint)(3));
+			w27.XOptions = ((global::Gtk.AttachOptions)(4));
+			w27.YOptions = ((global::Gtk.AttachOptions)(4));
+			this.vbox9.Add (this.table1);
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.table1]));
+			w28.Position = 1;
 			this.GtkAlignment1.Add (this.vbox9);
 			this.frame2.Add (this.GtkAlignment1);
 			this.GtkLabel5 = new global::Gtk.Label ();
@@ -491,111 +371,60 @@ namespace MonoDevelop.StyleCop
 			this.GtkLabel5.UseMarkup = true;
 			this.frame2.LabelWidget = this.GtkLabel5;
 			this.vbox6.Add (this.frame2);
-			global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame2]));
-			w46.Position = 1;
-			w46.Expand = false;
-			w46.Fill = false;
+			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame2]));
+			w31.Position = 1;
 			// Container child vbox6.Gtk.Box+BoxChild
 			this.frame3 = new global::Gtk.Frame ();
 			this.frame3.Name = "frame3";
-			this.frame3.ShadowType = ((global::Gtk.ShadowType)(0));
+			this.frame3.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child frame3.Gtk.Container+ContainerChild
 			this.GtkAlignment2 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
 			this.GtkAlignment2.Name = "GtkAlignment2";
 			this.GtkAlignment2.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment2.Gtk.Container+ContainerChild
-			this.vbox12 = new global::Gtk.VBox ();
-			this.vbox12.Name = "vbox12";
-			this.vbox12.Spacing = 6;
-			// Container child vbox12.Gtk.Box+BoxChild
-			this.label19 = new global::Gtk.Label ();
-			this.label19.Name = "label19";
-			this.label19.Xalign = 0F;
-			this.label19.LabelProp = global::Mono.Unix.Catalog.GetString ("Any folders in the following list will be searched for CustomDictionary files.");
-			this.label19.Wrap = true;
-			this.label19.Justify = ((global::Gtk.Justification)(3));
-			this.label19.WidthChars = 80;
-			this.vbox12.Add (this.label19);
-			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox12 [this.label19]));
-			w47.Position = 0;
-			w47.Expand = false;
-			w47.Fill = false;
-			// Container child vbox12.Gtk.Box+BoxChild
-			this.hbox16 = new global::Gtk.HBox ();
-			this.hbox16.Name = "hbox16";
-			this.hbox16.Spacing = 6;
-			// Container child hbox16.Gtk.Box+BoxChild
-			this.label20 = new global::Gtk.Label ();
-			this.label20.Name = "label20";
-			this.label20.Xalign = 0F;
-			this.label20.LabelProp = global::Mono.Unix.Catalog.GetString ("Dictionary folder to add:");
-			this.hbox16.Add (this.label20);
-			global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.hbox16 [this.label20]));
-			w48.Position = 0;
-			w48.Expand = false;
-			w48.Fill = false;
-			// Container child hbox16.Gtk.Box+BoxChild
+			this.vbox1 = new global::Gtk.VBox ();
+			this.vbox1.Name = "vbox1";
+			this.vbox1.Spacing = 6;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.label1 = new global::Gtk.Label ();
+			this.label1.Name = "label1";
+			this.label1.Xalign = 0F;
+			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("Any folders in the following list will be searched for CustomDictionary files.");
+			this.vbox1.Add (this.label1);
+			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.label1]));
+			w32.Position = 0;
+			w32.Expand = false;
+			w32.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.table2 = new global::Gtk.Table (((uint)(2)), ((uint)(3)), false);
+			this.table2.Name = "table2";
+			this.table2.RowSpacing = ((uint)(6));
+			this.table2.ColumnSpacing = ((uint)(6));
+			// Container child table2.Gtk.Table+TableChild
+			this.addFolderButton = new global::Gtk.Button ();
+			this.addFolderButton.CanFocus = true;
+			this.addFolderButton.Name = "addFolderButton";
+			this.addFolderButton.UseUnderline = true;
+			this.addFolderButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
+			this.table2.Add (this.addFolderButton);
+			global::Gtk.Table.TableChild w33 = ((global::Gtk.Table.TableChild)(this.table2 [this.addFolderButton]));
+			w33.LeftAttach = ((uint)(2));
+			w33.RightAttach = ((uint)(3));
+			w33.XOptions = ((global::Gtk.AttachOptions)(4));
+			w33.YOptions = ((global::Gtk.AttachOptions)(0));
+			// Container child table2.Gtk.Table+TableChild
 			this.addFolderEntry = new global::Gtk.Entry ();
 			this.addFolderEntry.CanFocus = true;
 			this.addFolderEntry.Name = "addFolderEntry";
 			this.addFolderEntry.IsEditable = true;
 			this.addFolderEntry.InvisibleChar = '●';
-			this.hbox16.Add (this.addFolderEntry);
-			global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.hbox16 [this.addFolderEntry]));
-			w49.Position = 1;
-			// Container child hbox16.Gtk.Box+BoxChild
-			this.hbox17 = new global::Gtk.HBox ();
-			this.hbox17.Name = "hbox17";
-			this.hbox17.Spacing = 6;
-			// Container child hbox17.Gtk.Box+BoxChild
-			this.addFolderButton = new global::Gtk.Button ();
-			this.addFolderButton.WidthRequest = 55;
-			this.addFolderButton.CanFocus = true;
-			this.addFolderButton.Name = "addFolderButton";
-			this.addFolderButton.UseUnderline = true;
-			this.addFolderButton.Label = global::Mono.Unix.Catalog.GetString ("Add");
-			this.hbox17.Add (this.addFolderButton);
-			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.hbox17 [this.addFolderButton]));
-			w50.Position = 0;
-			this.hbox16.Add (this.hbox17);
-			global::Gtk.Box.BoxChild w51 = ((global::Gtk.Box.BoxChild)(this.hbox16 [this.hbox17]));
-			w51.Position = 2;
-			w51.Expand = false;
-			w51.Fill = false;
-			this.vbox12.Add (this.hbox16);
-			global::Gtk.Box.BoxChild w52 = ((global::Gtk.Box.BoxChild)(this.vbox12 [this.hbox16]));
-			w52.Position = 1;
-			w52.Expand = false;
-			w52.Fill = false;
-			// Container child vbox12.Gtk.Box+BoxChild
-			this.hbox18 = new global::Gtk.HBox ();
-			this.hbox18.Name = "hbox18";
-			this.hbox18.Spacing = 6;
-			// Container child hbox18.Gtk.Box+BoxChild
-			this.label21 = new global::Gtk.Label ();
-			this.label21.Name = "label21";
-			this.label21.Xalign = 0F;
-			this.label21.LabelProp = global::Mono.Unix.Catalog.GetString ("Dictionary folders:");
-			this.hbox18.Add (this.label21);
-			global::Gtk.Box.BoxChild w53 = ((global::Gtk.Box.BoxChild)(this.hbox18 [this.label21]));
-			w53.Position = 0;
-			w53.Expand = false;
-			w53.Fill = false;
-			// Container child hbox18.Gtk.Box+BoxChild
-			this.hbox19 = new global::Gtk.HBox ();
-			this.hbox19.Name = "hbox19";
-			this.hbox19.Spacing = 6;
-			// Container child hbox19.Gtk.Box+BoxChild
-			this.fixed21 = new global::Gtk.Fixed ();
-			this.fixed21.WidthRequest = 30;
-			this.fixed21.Name = "fixed21";
-			this.fixed21.HasWindow = false;
-			this.hbox19.Add (this.fixed21);
-			global::Gtk.Box.BoxChild w54 = ((global::Gtk.Box.BoxChild)(this.hbox19 [this.fixed21]));
-			w54.Position = 0;
-			w54.Expand = false;
-			w54.Fill = false;
-			// Container child hbox19.Gtk.Box+BoxChild
+			this.table2.Add (this.addFolderEntry);
+			global::Gtk.Table.TableChild w34 = ((global::Gtk.Table.TableChild)(this.table2 [this.addFolderEntry]));
+			w34.LeftAttach = ((uint)(1));
+			w34.RightAttach = ((uint)(2));
+			w34.XOptions = ((global::Gtk.AttachOptions)(4));
+			w34.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
 			this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
 			this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -604,56 +433,68 @@ namespace MonoDevelop.StyleCop
 			this.foldersNodeView.CanFocus = true;
 			this.foldersNodeView.Name = "foldersNodeView";
 			this.GtkScrolledWindow2.Add (this.foldersNodeView);
-			this.hbox19.Add (this.GtkScrolledWindow2);
-			global::Gtk.Box.BoxChild w56 = ((global::Gtk.Box.BoxChild)(this.hbox19 [this.GtkScrolledWindow2]));
-			w56.Position = 1;
-			this.hbox18.Add (this.hbox19);
-			global::Gtk.Box.BoxChild w57 = ((global::Gtk.Box.BoxChild)(this.hbox18 [this.hbox19]));
-			w57.Position = 1;
-			// Container child hbox18.Gtk.Box+BoxChild
-			this.vbox13 = new global::Gtk.VBox ();
-			this.vbox13.Name = "vbox13";
-			this.vbox13.Spacing = 6;
-			// Container child vbox13.Gtk.Box+BoxChild
-			this.fixed22 = new global::Gtk.Fixed ();
-			this.fixed22.Name = "fixed22";
-			this.fixed22.HasWindow = false;
-			this.vbox13.Add (this.fixed22);
-			global::Gtk.Box.BoxChild w58 = ((global::Gtk.Box.BoxChild)(this.vbox13 [this.fixed22]));
-			w58.Position = 0;
-			w58.Expand = false;
-			w58.Fill = false;
-			// Container child vbox13.Gtk.Box+BoxChild
-			this.removeFolderButton = new global::Gtk.Button ();
-			this.removeFolderButton.CanFocus = true;
-			this.removeFolderButton.Name = "removeFolderButton";
-			this.removeFolderButton.UseUnderline = true;
-			this.removeFolderButton.Label = global::Mono.Unix.Catalog.GetString ("Remove");
-			this.vbox13.Add (this.removeFolderButton);
-			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.vbox13 [this.removeFolderButton]));
-			w59.Position = 1;
-			w59.Expand = false;
-			w59.Fill = false;
-			// Container child vbox13.Gtk.Box+BoxChild
-			this.fixed23 = new global::Gtk.Fixed ();
-			this.fixed23.Name = "fixed23";
-			this.fixed23.HasWindow = false;
-			this.vbox13.Add (this.fixed23);
-			global::Gtk.Box.BoxChild w60 = ((global::Gtk.Box.BoxChild)(this.vbox13 [this.fixed23]));
-			w60.Position = 2;
-			w60.Expand = false;
-			w60.Fill = false;
-			this.hbox18.Add (this.vbox13);
-			global::Gtk.Box.BoxChild w61 = ((global::Gtk.Box.BoxChild)(this.hbox18 [this.vbox13]));
-			w61.Position = 2;
-			w61.Expand = false;
-			w61.Fill = false;
-			this.vbox12.Add (this.hbox18);
-			global::Gtk.Box.BoxChild w62 = ((global::Gtk.Box.BoxChild)(this.vbox12 [this.hbox18]));
-			w62.Position = 2;
-			w62.Expand = false;
-			w62.Fill = false;
-			this.GtkAlignment2.Add (this.vbox12);
+			this.table2.Add (this.GtkScrolledWindow2);
+			global::Gtk.Table.TableChild w36 = ((global::Gtk.Table.TableChild)(this.table2 [this.GtkScrolledWindow2]));
+			w36.TopAttach = ((uint)(1));
+			w36.BottomAttach = ((uint)(2));
+			w36.LeftAttach = ((uint)(1));
+			w36.RightAttach = ((uint)(2));
+			// Container child table2.Gtk.Table+TableChild
+			this.label2 = new global::Gtk.Label ();
+			this.label2.Name = "label2";
+			this.label2.Xalign = 0F;
+			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Dictionary folder to add:");
+			this.table2.Add (this.label2);
+			global::Gtk.Table.TableChild w37 = ((global::Gtk.Table.TableChild)(this.table2 [this.label2]));
+			w37.XOptions = ((global::Gtk.AttachOptions)(4));
+			w37.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.label3 = new global::Gtk.Label ();
+			this.label3.Name = "label3";
+			this.label3.Xalign = 0F;
+			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Dictionary folders:");
+			this.table2.Add (this.label3);
+			global::Gtk.Table.TableChild w38 = ((global::Gtk.Table.TableChild)(this.table2 [this.label3]));
+			w38.TopAttach = ((uint)(1));
+			w38.BottomAttach = ((uint)(2));
+			w38.XOptions = ((global::Gtk.AttachOptions)(4));
+			w38.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.vbox2 = new global::Gtk.VBox ();
+			this.vbox2.Name = "vbox2";
+			this.vbox2.Spacing = 6;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.button3 = new global::Gtk.Button ();
+			this.button3.CanFocus = true;
+			this.button3.Name = "button3";
+			this.button3.UseUnderline = true;
+			this.button3.Label = global::Mono.Unix.Catalog.GetString ("Remove");
+			this.vbox2.Add (this.button3);
+			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.button3]));
+			w39.Position = 0;
+			w39.Expand = false;
+			w39.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.fixed1 = new global::Gtk.Fixed ();
+			this.fixed1.Name = "fixed1";
+			this.fixed1.HasWindow = false;
+			this.vbox2.Add (this.fixed1);
+			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.fixed1]));
+			w40.Position = 1;
+			w40.Expand = false;
+			w40.Fill = false;
+			this.table2.Add (this.vbox2);
+			global::Gtk.Table.TableChild w41 = ((global::Gtk.Table.TableChild)(this.table2 [this.vbox2]));
+			w41.TopAttach = ((uint)(1));
+			w41.BottomAttach = ((uint)(2));
+			w41.LeftAttach = ((uint)(2));
+			w41.RightAttach = ((uint)(3));
+			w41.XOptions = ((global::Gtk.AttachOptions)(4));
+			w41.YOptions = ((global::Gtk.AttachOptions)(4));
+			this.vbox1.Add (this.table2);
+			global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.table2]));
+			w42.Position = 1;
+			this.GtkAlignment2.Add (this.vbox1);
 			this.frame3.Add (this.GtkAlignment2);
 			this.GtkLabel8 = new global::Gtk.Label ();
 			this.GtkLabel8.Name = "GtkLabel8";
@@ -661,10 +502,8 @@ namespace MonoDevelop.StyleCop
 			this.GtkLabel8.UseMarkup = true;
 			this.frame3.LabelWidget = this.GtkLabel8;
 			this.vbox6.Add (this.frame3);
-			global::Gtk.Box.BoxChild w65 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame3]));
-			w65.Position = 2;
-			w65.Expand = false;
-			w65.Fill = false;
+			global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.frame3]));
+			w45.Position = 2;
 			this.Add (this.vbox6);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
