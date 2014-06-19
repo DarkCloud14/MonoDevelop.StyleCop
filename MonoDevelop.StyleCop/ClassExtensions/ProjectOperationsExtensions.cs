@@ -186,14 +186,14 @@ namespace MonoDevelop.StyleCop
       }
 
       Task styleCopWarning = new Task(
-        fileName,
-        string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message),
-        e.Location != null ? e.Location.Value.StartPoint.IndexOnLine : 1,
-        e.LineNumber,
-        severity,
-        TaskPriority.Normal,
-        ProjectUtilities.Instance.CachedProjects.GetProjectForFile(fileName),
-        ProjectOperationsExtensions.ownerObject);
+                               fileName,
+                               string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message),
+                               e.Location != null ? e.Location.Value.StartPoint.IndexOnLine : 1,
+                               e.LineNumber,
+                               severity,
+                               TaskPriority.Normal,
+                               ProjectUtilities.Instance.CachedProjects.GetProjectForFile(fileName),
+                               ProjectOperationsExtensions.ownerObject);
 
       styleCopAnalysisResultList.Add(styleCopWarning);
     }
@@ -239,10 +239,10 @@ namespace MonoDevelop.StyleCop
       {
         DispatchService.GuiDispatch(
           delegate
-        {
-          // StyleCopAnalysisDone disposes the styleCopProgressMonitor
-          StyleCopAnalysisDone();
-        });
+          {
+            // StyleCopAnalysisDone disposes the styleCopProgressMonitor
+            StyleCopAnalysisDone();
+          });
       }
     }
 
@@ -285,7 +285,7 @@ namespace MonoDevelop.StyleCop
 
         try
         {
-          Pad errorsPad = IdeApp.Workbench.GetPad<MonoDevelop.Ide.Gui.Pads.ErrorListPad>();
+          Pad errorsPad = IdeApp.Workbench.Pads.ErrorsPad;
           switch (IdeApp.Preferences.ShowErrorPadAfterBuild)
           {
           case BuildResultStates.Always:
