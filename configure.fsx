@@ -96,7 +96,7 @@ let searchPaths =
   | Some p -> p :: paths
 
 let mutable mdDir = null
-let mutable mdVersion = "4.0.0"
+let mutable mdVersion = "5.0"
 
 // Look for the installation directory
 if (File.Exists (GetPath ["../../../monodevelop.pc.in"])) then
