@@ -61,6 +61,7 @@ clean: projectclean
 	-rm -fr pack
 
 distclean: clean
+	-rm -fr addin-project.xml
 	-rm -fr Makefile
 	-rm -fr MonoDevelop.StyleCop/gtk-gui/gui.stetic
 	-rm -fr MonoDevelop.StyleCop/Properties/AssemblyInfo.cs
