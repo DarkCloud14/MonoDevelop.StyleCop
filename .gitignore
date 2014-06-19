@@ -7,6 +7,7 @@ obj
 *.suo
 *.Cache
 *.mpack
+addin-project.xml
 Makefile
 MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
 MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj
