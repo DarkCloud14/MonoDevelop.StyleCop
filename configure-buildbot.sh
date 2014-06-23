@@ -32,6 +32,14 @@ fi
 
 echo "Project is build for MonoDevelop version is $MDAPPVERSION"
 echo "MonoDevelop.StyleCop version is $VERSION"
+
+if [ "$MDAPPVERSION" == "4.0" ]; then
+  echo "Patching files for MonoDevelop $MDAPPVERSION"
+  STRINGTOLOOKUP="Pad errorsPad = IdeApp.Workbench.Pads.ErrorsPad;"
+  STRINGTOINSERT="Pad errorsPad = IdeApp.Workbench.GetPad<MonoDevelop.Ide.Gui.Pads.ErrorListPad>();"
+  sed -i "s/$STRINGTOLOOKUP/$STRINGTOINSERT/g" ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
+fi
+
 echo "Creating files necessary to build the project."
 
 sed "s/INSERT_CSPROJ_VERSION/$VERSION/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml.orig > ./MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
