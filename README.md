@@ -15,6 +15,8 @@ Installation
 Get the latest addin package from MonoDevelops [addin site](http://addins.monodevelop.com/Project/Index/54) and use MonoDevelops Addin-Manager to install.<br/>
 Additionally you can download the builds from GitHubs [releases site](https://github.com/DarkCloud14/MonoDevelop.StyleCop/releases) or download the source code and build your own package.
 
+You may have to enable the addin after installation.
+
 ###Remarks
 
 The spell checker is only available on Windows!
