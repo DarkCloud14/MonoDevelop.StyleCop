@@ -113,6 +113,7 @@ limitations under the License.
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
   </Extension>
 
+<!--
   <Extension path = "/MonoDevelop/ProjectModel/Gui/ItemOptionPanels">
     <Section id="StyleCop" _label="StyleCop">
       <Condition id="ItemType" value="Project">
@@ -125,4 +126,6 @@ limitations under the License.
       </Condition>
     </Section>
   </Extension>
+-->
+
 </Addin>
