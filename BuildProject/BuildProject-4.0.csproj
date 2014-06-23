@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)configure-buildbot.sh 4.0</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)configure-buildbot.sh 4.0</PreBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DummyClass.cs" />
@@ -39,6 +37,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)configure-buildbot.sh 5.0</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
