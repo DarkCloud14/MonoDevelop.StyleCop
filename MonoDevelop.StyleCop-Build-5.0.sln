@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildProject-5.0", "BuildProject-5.0.csproj", "{4E781DA4-128F-4943-8104-366A2145C240}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildProject-5.0", "BuildProject\BuildProject-5.0.csproj", "{4E781DA4-128F-4943-8104-366A2145C240}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProject", "..\StyleCop.Files\DummyProject.csproj", "{392F086D-4562-4380-BE65-3300C0B50E8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProject", "StyleCop.Files\DummyProject.csproj", "{392F086D-4562-4380-BE65-3300C0B50E8F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4E781DA4-128F-4943-8104-366A2145C240} = {4E781DA4-128F-4943-8104-366A2145C240}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.StyleCop", "..\MonoDevelop.StyleCop\MonoDevelop.StyleCop.csproj", "{DE06595B-37ED-4948-A8B4-3ABFEB8ADB63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.StyleCop", "MonoDevelop.StyleCop\MonoDevelop.StyleCop.csproj", "{DE06595B-37ED-4948-A8B4-3ABFEB8ADB63}"
 	ProjectSection(ProjectDependencies) = postProject
 		{392F086D-4562-4380-BE65-3300C0B50E8F} = {392F086D-4562-4380-BE65-3300C0B50E8F}
 	EndProjectSection
