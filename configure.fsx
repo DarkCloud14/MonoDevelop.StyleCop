@@ -33,7 +33,8 @@ open System.IO
 open System.Diagnostics
 open System.Text.RegularExpressions
 
-let MonoDevelopStyleCopVersion = "1.0.1.7"
+let MonoDevelopStyleCopVersion = File.ReadAllText("version-addin")
+Console.WriteLine ("MonoDevelop.StyleCop version: {0}", MonoDevelopStyleCopVersion)
 
 let UnixPaths = 
     [ "/usr/lib/monodevelop"
