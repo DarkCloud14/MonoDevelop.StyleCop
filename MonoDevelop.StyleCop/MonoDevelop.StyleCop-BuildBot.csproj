@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2013-2014 Alexander Jochum
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DE06595B-37ED-4948-A8B4-3ABFEB8ADB63}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MonoDevelop.StyleCop</RootNamespace>
+    <AssemblyName>MonoDevelop.StyleCop</AssemblyName>
+    <ReleaseVersion>INSERT_CSPROJ_VERSION</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <DocumentationFile>bin\Debug\MonoDevelop.StyleCop.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <DocumentationFile>bin\Release\MonoDevelop.StyleCop.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MonoDevelop.Core">
+      <HintPath>INSERT_CSPROJ_MDROOT\bin\MonoDevelop.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="StyleCop">
+      <HintPath>..\StyleCop.Files\StyleCop.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="StyleCop.CSharp">
+      <HintPath>..\StyleCop.Files\StyleCop.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="StyleCop.CSharp.Rules">
+      <HintPath>..\StyleCop.Files\StyleCop.CSharp.Rules.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.TextEditor">
+      <HintPath>INSERT_CSPROJ_MDROOT\bin\Mono.TextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="MonoDevelop.Ide">
+      <HintPath>INSERT_CSPROJ_MDROOT\bin\MonoDevelop.Ide.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>INSERT_CSPROJ_MDROOT\bin\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands.cs" />
+    <Compile Include="AnalysisType.cs" />
+    <Compile Include="ProjectUtilities.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StyleCopVersion.cs" />
+    <Compile Include="StyleCopSettingsHandler.cs" />
+    <Compile Include="ProjectCache.cs" />
+    <Compile Include="StaticStringResources.cs" />
+    <Compile Include="ClassExtensions\XmlDocumentExtension.cs" />
+    <Compile Include="ClassExtensions\ProjectOperationsExtensions.cs" />
+    <Compile Include="NodeBuilderExtensions\StyleCopNodeExtension.cs" />
+    <Compile Include="NodeCommandHandler\StyleCopNodeCommandHandler.cs" />
+    <Compile Include="AttributeClasses\FullNodeAnalysisCommandAttribute.cs" />
+    <Compile Include="AttributeClasses\NodeAnalysisCommandAttribute.cs" />
+    <Compile Include="CommandHandler\ActiveDocumentAnalysisHandler.cs" />
+    <Compile Include="CommandHandler\BaseAnalysisHandler.cs" />
+    <Compile Include="CommandHandler\SolutionFullAnalysisHandler.cs" />
+    <Compile Include="CommandHandler\SolutionAnalysisHandler.cs" />
+    <Compile Include="CommandHandler\StartupHandler.cs" />
+    <Compile Include="CommandHandler\StyleCopSettingsCommandHandler.cs" />
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="OptionPanels\CompanyInformationOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.CompanyInformationOptionsPanel.cs" />
+    <Compile Include="OptionPanels\GeneralOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.GeneralOptionsPanel.cs" />
+    <Compile Include="OptionPanels\RulesOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.RulesOptionsPanel.cs" />
+    <Compile Include="OptionPanels\SettingsFilesOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.SettingsFilesOptionsPanel.cs" />
+    <Compile Include="OptionPanels\SpellingOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.SpellingOptionsPanel.cs" />
+    <Compile Include="OptionPanels\ProjectOptionsPanelBase.cs" />
+    <Compile Include="OptionPanels\ValidPrefixesOptionsPanel.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.ValidPrefixesOptionsPanel.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="MonoDevelop.StyleCop.addin.xml" />
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\addin-project.xml">
+      <Link>addin-project.xml</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NodeBuilderExtensions\" />
+    <Folder Include="NodeCommandHandler\" />
+    <Folder Include="AttributeClasses\" />
+    <Folder Include="OptionPanels\" />
+  </ItemGroup>
+</Project>

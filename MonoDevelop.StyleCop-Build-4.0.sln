@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProject", "StyleCop.Fi
 		{9C92C468-2B85-46C9-9DEB-6CC655F5C652} = {9C92C468-2B85-46C9-9DEB-6CC655F5C652}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.StyleCop", "MonoDevelop.StyleCop\MonoDevelop.StyleCop.csproj", "{DE06595B-37ED-4948-A8B4-3ABFEB8ADB63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.StyleCop", "MonoDevelop.StyleCop\MonoDevelop.StyleCop-BuildBot.csproj", "{DE06595B-37ED-4948-A8B4-3ABFEB8ADB63}"
 	ProjectSection(ProjectDependencies) = postProject
 		{392F086D-4562-4380-BE65-3300C0B50E8F} = {392F086D-4562-4380-BE65-3300C0B50E8F}
 	EndProjectSection
@@ -36,7 +36,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MonoDevelop.StyleCop\MonoDevelop.StyleCop.csproj
+		StartupItem = MonoDevelop.StyleCop\MonoDevelop.StyleCop-BuildBot.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None

@@ -37,18 +37,21 @@ if [ "$MDAPPVERSION" == "4.0" ]; then
   echo "Patching files for MonoDevelop $MDAPPVERSION"
   STRINGTOLOOKUP="Pad errorsPad = IdeApp.Workbench.Pads.ErrorsPad;"
   STRINGTOINSERT="Pad errorsPad = IdeApp.Workbench.GetPad<MonoDevelop.Ide.Gui.Pads.ErrorListPad>();"
-  sed -i "s/$STRINGTOLOOKUP/$STRINGTOINSERT/g" ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
+  sed -i.bak "s/$STRINGTOLOOKUP/$STRINGTOINSERT/g" ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
 fi
 
 echo "Creating files necessary to build the project."
 
 sed "s/INSERT_CSPROJ_VERSION/$VERSION/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml.orig > ./MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
-sed -i "s/INSERT_MAJORAPP_VERSION/$MDAPPVERSION/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
+sed -i.bak "s/INSERT_MAJORAPP_VERSION/$MDAPPVERSION/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
 
-sed "s/INSERT_CSPROJ_VERSION/$VERSION/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj.orig > ./MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj
+sed -i.bak "s/INSERT_CSPROJ_VERSION/$VERSION/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
+sed -i.bak "s/INSERT_CSPROJ_MDROOT/./g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
 
 sed "s/INSERT_CSPROJ_VERSION/$VERSION/g" ./MonoDevelop.StyleCop/Properties/AssemblyInfo.cs.orig > ./MonoDevelop.StyleCop/Properties/AssemblyInfo.cs
 
-cp -f ./MonoDevelop.StyleCop/gtk-gui/gui.stetic.orig ./MonoDevelop.StyleCop/gtk-gui/gui.stetic
+sed "s/INSERT_CSPROJ_MDROOT/./g" ./MonoDevelop.StyleCop/gtk-gui/gui.stetic.orig > ./MonoDevelop.StyleCop/gtk-gui/gui.stetic
+
+cp -f addin-project-$MDAPPVERSION.xml addin-project.xml
 
 echo "File creation was successful."
