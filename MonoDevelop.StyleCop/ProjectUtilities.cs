@@ -195,7 +195,10 @@ namespace MonoDevelop.StyleCop
 
         if (this.HasKnownFileExtension(fileToEnumerate))
         {
-          results.Add(fileToEnumerate);
+          if (!fileToEnumerate.FilePath.HasExtension("xaml"))
+          {
+            results.Add(fileToEnumerate);
+          }
 
           if (fileToEnumerate.HasChildren)
           {
@@ -376,7 +379,7 @@ namespace MonoDevelop.StyleCop
         }
 
         var knownExtension = this.core.Parsers.FirstOrDefault(parser => !string.IsNullOrEmpty(parser.FileTypes.FirstOrDefault(fileType => fileType.Equals(fileExtension, StringComparison.OrdinalIgnoreCase))));
-        if (knownExtension != null)
+        if (knownExtension != null || fileExtension.Equals("xaml", StringComparison.InvariantCultureIgnoreCase))
         {
           return true;
         }
