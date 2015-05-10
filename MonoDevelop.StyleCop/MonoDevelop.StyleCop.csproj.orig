@@ -25,6 +25,7 @@ limitations under the License.
     <RootNamespace>MonoDevelop.StyleCop</RootNamespace>
     <AssemblyName>MonoDevelop.StyleCop</AssemblyName>
     <ReleaseVersion>INSERT_CSPROJ_VERSION</ReleaseVersion>
+    <TargetFrameworkVersion>INSERT_TARGET_FRAMEWORKVERSION</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
