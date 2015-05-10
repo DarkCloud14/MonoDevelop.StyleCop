@@ -139,22 +139,25 @@ else
 
 Console.WriteLine ("Detected version: {0}", mdVersion)
 
-let majorAppVersion = mdVersion.Split('.').First() + ".0";
-Console.WriteLine ("Major app version: {0}", majorAppVersion)
-
-let MinMDVersionForFramework45 = Version(5, 7)
 let currentMDVersion = Version(mdVersion)
+let mutable majorAppVersion = String.Format("{0}.{1}", currentMDVersion.Major, currentMDVersion.Minor)
+let MinMDVersionForFramework45 = Version(5, 7)
 
 if currentMDVersion < MinMDVersionForFramework45 then
+    majorAppVersion <- mdVersion.Split('.').First() + ".0";
     TargetFrameWorkVersion <- "v4.0"
 
+Console.WriteLine ("Major app version: {0}", majorAppVersion)
+
 let addinProjectFile = "addin-project.xml"
+let solutionFile = "MonoDevelop.StyleCop.sln"
 let assemblyFile = "MonoDevelop.StyleCop/Properties/AssemblyInfo.cs"
 let csprojFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj"
 let guiSteticFile = "MonoDevelop.StyleCop/gtk-gui/gui.stetic"
 let xmlFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml"
 
 FileReplace ("addin-project.xml.orig", addinProjectFile, "INSERT_MAJORAPP_VERSION", majorAppVersion)
+FileReplace ("MonoDevelop.StyleCop.sln.orig", solutionFile, "INSERT_DUMMY_PROJECT_VERSION", TargetFrameWorkVersion)
 FileReplace ("MonoDevelop.StyleCop/Properties/AssemblyInfo.cs.orig", assemblyFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
 FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj.orig", csprojFile, "INSERT_CSPROJ_MDROOT", mdDir)
 FileReplace (csprojFile, csprojFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
