@@ -19,6 +19,8 @@ cd $(dirname $0)
 
 MDAPPVERSION="4.0"
 TARGETFRAMEWORKVERSION="v4.5"
+PROJUTILSSTRINGTOLOOKUP="project.GetProjectTypes().Where(name => name.Equals(\"AspNetApp\", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault() != null"
+PROJUTILSSTRINGTOINSERT="project.ProjectType.Equals(\"AspNetApp\", StringComparison.OrdinalIgnoreCase)"
 
 if [ ! -z "$1" ]; then
   MDAPPVERSION=$1
@@ -40,10 +42,12 @@ if [ "$MDAPPVERSION" == "4.0" ]; then
   STRINGTOLOOKUP="Pad errorsPad = IdeApp.Workbench.Pads.ErrorsPad;"
   STRINGTOINSERT="Pad errorsPad = IdeApp.Workbench.GetPad<MonoDevelop.Ide.Gui.Pads.ErrorListPad>();"
   sed -i.bak "s/$STRINGTOLOOKUP/$STRINGTOINSERT/g" ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
+  sed -i.bak "s/$PROJUTILSSTRINGTOLOOKUP/$PROJUTILSSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/ProjectUtilities.cs
 fi
 
 if [ "$MDAPPVERSION" == "5.0" ]; then
   TARGETFRAMEWORKVERSION="v4.0"
+  sed -i.bak "s/$PROJUTILSSTRINGTOLOOKUP/$PROJUTILSSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/ProjectUtilities.cs
 fi
 
 echo "Creating files necessary to build the project."
