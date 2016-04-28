@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildProject-4.0", "BuildProject\MD4.0\BuildProject-4.0.csproj", "{9C92C468-2B85-46C9-9DEB-6CC655F5C652}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProject", "StyleCop.Files-v4.0\DummyProject.csproj", "{392F086D-4562-4380-BE65-3300C0B50E8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProject", "StyleCop.Files\DummyProject.csproj", "{392F086D-4562-4380-BE65-3300C0B50E8F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9C92C468-2B85-46C9-9DEB-6CC655F5C652} = {9C92C468-2B85-46C9-9DEB-6CC655F5C652}
 	EndProjectSection

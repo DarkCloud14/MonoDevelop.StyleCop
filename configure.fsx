@@ -157,7 +157,6 @@ let guiSteticFile = "MonoDevelop.StyleCop/gtk-gui/gui.stetic"
 let xmlFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml"
 
 FileReplace ("addin-project.xml.orig", addinProjectFile, "INSERT_MAJORAPP_VERSION", majorAppVersion)
-FileReplace ("MonoDevelop.StyleCop.sln.orig", solutionFile, "INSERT_DUMMY_PROJECT_VERSION", TargetFrameWorkVersion)
 FileReplace ("MonoDevelop.StyleCop/Properties/AssemblyInfo.cs.orig", assemblyFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
 FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj.orig", csprojFile, "INSERT_CSPROJ_MDROOT", mdDir)
 FileReplace (csprojFile, csprojFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
