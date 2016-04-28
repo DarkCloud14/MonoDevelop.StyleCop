@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>DummyProject</RootNamespace>
     <AssemblyName>DummyProject</AssemblyName>
-    <ReleaseVersion>1.0.1.7</ReleaseVersion>
+    <ReleaseVersion>1.0.1.9</ReleaseVersion>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
