@@ -9,7 +9,6 @@ obj
 *.mpack
 addin-project.xml
 Makefile
-MonoDevelop.StyleCop.sln
 MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml
 MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj
 MonoDevelop.StyleCop/gtk-gui/gui.stetic

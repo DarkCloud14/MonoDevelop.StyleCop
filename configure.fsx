@@ -150,7 +150,6 @@ if currentMDVersion < MinMDVersionForFramework45 then
 Console.WriteLine ("Major app version: {0}", majorAppVersion)
 
 let addinProjectFile = "addin-project.xml"
-let solutionFile = "MonoDevelop.StyleCop.sln"
 let assemblyFile = "MonoDevelop.StyleCop/Properties/AssemblyInfo.cs"
 let csprojFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj"
 let guiSteticFile = "MonoDevelop.StyleCop/gtk-gui/gui.stetic"
