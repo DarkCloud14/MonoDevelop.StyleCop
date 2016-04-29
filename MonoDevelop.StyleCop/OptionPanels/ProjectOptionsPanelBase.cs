@@ -21,6 +21,7 @@
 namespace MonoDevelop.StyleCop
 {
   using Gtk;
+  using MonoDevelop.Components;
   using MonoDevelop.Ide;
   using MonoDevelop.Ide.Gui.Dialogs;
   using MonoDevelop.Projects;
@@ -87,7 +88,7 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     /// <returns>The options panel widget.</returns>
     /// <remarks>Will only be called if the user really gets to see the options panel.</remarks>
-    public virtual Widget CreatePanelWidget()
+    public virtual Control CreatePanelWidget()
     {
       // We count this up here as now the option panel gets really shown to the user.
       settingsHandlerAccessCount++;

@@ -24,6 +24,8 @@ namespace MonoDevelop.StyleCop
   using System.Collections.Generic;
   using System.Globalization;
   using System.Linq;
+  using System.Threading;
+  using System.Threading.Tasks;
   using MonoDevelop.Core;
   using MonoDevelop.Core.Instrumentation;
   using MonoDevelop.Core.ProgressMonitoring;
@@ -41,9 +43,9 @@ namespace MonoDevelop.StyleCop
     #region Private Static Fields
 
     /// <summary>
-    /// IAsyncOperation object which is used to check if a StyleCop analysis is still running.
+    /// AsyncOperation object which is used to check if a StyleCop analysis is still running.
     /// </summary>
-    private static IAsyncOperation currentStyleCopOperation = NullAsyncOperation.Success;
+    private static AsyncOperation currentStyleCopOperation = AsyncOperation.CompleteOperation;
 
     /// <summary>
     /// Object which is used to remove all warnings produced by StyleCop from the ErrorPad.
@@ -51,14 +53,14 @@ namespace MonoDevelop.StyleCop
     private static object ownerObject = new object();
 
     /// <summary>
-    /// List which will contain all violations as MonoDevelop Tasks reported by StyleCop.
+    /// List which will contain all violations as MonoDevelop TaskEntries reported by StyleCop.
     /// </summary>
-    private static List<Task> styleCopAnalysisResultList = new List<Task>();
+    private static List<TaskListEntry> styleCopAnalysisResultList = new List<TaskListEntry>();
 
     /// <summary>
     /// MonoDevelop progress monitor which is used to output several messages to the output pane of ErrorPad.
     /// </summary>
-    private static IProgressMonitor styleCopProgressMonitor = null;
+    private static ProgressMonitor styleCopProgressMonitor = null;
 
     /// <summary>
     /// This is used to monitor the StyleCop analysis run with mdmonitor tool of MonoDevelop.
@@ -95,8 +97,8 @@ namespace MonoDevelop.StyleCop
     /// <param name="entry">MonoDevelop build target i.e. a Solution or Project</param>
     /// <param name="fullAnalysis">True if a full analysis should be performed.</param>
     /// <param name="styleCopProjects">Collection of StyleCop projects to analyze.</param>
-    /// <returns>IAsyncOperation object which can be used to i.e. listen to the Completed event which is invoked when the operation is completed.</returns>
-    internal static IAsyncOperation StyleCopAnalysis(this ProjectOperations projectOperations, IBuildTarget entry, bool fullAnalysis, IList<CodeProject> styleCopProjects)
+    /// <returns>AsyncOperation object which can be used to i.e. listen to the Completed event which is invoked when the operation is completed.</returns>
+    internal static AsyncOperation StyleCopAnalysis(this ProjectOperations projectOperations, IBuildTarget entry, bool fullAnalysis, IList<CodeProject> styleCopProjects)
     {
       if (projectOperations.CurrentRunOperation != null && !projectOperations.CurrentRunOperation.IsCompleted)
       {
@@ -108,10 +110,10 @@ namespace MonoDevelop.StyleCop
         return currentStyleCopOperation;
       }
 
+      CancellationTokenSource cs = new CancellationTokenSource();
       styleCopTimer.BeginTiming("Starting StyleCop analysis on " + entry.Name);
       styleCopProgressMonitor = IdeApp.Workbench.ProgressMonitors.GetBuildProgressMonitor();
-      DispatchService.ThreadDispatch(() => RunStyleCopAnalysisAsync(fullAnalysis, styleCopProjects));
-      projectOperations.CurrentRunOperation = currentStyleCopOperation = styleCopProgressMonitor.AsyncOperation;
+      projectOperations.CurrentRunOperation = currentStyleCopOperation = new AsyncOperation(RunStyleCopAnalysisAsync(fullAnalysis, styleCopProjects), cs);
 
       return currentStyleCopOperation;
     }
@@ -185,7 +187,7 @@ namespace MonoDevelop.StyleCop
         severity = TaskSeverity.Warning;
       }
 
-      Task styleCopWarning = new Task(
+      TaskListEntry styleCopWarning = new TaskListEntry(
                                fileName,
                                string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message),
                                e.Location != null ? e.Location.Value.StartPoint.IndexOnLine : 1,
@@ -219,30 +221,30 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     /// <param name="fullAnalysis">True if a full analysis should be performed.</param>
     /// <param name="styleCopProjects">Collection of StyleCop projects to analyze.</param>
-    private static void RunStyleCopAnalysisAsync(bool fullAnalysis, IList<CodeProject> styleCopProjects)
+    /// <returns>As this is an async method returning Task is more or less equal to void but a caller method can than use the await keyword.</returns>
+    private static async Task RunStyleCopAnalysisAsync(bool fullAnalysis, IList<CodeProject> styleCopProjects)
     {
-      DispatchService.GuiSyncDispatch(() => ClearEnvironmentPriorToAnalysis());
+      ClearEnvironmentPriorToAnalysis();
       SignalAnalysisStarted();
 
       try
       {
-        if (fullAnalysis)
+        await Task.Run(() =>
         {
-          ProjectUtilities.Instance.Core.FullAnalyze(styleCopProjects);
-        }
-        else
-        {
-          ProjectUtilities.Instance.Core.Analyze(styleCopProjects);
-        }
+          if (fullAnalysis)
+          {
+            ProjectUtilities.Instance.Core.FullAnalyze(styleCopProjects);
+          }
+          else
+          {
+            ProjectUtilities.Instance.Core.Analyze(styleCopProjects);
+          }
+        });
       }
       finally
       {
-        DispatchService.GuiDispatch(
-          delegate
-          {
-            // StyleCopAnalysisDone disposes the styleCopProgressMonitor
-            StyleCopAnalysisDone();
-          });
+        // StyleCopAnalysisDone disposes the styleCopProgressMonitor
+        StyleCopAnalysisDone();
       }
     }
 
@@ -286,7 +288,7 @@ namespace MonoDevelop.StyleCop
         try
         {
           Pad errorsPad = IdeApp.Workbench.Pads.ErrorsPad;
-          switch (IdeApp.Preferences.ShowErrorPadAfterBuild)
+          switch (IdeApp.Preferences.ShowErrorPadAfterBuild.Value)
           {
           case BuildResultStates.Always:
             if (!errorsPad.Visible)
@@ -313,8 +315,8 @@ namespace MonoDevelop.StyleCop
 
         if (styleCopAnalysisResultList != null)
         {
-          Task jumpTask = null;
-          switch (IdeApp.Preferences.JumpToFirstErrorOrWarning)
+          TaskListEntry jumpTask = null;
+          switch (IdeApp.Preferences.JumpToFirstErrorOrWarning.Value)
           {
           case JumpToFirst.ErrorOrWarning:
             jumpTask = styleCopAnalysisResultList.FirstOrDefault(t => t.Severity == TaskSeverity.Warning && TaskStore.IsProjectTaskFile(t));

@@ -31,25 +31,6 @@ namespace MonoDevelop.StyleCop
   /// </summary>
   internal class StyleCopNodeExtension : NodeBuilderExtension
   {
-    #region Private Fields
-
-    /// <summary>
-    /// The solution item removed handler.
-    /// </summary>
-    private SolutionItemChangeEventHandler solutionItemRemovedHandler;
-
-    /// <summary>
-    /// The file added handler.
-    /// </summary>
-    private ProjectFileEventHandler fileAddedHandler;
-
-    /// <summary>
-    /// The file removed handler.
-    /// </summary>
-    private ProjectFileEventHandler fileRemovedHandler;
-
-    #endregion Private Fields
-
     #region Public Override Properties
 
     /// <summary>
@@ -89,9 +70,9 @@ namespace MonoDevelop.StyleCop
     /// the <see cref="MonoDevelop.StyleCop.StyleCopNodeExtension"/> was occupying.</remarks>
     public override void Dispose()
     {
-      IdeApp.Workspace.ItemRemovedFromSolution -= this.solutionItemRemovedHandler;
-      IdeApp.Workspace.FileAddedToProject -= this.fileAddedHandler;
-      IdeApp.Workspace.FileRemovedFromProject -= this.fileRemovedHandler;
+      IdeApp.Workspace.ItemRemovedFromSolution -= this.OnSolutionItemRemoved;
+      IdeApp.Workspace.FileAddedToProject -= this.OnAddFile;
+      IdeApp.Workspace.FileRemovedFromProject -= this.OnRemoveFile;
       base.Dispose();
     }
 
@@ -122,13 +103,9 @@ namespace MonoDevelop.StyleCop
     {
       base.Initialize();
 
-      this.solutionItemRemovedHandler = (SolutionItemChangeEventHandler)DispatchService.GuiDispatch(new SolutionItemChangeEventHandler(this.OnSolutionItemRemoved));
-      this.fileAddedHandler = (ProjectFileEventHandler)DispatchService.GuiDispatch(new ProjectFileEventHandler(this.OnAddFile));
-      this.fileRemovedHandler = (ProjectFileEventHandler)DispatchService.GuiDispatch(new ProjectFileEventHandler(this.OnRemoveFile));
-
-      IdeApp.Workspace.ItemRemovedFromSolution += this.solutionItemRemovedHandler;
-      IdeApp.Workspace.FileAddedToProject += this.fileAddedHandler;
-      IdeApp.Workspace.FileRemovedFromProject += this.fileRemovedHandler;
+      IdeApp.Workspace.ItemRemovedFromSolution += this.OnSolutionItemRemoved;
+      IdeApp.Workspace.FileAddedToProject += this.OnAddFile;
+      IdeApp.Workspace.FileRemovedFromProject += this.OnRemoveFile;
     }
 
     #endregion Protected Override Methods

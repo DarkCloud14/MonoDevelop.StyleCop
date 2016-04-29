@@ -25,6 +25,7 @@ namespace MonoDevelop.StyleCop
   using System.Globalization;
   using System.IO;
   using System.Reflection;
+  using MonoDevelop.Components;
   using global::StyleCop;
 
   /// <summary>
@@ -110,7 +111,7 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     /// <returns>The options panel widget.</returns>
     /// <remarks>Will only be called if the user really gets to see the options panel.</remarks>
-    public override Gtk.Widget CreatePanelWidget()
+    public override Control CreatePanelWidget()
     {
       // Get the write cache setting.
       this.writeCachePropertyDescriptor = this.SettingsHandler.Core.PropertyDescriptors["WriteCache"] as PropertyDescriptor<bool>;

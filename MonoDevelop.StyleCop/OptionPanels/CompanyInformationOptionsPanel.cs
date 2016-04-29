@@ -22,6 +22,7 @@ namespace MonoDevelop.StyleCop
 {
   using System;
   using System.Reflection;
+  using MonoDevelop.Components;
   using global::StyleCop;
   using global::StyleCop.CSharp;
 
@@ -69,7 +70,7 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     /// <returns>The options panel widget.</returns>
     /// <remarks>Will only be called if the user really gets to see the options panel.</remarks>
-    public override Gtk.Widget CreatePanelWidget()
+    public override Control CreatePanelWidget()
     {
       if (this.analyzer != null)
       {
