@@ -1,5 +1,5 @@
 MonoDevelop.StyleCop Add-In
-Copyright 2013 Alexander Jochum
+Copyright 2013-2016 Alexander Jochum
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,8 +16,9 @@ limitations under the License.
 This software includes the following libraries and files:
 
 de-DE/StyleCop.CSharp.Rules.resources.dll, en-GB/StyleCop.CSharp.Rules.resources.dll,
-fr-FR/StyleCop.CSharp.Rules.resources.dll, pl-PL/StyleCop.CSharp.Rules.resources.dll,
-pt-BR/StyleCop.CSharp.Rules.resources.dll, ru-RU/StyleCop.CSharp.Rules.resources.dll,
+en-MX/StyleCop.CSharp.Rules.resources.dll, fr-FR/StyleCop.CSharp.Rules.resources.dll,
+pl-PL/StyleCop.CSharp.Rules.resources.dll, pt-BR/StyleCop.CSharp.Rules.resources.dll,
+ru-RU/StyleCop.CSharp.Rules.resources.dll,
 CustomDictionary.en-GB.xml, CustomDictionary.en-US.xml, CustomDictionary.xml, mssp7en.dll, mssp7en.lex
 Settings.StyleCop, StyleCop.dll, StyleCop.CSharp.dll, StyleCop.CSharp.Rules.dll and StyleCopSettingsEditor.exe
 Copyright: StyleCop Project
