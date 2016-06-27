@@ -340,7 +340,7 @@ namespace MonoDevelop.StyleCop
 
       if (assemblyProject != null)
       {
-        if (project.GetTypeTags().Where(name => name.Equals("AspNetApp", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault() != null && assemblyProject.LanguageName.Equals("C#", StringComparison.OrdinalIgnoreCase))
+        if (project.GetTypeTags().Where(name => name.Equals("AspNetApp", StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null && assemblyProject.LanguageName.Equals("C#", StringComparison.OrdinalIgnoreCase))
         {
           return "{E24C65DC-7377-472b-9ABA-BC803B73C61A}";
         }
