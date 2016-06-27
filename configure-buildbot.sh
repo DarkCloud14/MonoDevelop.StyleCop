@@ -22,8 +22,6 @@ TARGETFRAMEWORKVERSION="v4.5"
 PROJUTILSSTRINGTOLOOKUP="project.GetTypeTags().Where(name => name.Equals(\"AspNetApp\", StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null"
 PROJUTILSSTRINGTOINSERT="project.ProjectType.Equals(\"AspNetApp\", StringComparison.OrdinalIgnoreCase)"
 PROJUTILSSTRINGTOINSERT5_7="project.GetProjectTypes().Where(name => name.Equals(\"AspNetApp\", StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null"
-OPTIONPANELSTRINGTOLOOKUP="public override Control CreatePanelWidget()"
-OPTIONPANELSTRINGTOINSERT="public override Gtk.Widget CreatePanelWidget()"
 
 if [ ! -z "$1" ]; then
   MDAPPVERSION=$1
@@ -45,11 +43,16 @@ if [ "$MDAPPVERSION" != "6.0" ]; then
   mv ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensionsPreXS6.cs ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
 
   echo "Patching option panel files for MonoDevelop $MDAPPVERSION"
+  OPTIONPANELSTRINGTOLOOKUP="public override Control CreatePanelWidget()"
+  OPTIONPANELSTRINGTOINSERT="public override Gtk.Widget CreatePanelWidget()"
   sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/CompanyInformationOptionsPanel.cs
   sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/GeneralOptionsPanel.cs
-  sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/ProjectOptionsPanelBase.cs
   sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/RulesOptionsPanel.cs
   sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/ValidPrefixesOptionsPanel.cs
+
+  OPTIONPANELSTRINGTOLOOKUP="public virtual Control CreatePanelWidget()"
+  OPTIONPANELSTRINGTOINSERT="public virtual Gtk.Widget CreatePanelWidget()"
+  sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/ProjectOptionsPanelBase.cs
 fi
 
 if [ "$MDAPPVERSION" == "4.0" ]; then
