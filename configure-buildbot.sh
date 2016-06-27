@@ -19,8 +19,11 @@ cd $(dirname $0)
 
 MDAPPVERSION="4.0"
 TARGETFRAMEWORKVERSION="v4.5"
-PROJUTILSSTRINGTOLOOKUP="project.GetProjectTypes().Where(name => name.Equals(\"AspNetApp\", StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault() != null"
+PROJUTILSSTRINGTOLOOKUP="project.GetTypeTags().Where(name => name.Equals(\"AspNetApp\", StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null"
 PROJUTILSSTRINGTOINSERT="project.ProjectType.Equals(\"AspNetApp\", StringComparison.OrdinalIgnoreCase)"
+PROJUTILSSTRINGTOINSERT5_7="project.GetProjectTypes().Where(name => name.Equals(\"AspNetApp\", StringComparison.OrdinalIgnoreCase)).FirstOrDefault() != null"
+OPTIONPANELSTRINGTOLOOKUP="public override Control CreatePanelWidget()"
+OPTIONPANELSTRINGTOINSERT="public override Gtk.Widget CreatePanelWidget()"
 
 if [ ! -z "$1" ]; then
   MDAPPVERSION=$1
@@ -33,8 +36,21 @@ else
   exit -1
 fi
 
-echo "Project is build for MonoDevelop version is $MDAPPVERSION"
+echo "Project is build for MonoDevelop version $MDAPPVERSION"
 echo "MonoDevelop.StyleCop version is $VERSION"
+
+if [ "$MDAPPVERSION" != "6.0" ]; then
+  echo "Removing XS 6.0 ProjectOperationsExtensions.cs file and renaming ProjectOperationsExtensionsPreXS6.cs file appropriately."
+  rm ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
+  mv ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensionsPreXS6.cs ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
+
+  echo "Patching option panel files for MonoDevelop $MDAPPVERSION"
+  sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/CompanyInformationOptionsPanel.cs
+  sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/GeneralOptionsPanel.cs
+  sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/ProjectOptionsPanelBase.cs
+  sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/RulesOptionsPanel.cs
+  sed -i.bak "s/$OPTIONPANELSTRINGTOLOOKUP/$OPTIONPANELSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/OptionPanels/ValidPrefixesOptionsPanel.cs
+fi
 
 if [ "$MDAPPVERSION" == "4.0" ]; then
   TARGETFRAMEWORKVERSION="v4.0"
@@ -47,7 +63,13 @@ fi
 
 if [ "$MDAPPVERSION" == "5.0" ]; then
   TARGETFRAMEWORKVERSION="v4.0"
+  echo "Patching files for MonoDevelop $MDAPPVERSION"
   sed -i.bak "s/$PROJUTILSSTRINGTOLOOKUP/$PROJUTILSSTRINGTOINSERT/g" ./MonoDevelop.StyleCop/ProjectUtilities.cs
+fi
+
+if [ "$MDAPPVERSION" == "5.7" ]; then
+  echo "Patching files for MonoDevelop $MDAPPVERSION"
+  sed -i.bak "s/$PROJUTILSSTRINGTOLOOKUP/$PROJUTILSSTRINGTOINSERT5_7/g" ./MonoDevelop.StyleCop/ProjectUtilities.cs
 fi
 
 echo "Creating files necessary to build the project."
