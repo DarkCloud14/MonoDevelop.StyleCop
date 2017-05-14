@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2014-2016 Alexander Jochum
+//   Copyright 2014-2017 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -44,6 +44,7 @@ let UnixPaths =
       "/Applications/MonoDevelop.app/Contents/MacOS/lib/"
       "monodevelop"
       "/opt/mono/lib/monodevelop"
+      "/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop"
       "/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop"
       "/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop" ]
 
@@ -112,10 +113,14 @@ else
     mdDir <- searchPaths.FirstOrDefault (fun p -> File.Exists (GetPath [p; MdCheckFile]))
     if (mdDir <> null) then
         let mdExe = 
-            if (File.Exists (GetPath[mdDir; "../../XamarinStudio"])) then
+            if (File.Exists (GetPath[mdDir; "../../VisualStudio"])) then
+                GetPath[mdDir; "../../XamarinStudio"]
+            elif (File.Exists (GetPath[mdDir; "../../VisualStudio"])) then
                 GetPath[mdDir; "../../XamarinStudio"]
             elif (File.Exists (GetPath [mdDir; "../../MonoDevelop"])) then
                 GetPath [mdDir; "../../MonoDevelop"]
+            elif (File.Exists (GetPath[mdDir; "bin/VisualStudio.exe"])) then
+                GetPath[mdDir; "bin/VisualStudio.exe"]
             elif (File.Exists (GetPath[mdDir; "bin/XamarinStudio.exe"])) then
                 GetPath[mdDir; "bin/XamarinStudio.exe"]
             elif (File.Exists (GetPath [mdDir; "bin/MonoDevelop.exe"])) then
@@ -157,9 +162,17 @@ let xmlFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml"
 
 FileReplace ("addin-project.xml.orig", addinProjectFile, "INSERT_MAJORAPP_VERSION", majorAppVersion)
 FileReplace ("MonoDevelop.StyleCop/Properties/AssemblyInfo.cs.orig", assemblyFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
-FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj.orig", csprojFile, "INSERT_CSPROJ_MDROOT", mdDir)
-FileReplace (csprojFile, csprojFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
+FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj.orig", csprojFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
 FileReplace (csprojFile, csprojFile, "INSERT_TARGET_FRAMEWORKVERSION", TargetFrameWorkVersion)
+
+if currentMDVersion < Version(7, 0) then
+    FileReplace (csprojFile, csprojFile, "INSERT_IMMUTABLE_REFERENCE_HERE", "")
+    FileReplace (csprojFile, csprojFile, "INSERT_TEXTEDITOR_REFERENCE_HERE", "<Reference Include=\"Mono.TextEditor\"><HintPath>INSERT_CSPROJ_MDROOT\bin\Mono.TextEditor.dll</HintPath></Reference>")
+else
+    FileReplace (csprojFile, csprojFile, "INSERT_IMMUTABLE_REFERENCE_HERE", "<Reference Include=\"System.Collections.Immutable\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\System.Collections.Immutable.dll</HintPath></Reference>")
+    FileReplace (csprojFile, csprojFile, "INSERT_TEXTEDITOR_REFERENCE_HERE", "<Reference Include=\"Microsoft.VisualStudio.Text.UI\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\Microsoft.VisualStudio.Text.UI.dll</HintPath></Reference>")
+
+FileReplace (csprojFile, csprojFile, "INSERT_CSPROJ_MDROOT", mdDir)
 FileReplace ("MonoDevelop.StyleCop/gtk-gui/gui.stetic.orig", guiSteticFile, "INSERT_CSPROJ_MDROOT", mdDir)
 FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml.orig", xmlFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
 FileReplace (xmlFile, xmlFile, "INSERT_MAJORAPP_VERSION", majorAppVersion)
