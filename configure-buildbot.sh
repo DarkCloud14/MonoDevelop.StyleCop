@@ -37,7 +37,7 @@ fi
 echo "Project is build for MonoDevelop version $MDAPPVERSION"
 echo "MonoDevelop.StyleCop version is $VERSION"
 
-if [ "$MDAPPVERSION" != "6.0" && "$MDAPPVERSION" != "7.0" ]; then
+if [ "$MDAPPVERSION" != "6.0" ] && [ "$MDAPPVERSION" != "7.0" ]; then
   echo "Removing XS 6.0 ProjectOperationsExtensions.cs file and renaming ProjectOperationsExtensionsPreXS6.cs file appropriately."
   rm ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
   mv ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensionsPreXS6.cs ./MonoDevelop.StyleCop/ClassExtensions/ProjectOperationsExtensions.cs
@@ -82,11 +82,11 @@ sed -i.bak "s/INSERT_MAJORAPP_VERSION/$MDAPPVERSION/g" ./MonoDevelop.StyleCop/Mo
 
 if [ "$MDAPPVERSION" == "7.0" ]; then
   echo "Patching files for MonoDevelop $MDAPPVERSION"
-  sed -i.bak "s/INSERT_IMMUTABLE_REFERENCE_HERE/<Reference Include=\"System.Collections.Immutable\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\System.Collections.Immutable.dll</HintPath></Reference>/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
-  sed -i.bak "s/INSERT_TEXTEDITOR_REFERENCE_HERE/<Reference Include=\"Microsoft.VisualStudio.Text.UI\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\Microsoft.VisualStudio.Text.UI.dll</HintPath></Reference>/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
+  sed -i.bak "s/INSERT_IMMUTABLE_REFERENCE_HERE/<Reference Include=\"System.Collections.Immutable\"><HintPath>INSERT_CSPROJ_MDROOT\\\\bin\\\\System.Collections.Immutable.dll<\/HintPath><\/Reference>/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
+  sed -i.bak "s/INSERT_TEXTEDITOR_REFERENCE_HERE/<Reference Include=\"Microsoft.VisualStudio.Text.UI\"><HintPath>INSERT_CSPROJ_MDROOT\\\\bin\\\\Microsoft.VisualStudio.Text.UI.dll<\/HintPath><\/Reference>/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
 else
   sed -i.bak "s/INSERT_IMMUTABLE_REFERENCE_HERE//g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
-  sed -i.bak "s/INSERT_TEXTEDITOR_REFERENCE_HERE/<Reference Include=\"Mono.TextEditor\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\Mono.TextEditor.dll</HintPath></Reference>/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
+  sed -i.bak "s/INSERT_TEXTEDITOR_REFERENCE_HERE/<Reference Include=\"Mono.TextEditor\"><HintPath>INSERT_CSPROJ_MDROOT\\\\bin\\\\Mono.TextEditor.dll<\/HintPath><\/Reference>/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
 fi
 
 sed -i.bak "s/INSERT_CSPROJ_VERSION/$VERSION/g" ./MonoDevelop.StyleCop/MonoDevelop.StyleCop-BuildBot.csproj
