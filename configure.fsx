@@ -131,11 +131,20 @@ else
             let outp = Run(mdExe, "/?").ReadLine()
             mdVersion <- outp.Split([| ' ' |], StringSplitOptions.RemoveEmptyEntries).Last()
 
+let currentMDVersion = Version(mdVersion)
+
 if not isWindows then
     // Update the makefile. We don't use that on windows
     FileReplace ("Makefile.orig", "Makefile", "INSERT_MDROOT", mdDir)
     FileReplace ("Makefile", "Makefile", "INSERT_MDVERSION4", mdVersion)
     FileReplace ("Makefile", "Makefile", "INSERT_VERSION", MonoDevelopStyleCopVersion)
+
+    if (File.Exists (GetPath[mdDir; "/bin/vstool.exe"])) then
+        FileReplace ("Makefile", "Makefile", "mdtool.exe", "vstool.exe")
+
+    if currentMDVersion >= Version(7, 0) then
+        FileReplace ("Makefile", "Makefile", "xbuild", "msbuild")
+
     
 if (mdDir = null) then
     Console.WriteLine ("MonoDevelop binaries not found. Continuing anyway")
@@ -144,7 +153,6 @@ else
 
 Console.WriteLine ("Detected version: {0}", mdVersion)
 
-let currentMDVersion = Version(mdVersion)
 let mutable majorAppVersion = String.Format("{0}.{1}", currentMDVersion.Major, currentMDVersion.Minor)
 let MinMDVersionForFramework45 = Version(5, 7)
 
