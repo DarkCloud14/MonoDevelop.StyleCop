@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013-2016 Alexander Jochum
+//   Copyright 2013, 2014, 2016, 2017 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
+  using System;
   using Gtk;
   using MonoDevelop.Components;
   using MonoDevelop.Ide;
@@ -49,11 +50,6 @@ namespace MonoDevelop.StyleCop
     #endregion Private Static Fields
 
     #region Private Fields
-
-    /// <summary>
-    /// The parent project.
-    /// </summary>
-    private Project parentProject;
 
     /// <summary>
     /// The options panel visibility.
@@ -103,19 +99,32 @@ namespace MonoDevelop.StyleCop
     public void Initialize(OptionsDialog dialog, object dataObject)
     {
       this.optionsPanelVisible = false;
-      this.parentProject = dataObject as Project;
+      string localSettingsFileFolder = string.Empty;
 
-      // If for some reason the dataObject isn't our project get it over the selection in case that isn't null.
-      if (this.parentProject == null && IdeApp.ProjectOperations.CurrentSelectedProject != null)
+      if (dataObject is Solution)
       {
-        this.parentProject = IdeApp.ProjectOperations.CurrentSelectedProject;
+        this.optionsPanelVisible = true;
+        localSettingsFileFolder = ((Solution)dataObject).BaseDirectory;
       }
+      else
+      {
+        var project = dataObject as Project;
 
-      this.optionsPanelVisible = ProjectUtilities.Instance.IsKnownProjectType(this.parentProject);
+        // If for some reason the dataObject isn't our project try to get it over the selection in case that isn't null.
+        if (project == null && IdeApp.ProjectOperations.CurrentSelectedProject != null)
+        {
+          project = IdeApp.ProjectOperations.CurrentSelectedProject;
+        }
+
+        if (project != null)
+        {
+          this.optionsPanelVisible = ProjectUtilities.Instance.IsKnownProjectType(project);
+          localSettingsFileFolder = project.BaseDirectory;
+        }
+      }
 
       if (this.optionsPanelVisible)
       {
-        string localSettingsFileFolder = this.parentProject.BaseDirectory;
         string settingsFilePath = System.IO.Path.Combine(localSettingsFileFolder, global::StyleCop.Settings.DefaultFileName);
 
         if (!System.IO.File.Exists(settingsFilePath))
@@ -190,6 +199,10 @@ namespace MonoDevelop.StyleCop
 
         if (settingsHandlerAccessCount == 0)
         {
+          // TODO add some kind of exception handling or at least information about such
+          Exception exception = null;
+          settingsHandler.Core.Environment.SaveSettings(this.SettingsHandler.LocalSettings, out exception);
+
           settingsHandler = null;
         }
       }
