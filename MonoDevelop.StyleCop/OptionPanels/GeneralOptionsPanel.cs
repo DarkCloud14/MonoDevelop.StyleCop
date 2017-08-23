@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013-2016 Alexander Jochum
+//   Copyright 2013, 2014, 2016, 2017 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -105,6 +105,24 @@ namespace MonoDevelop.StyleCop
     #endregion Constructor
 
     #region Public Override Methods
+
+    /// <summary>
+    /// Applies the changes.
+    /// </summary>
+    public override void ApplyChanges()
+    {
+      this.SettingsHandler.LocalSettings.GlobalSettings.SetProperty(
+        new BooleanProperty(this.SettingsHandler.Core, this.writeCachePropertyDescriptor.PropertyName, this.enableCacheCheckBox.Active));
+
+      this.SettingsHandler.LocalSettings.GlobalSettings.SetProperty(
+        new BooleanProperty(this.SettingsHandler.Core, this.violationsAsErrorsPropertyDescriptor.PropertyName, this.violationsAsErrorsCheckBox.Active));
+
+      this.SettingsHandler.LocalSettings.GlobalSettings.SetProperty(
+        new IntProperty(this.SettingsHandler.Core, this.maxViolationCountPropertyDescriptor.PropertyName, this.maxViolationCountSpinButton.ValueAsInt));
+
+      this.SettingsHandler.LocalSettings.GlobalSettings.SetProperty(
+          new StringProperty(this.SettingsHandler.Core, this.culturePropertyDescriptor.PropertyName, this.cultureComboBox.ActiveText));
+    }
 
     /// <summary>
     /// Initializes the options panel values just before the panel is shown to user for the first time.
