@@ -1,5 +1,5 @@
 <!--
-Copyright 2013-2014 Alexander Jochum
+Copyright 2013, 2014, 2017 Alexander Jochum
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -113,19 +113,21 @@ limitations under the License.
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
   </Extension>
 
-<!--
   <Extension path = "/MonoDevelop/ProjectModel/Gui/ItemOptionPanels">
     <Section id="StyleCop" _label="StyleCop">
-      <Condition id="ItemType" value="Project">
+      <ComplexCondition>
+        <Or>
+          <Condition id="ItemType" value="Project"/>
+          <Condition id="ItemType" value="Solution"/>
+        </Or>
         <Section id = "StyleCopRulesOptionsPanel" _label = "Rules" fill="true" class="MonoDevelop.StyleCop.RulesOptionsPanel" />
         <Section id = "StyleCopSettingsFilesOptionsPanel" _label = "Settings Files" fill="true" class="MonoDevelop.StyleCop.SettingsFilesOptionsPanel" />
         <Section id = "StyleCopGeneralOptionsPanel" _label = "General" fill="true" class="MonoDevelop.StyleCop.GeneralOptionsPanel" />
         <Section id = "StyleCopSpellingOptionsPanel" _label = "Spelling" fill="true" class="MonoDevelop.StyleCop.SpellingOptionsPanel" />
         <Section id = "StyleCopCompanyInformationOptionsPanel" _label = "Company Information" fill="true" class="MonoDevelop.StyleCop.CompanyInformationOptionsPanel" />
         <Section id = "StyleCopValidPrefixesOptionsPanel" _label = "Hungarian" fill="true" class="MonoDevelop.StyleCop.ValidPrefixesOptionsPanel" />
-      </Condition>
+      </ComplexCondition>
     </Section>
   </Extension>
--->
 
 </Addin>
