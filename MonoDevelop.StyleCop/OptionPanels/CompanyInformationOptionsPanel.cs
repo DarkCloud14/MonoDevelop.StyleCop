@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013-2016 Alexander Jochum
+//   Copyright 2013, 2014, 2016, 2017 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ namespace MonoDevelop.StyleCop
   using System;
   using System.Reflection;
   using MonoDevelop.Components;
+  using MonoDevelop.Ide;
   using global::StyleCop;
   using global::StyleCop.CSharp;
 
@@ -66,6 +67,32 @@ namespace MonoDevelop.StyleCop
     #region Public Override Methods
 
     /// <summary>
+    /// Applies the changes.
+    /// </summary>
+    public override void ApplyChanges()
+    {
+      if (this.analyzer != null)
+      {
+        if (!this.checkBox.Active)
+        {
+          this.analyzer.ClearSetting(this.SettingsHandler.LocalSettings, this.companyNameProperty);
+          this.analyzer.ClearSetting(this.SettingsHandler.LocalSettings, this.copyrightProperty);
+        }
+        else
+        {
+          if (this.companyNameEntry.Text.Length > 0 && this.copyrightTextView.Buffer.CharCount > 0)
+          {
+            this.analyzer.SetSetting(
+              this.SettingsHandler.LocalSettings, new StringProperty(this.analyzer, this.companyNameProperty, this.companyNameEntry.Text));
+
+            this.analyzer.SetSetting(
+                this.SettingsHandler.LocalSettings, new StringProperty(this.analyzer, this.copyrightProperty, this.copyrightTextView.Buffer.Text));
+          }
+        }
+      }
+    }
+
+    /// <summary>
     /// Initializes the options panel values just before the panel is shown to user for the first time.
     /// </summary>
     /// <returns>The options panel widget.</returns>
@@ -107,6 +134,24 @@ namespace MonoDevelop.StyleCop
       }
 
       return base.CreatePanelWidget();
+    }
+
+    /// <summary>
+    /// Validates the changes.
+    /// </summary>
+    /// <returns><c>true</c>, if changes was validated, <c>false</c> otherwise.</returns>
+    public override bool ValidateChanges()
+    {
+      if (this.checkBox.Active)
+      {
+        if (this.companyNameEntry.Text.Length == 0 || this.copyrightTextView.Buffer.CharCount == 0)
+        {
+          MessageService.ShowError("The company name and copyright boxes must be filled in.");
+          return false;
+        }
+      }
+
+      return base.ValidateChanges();
     }
 
     #endregion Public Override Methods
