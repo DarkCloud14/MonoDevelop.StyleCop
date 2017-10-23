@@ -165,7 +165,6 @@ Console.WriteLine ("Major app version: {0}", majorAppVersion)
 let addinProjectFile = "addin-project.xml"
 let assemblyFile = "MonoDevelop.StyleCop/Properties/AssemblyInfo.cs"
 let csprojFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj"
-let guiSteticFile = "MonoDevelop.StyleCop/gtk-gui/gui.stetic"
 let xmlFile = "MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml"
 
 FileReplace ("addin-project.xml.orig", addinProjectFile, "INSERT_MAJORAPP_VERSION", majorAppVersion)
@@ -181,6 +180,5 @@ else
     FileReplace (csprojFile, csprojFile, "INSERT_TEXTEDITOR_REFERENCE_HERE", "<Reference Include=\"Microsoft.VisualStudio.Text.UI\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\Microsoft.VisualStudio.Text.UI.dll</HintPath></Reference>")
 
 FileReplace (csprojFile, csprojFile, "INSERT_CSPROJ_MDROOT", mdDir)
-FileReplace ("MonoDevelop.StyleCop/gtk-gui/gui.stetic.orig", guiSteticFile, "INSERT_CSPROJ_MDROOT", mdDir)
 FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml.orig", xmlFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
 FileReplace (xmlFile, xmlFile, "INSERT_MAJORAPP_VERSION", majorAppVersion)
