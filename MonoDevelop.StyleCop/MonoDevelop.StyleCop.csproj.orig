@@ -103,6 +103,18 @@ limitations under the License.
     <Compile Include="CommandHandler\StartupHandler.cs" />
     <Compile Include="CommandHandler\StyleCopSettingsCommandHandler.cs" />
     <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="Gui\OptionPanelWidgets\CompanyInformationOptionsPanelWidget.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Gui.OptionPanelWidgets.CompanyInformationOptionsPanelWidget.cs" />
+    <Compile Include="Gui\OptionPanelWidgets\GeneralOptionsPanelWidget.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Gui.OptionPanelWidgets.GeneralOptionsPanelWidget.cs" />
+    <Compile Include="Gui\OptionPanelWidgets\RulesOptionsPanelWidget.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Gui.OptionPanelWidgets.RulesOptionsPanelWidget.cs" />
+    <Compile Include="Gui\OptionPanelWidgets\SettingsFilesOptionsPanelWidget.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Gui.OptionPanelWidgets.SettingsFilesOptionsPanelWidget.cs" />
+    <Compile Include="Gui\OptionPanelWidgets\SpellingOptionsPanelWidget.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Gui.OptionPanelWidgets.SpellingOptionsPanelWidget.cs" />
+    <Compile Include="Gui\OptionPanelWidgets\ValidPrefixesOptionsPanelWidget.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.StyleCop.Gui.OptionPanelWidgets.ValidPrefixesOptionsPanelWidget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -115,10 +127,5 @@ limitations under the License.
     <None Include="..\addin-project.xml">
       <Link>addin-project.xml</Link>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NodeBuilderExtensions\" />
-    <Folder Include="NodeCommandHandler\" />
-    <Folder Include="AttributeClasses\" />
   </ItemGroup>
 </Project>

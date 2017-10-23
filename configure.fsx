@@ -182,3 +182,4 @@ else
 FileReplace (csprojFile, csprojFile, "INSERT_CSPROJ_MDROOT", mdDir)
 FileReplace ("MonoDevelop.StyleCop/MonoDevelop.StyleCop.addin.xml.orig", xmlFile, "INSERT_CSPROJ_VERSION", MonoDevelopStyleCopVersion)
 FileReplace (xmlFile, xmlFile, "INSERT_MAJORAPP_VERSION", majorAppVersion)
+File.Copy ("MonoDevelop.StyleCop/gtk-gui/gui.stetic.orig", "MonoDevelop.StyleCop/gtk-gui/gui.stetic", true)
