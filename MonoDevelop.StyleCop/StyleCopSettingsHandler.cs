@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2014 Alexander Jochum
+//   Copyright 2014, 2017 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -119,7 +119,14 @@ namespace MonoDevelop.StyleCop
       }
       else
       {
-        throw new InvalidOperationException("StyleCop settings couldn't be loaded!");
+        string errorMessage = "StyleCop settings couldn't be loaded!";
+
+        Gtk.MessageDialog messageDialog = new Gtk.MessageDialog(null, Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, errorMessage);
+        messageDialog.Title = StaticStringResources.Title;
+        messageDialog.Run();
+        messageDialog.Destroy();
+
+        throw new InvalidOperationException(errorMessage);
       }
     }
 
