@@ -115,6 +115,14 @@ limitations under the License.
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.Gui.OptionPanelWidgets.SpellingOptionsPanelWidget.cs" />
     <Compile Include="Gui\OptionPanelWidgets\ValidPrefixesOptionsPanelWidget.cs" />
     <Compile Include="gtk-gui\MonoDevelop.StyleCop.Gui.OptionPanelWidgets.ValidPrefixesOptionsPanelWidget.cs" />
+    <Compile Include="Gui\Dialogs\StyleCopOptionsDialog.cs" />
+    <Compile Include="Gui\OptionPanels\CompanyInformationOptionsPanel.cs" />
+    <Compile Include="Gui\OptionPanels\RulesOptionsPanel.cs" />
+    <Compile Include="Gui\OptionPanels\SettingsFilesOptionsPanel.cs" />
+    <Compile Include="Gui\OptionPanels\GeneralOptionsPanel.cs" />
+    <Compile Include="Gui\OptionPanels\SpellingOptionsPanel.cs" />
+    <Compile Include="Gui\OptionPanels\ValidPrefixesOptionsPanel.cs" />
+    <Compile Include="Gui\OptionPanels\StyleCopOptionsPanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

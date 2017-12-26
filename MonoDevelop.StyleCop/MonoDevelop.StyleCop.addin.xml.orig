@@ -112,4 +112,20 @@ limitations under the License.
   <Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
   </Extension>
+
+  <ExtensionPoint path = "/MonoDevelop/Gui/StyleCopOptionPanels" name="Dialog option panels for StyleCop options">
+    <Description>Dialog option panels for StyleCop options. Those panels will be shown for all support kind of solution items and solutions.</Description>
+    <ExtensionNodeSet id="MonoDevelop.Ide.OptionsDialogSection"/>
+  </ExtensionPoint>
+
+  <Extension path = "/MonoDevelop/Gui/StyleCopOptionPanels">
+    <Section id="StyleCop" _label="StyleCop">
+      <Section id = "RulesOptionsPanel" _label = "Rules" fill="true" class="MonoDevelop.StyleCop.Gui.OptionPanels.RulesOptionsPanel" />
+      <Section id = "SettingsFilesOptionsPanel" _label = "Settings Files" fill="true" class="MonoDevelop.StyleCop.Gui.OptionPanels.SettingsFilesOptionsPanel" />
+      <Section id = "GeneralOptionsPanel" _label = "General" fill="true" class="MonoDevelop.StyleCop.Gui.OptionPanels.GeneralOptionsPanel" />
+      <Section id = "SpellingOptionsPanel" _label = "Spelling" fill="true" class="MonoDevelop.StyleCop.Gui.OptionPanels.SpellingOptionsPanel" />
+      <Section id = "CompanyInformationOptionsPanel" _label = "Company Information" fill="true" class="MonoDevelop.StyleCop.Gui.OptionPanels.CompanyInformationOptionsPanel" />
+      <Section id = "ValidPrefixesOptionsPanel" _label = "Hungarian" fill="true" class="MonoDevelop.StyleCop.Gui.OptionPanels.ValidPrefixesOptionsPanel" />
+    </Section>
+  </Extension>
 </Addin>
