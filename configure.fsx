@@ -174,7 +174,7 @@ FileReplace (csprojFile, csprojFile, "INSERT_TARGET_FRAMEWORKVERSION", TargetFra
 
 if currentMDVersion < Version(7, 0) then
     FileReplace (csprojFile, csprojFile, "INSERT_IMMUTABLE_REFERENCE_HERE", "")
-    FileReplace (csprojFile, csprojFile, "INSERT_TEXTEDITOR_REFERENCE_HERE", "<Reference Include=\"Mono.TextEditor\"><HintPath>INSERT_CSPROJ_MDROOT\bin\Mono.TextEditor.dll</HintPath></Reference>")
+    FileReplace (csprojFile, csprojFile, "INSERT_TEXTEDITOR_REFERENCE_HERE", "<Reference Include=\"Mono.TextEditor\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\Mono.TextEditor.dll</HintPath></Reference>")
 else
     FileReplace (csprojFile, csprojFile, "INSERT_IMMUTABLE_REFERENCE_HERE", "<Reference Include=\"System.Collections.Immutable\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\System.Collections.Immutable.dll</HintPath></Reference>")
     FileReplace (csprojFile, csprojFile, "INSERT_TEXTEDITOR_REFERENCE_HERE", "<Reference Include=\"Microsoft.VisualStudio.Text.UI\"><HintPath>INSERT_CSPROJ_MDROOT\\bin\\Microsoft.VisualStudio.Text.UI.dll</HintPath></Reference>")
