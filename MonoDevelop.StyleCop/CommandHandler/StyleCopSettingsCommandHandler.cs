@@ -23,6 +23,8 @@ namespace MonoDevelop.StyleCop
   using System.IO;
   using MonoDevelop.Components.Commands;
   using MonoDevelop.Ide;
+  using MonoDevelop.Projects;
+  using MonoDevelop.StyleCop.Gui.Dialogs;
   using global::StyleCop;
 
   /// <summary>
@@ -39,17 +41,22 @@ namespace MonoDevelop.StyleCop
     {
       base.Run();
 
-      var selectedProject = IdeApp.ProjectOperations.CurrentSelectedProject;
-      if (selectedProject != null && !string.IsNullOrEmpty(selectedProject.BaseDirectory))
+      IWorkspaceFileObject selectedProjectOrSolution = IdeApp.ProjectOperations.CurrentSelectedProject;
+      if (selectedProjectOrSolution == null)
+      {
+        selectedProjectOrSolution = IdeApp.ProjectOperations.CurrentSelectedSolution;
+      }
+
+      if (selectedProjectOrSolution != null && !string.IsNullOrEmpty(selectedProjectOrSolution.BaseDirectory))
       {
         // Show StyleCops local settings dialog.
-        string settingsFilePath = Path.Combine(selectedProject.BaseDirectory, Settings.DefaultFileName);
+        string settingsFilePath = Path.Combine(selectedProjectOrSolution.BaseDirectory, Settings.DefaultFileName);
         if (!File.Exists(settingsFilePath))
         {
-          string deprecatedFilePath = Path.Combine(selectedProject.BaseDirectory, Settings.AlternateFileName);
+          string deprecatedFilePath = Path.Combine(selectedProjectOrSolution.BaseDirectory, Settings.AlternateFileName);
           if (!File.Exists(deprecatedFilePath))
           {
-            deprecatedFilePath = Path.Combine(selectedProject.BaseDirectory, V101Settings.DefaultFileName);
+            deprecatedFilePath = Path.Combine(selectedProjectOrSolution.BaseDirectory, V101Settings.DefaultFileName);
             if (File.Exists(deprecatedFilePath))
             {
               settingsFilePath = deprecatedFilePath;
@@ -61,7 +68,29 @@ namespace MonoDevelop.StyleCop
           }
         }
 
-        ProjectUtilities.Instance.Core.ShowSettings(settingsFilePath);
+        StyleCopSettingsHandler settingsHandler;
+        try
+        {
+          settingsHandler = new StyleCopSettingsHandler(settingsFilePath, ProjectUtilities.Instance.Core);
+        }
+        catch
+        {
+          return;
+        }
+
+        var styleCopOptionsDialog = new StyleCopOptionsDialog(IdeApp.Workbench.RootWindow, settingsHandler);
+        try
+        {
+          if (MessageService.RunCustomDialog(styleCopOptionsDialog) == (int)Gtk.ResponseType.Ok)
+          {
+            settingsHandler.LocalSettings.WriteSettingsToDocument(ProjectUtilities.Instance.Core.Environment);
+          }
+        }
+        finally
+        {
+          styleCopOptionsDialog.Destroy();
+          styleCopOptionsDialog.Dispose();
+        }
       }
     }
 
