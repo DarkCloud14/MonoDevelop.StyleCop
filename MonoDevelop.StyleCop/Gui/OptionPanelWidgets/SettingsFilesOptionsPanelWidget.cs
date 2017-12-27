@@ -23,8 +23,10 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
   /// <summary>
   /// StyleCop settings files options panel widget.
   /// </summary>
-  public partial class SettingsFilesOptionsPanelWidget : Gtk.Bin
+  public partial class SettingsFilesOptionsPanelWidget : StyleCopOptionsPanelWidget
   {
+    #region Constructor
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MonoDevelop.StyleCop.Gui.OptionPanelWidgets.SettingsFilesOptionsPanelWidget"/> class.
     /// </summary>
@@ -32,5 +34,27 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     {
       this.Build();
     }
+
+    #endregion Constructor
+
+    #region Public Override Methods
+
+    /// <summary>
+    /// Applies the changes.
+    /// </summary>
+    public override void ApplyChanges()
+    {
+    }
+
+    /// <summary>
+    /// Initializes the options panel widget values.
+    /// </summary>
+    /// <param name="settingsHandler">Settings handler object.</param>
+    public override void Initialize(StyleCopSettingsHandler settingsHandler)
+    {
+      base.Initialize(settingsHandler);
+    }
+
+    #endregion Public Override Methods
   }
 }

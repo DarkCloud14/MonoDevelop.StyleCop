@@ -128,6 +128,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 				this.Child.ShowAll();
 			}
 			this.Hide();
+			this.checkBox.Toggled += new global::System.EventHandler(this.CheckBoxToggled);
 		}
 	}
 }

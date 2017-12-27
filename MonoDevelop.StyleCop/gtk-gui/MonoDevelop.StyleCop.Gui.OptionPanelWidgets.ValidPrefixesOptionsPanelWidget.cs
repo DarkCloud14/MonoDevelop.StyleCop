@@ -259,6 +259,8 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 				this.Child.ShowAll();
 			}
 			this.Hide();
+			this.removePrefixButton.Clicked += new global::System.EventHandler(this.RemovePrefixButtonClicked);
+			this.addPrefixButton.Clicked += new global::System.EventHandler(this.AddPrefixButtonClicked);
 		}
 	}
 }

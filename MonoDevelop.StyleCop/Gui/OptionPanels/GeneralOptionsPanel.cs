@@ -20,7 +20,6 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop.Gui.OptionPanels
 {
-  using MonoDevelop.Components;
   using MonoDevelop.StyleCop.Gui.OptionPanelWidgets;
 
   /// <summary>
@@ -28,15 +27,6 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanels
   /// </summary>
   internal class GeneralOptionsPanel : StyleCopOptionsPanel
   {
-    #region Private Fields
-
-    /// <summary>
-    /// The general options panel widget.
-    /// </summary>
-    private GeneralOptionsPanelWidget widget = new GeneralOptionsPanelWidget();
-
-    #endregion Private Fields
-
     #region Constructor
 
     /// <summary>
@@ -44,37 +34,9 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanels
     /// </summary>
     internal GeneralOptionsPanel()
     {
+      this.Widget = new GeneralOptionsPanelWidget();
     }
 
     #endregion Constructor
-
-    #region Public  Override Methods
-
-    /// <summary>
-    /// Applies the changes.
-    /// </summary>
-    public override void ApplyChanges()
-    {
-    }
-
-    /// <summary>
-    /// Creates the options panel widget.
-    /// </summary>
-    /// <returns>The options panel widget.</returns>
-    public override Control CreatePanelWidget()
-    {
-      return this.widget;
-    }
-
-    /// <summary>
-    /// Determines whether this instance is visible.
-    /// </summary>
-    /// <returns><c>true</c> if this instance is visible; otherwise, <c>false</c>.</returns>
-    public override bool IsVisible()
-    {
-      return true;
-    }
-
-    #endregion Public Override Methods
   }
 }

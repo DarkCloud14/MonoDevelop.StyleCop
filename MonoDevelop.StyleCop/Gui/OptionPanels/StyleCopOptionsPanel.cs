@@ -21,7 +21,9 @@
 namespace MonoDevelop.StyleCop.Gui.OptionPanels
 {
   using System;
+  using MonoDevelop.Components;
   using MonoDevelop.Ide.Gui.Dialogs;
+  using MonoDevelop.StyleCop.Gui.OptionPanelWidgets;
 
   /// <summary>
   /// StyleCop options panel base class.
@@ -31,44 +33,79 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanels
     #region Private Fields
 
     /// <summary>
-    /// The settings handler object.
+    /// The options panel widget.
     /// </summary>
-    private StyleCopSettingsHandler settingsHandler;
+    private StyleCopOptionsPanelWidget widget;
 
     #endregion Private Fields
 
     #region Protected Properties
 
     /// <summary>
-    /// Gets the settings handler object.
+    /// Gets or sets the widget.
     /// </summary>
-    /// <value>The settings handler object.</value>
-    protected StyleCopSettingsHandler SettingsHandler
+    /// <value>The widget.</value>
+    protected StyleCopOptionsPanelWidget Widget
     {
       get
       {
-        return this.settingsHandler;
+        return this.widget;
+      }
+
+      set
+      {
+        this.widget = value;
       }
     }
 
     #endregion Protected Properties
 
-    #region Public Override Methods
+    #region Public  Override Methods
+
+    /// <summary>
+    /// Applies the changes.
+    /// </summary>
+    public override void ApplyChanges()
+    {
+      this.widget.ApplyChanges();
+    }
+
+    /// <summary>
+    /// Creates the options panel widget.
+    /// </summary>
+    /// <returns>The options panel widget.</returns>
+    public override Control CreatePanelWidget()
+    {
+      return this.widget;
+    }
 
     /// <summary>
     /// Initializes the OptionsPanel.
     /// </summary>
     /// <param name="dialog">Parent dialog.</param>
-    /// <param name="dataObject">Data object (should be the project in our case).</param>
+    /// <param name="dataObject">Data object (should be the settings handler object in our case).</param>
     public override void Initialize(OptionsDialog dialog, object dataObject)
     {
       base.Initialize(dialog, dataObject);
+      this.widget.Initialize(dataObject as StyleCopSettingsHandler);
+    }
 
-      this.settingsHandler = dataObject as StyleCopSettingsHandler;
-      if (this.settingsHandler == null)
-      {
-        throw new InvalidCastException("dataObject is not of type StyleCopSettingsHandler");
-      }
+    /// <summary>
+    /// Determines whether this instance is visible.
+    /// </summary>
+    /// <returns><c>true</c> if this instance is visible; otherwise, <c>false</c>.</returns>
+    public override bool IsVisible()
+    {
+      return true;
+    }
+
+    /// <summary>
+    /// Validates the changes.
+    /// </summary>
+    /// <returns><c>true</c>, if changes was validated, <c>false</c> otherwise.</returns>
+    public override bool ValidateChanges()
+    {
+      return this.widget.ValidateChanges();
     }
 
     #endregion Public Override Methods

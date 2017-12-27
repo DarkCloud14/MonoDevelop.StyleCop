@@ -23,6 +23,7 @@
             <property name="DrawIndicator">True</property>
             <property name="HasLabel">True</property>
             <property name="UseUnderline">True</property>
+            <signal name="Toggled" handler="CheckBoxToggled" />
           </widget>
           <packing>
             <property name="Position">0</property>
@@ -174,6 +175,7 @@
             <property name="DrawIndicator">True</property>
             <property name="HasLabel">True</property>
             <property name="UseUnderline">True</property>
+            <signal name="Toggled" handler="EnableCacheCheckBoxToggled" />
           </widget>
           <packing>
             <property name="Position">0</property>
@@ -215,6 +217,7 @@
             <property name="DrawIndicator">True</property>
             <property name="HasLabel">True</property>
             <property name="UseUnderline">True</property>
+            <signal name="Toggled" handler="ViolationsAsErrorsCheckBoxToggled" />
           </widget>
           <packing>
             <property name="Position">3</property>
@@ -248,6 +251,7 @@
                 <property name="StepIncrement">1</property>
                 <property name="ClimbRate">1</property>
                 <property name="Numeric">True</property>
+                <signal name="ValueChanged" handler="MaxViolationCountSpinButtonValueChanged" />
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -285,6 +289,7 @@
                 <property name="MemberName" />
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
+                <signal name="Changed" handler="CultureComboBoxChanged" />
               </widget>
               <packing>
                 <property name="Position">1</property>

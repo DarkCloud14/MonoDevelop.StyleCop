@@ -84,9 +84,13 @@ namespace MonoDevelop.StyleCop
         {
           if (MessageService.RunCustomDialog(styleCopOptionsDialog) == (int)Gtk.ResponseType.Ok)
           {
-            // TODO add some kind of exception handling or at least information about such
             Exception exception = null;
             settingsHandler.Core.Environment.SaveSettings(settingsHandler.LocalSettings, out exception);
+
+            if (exception != null)
+            {
+              MessageService.ShowError("There was a problem while trying to save the StyleCop settings.", exception);
+            }
           }
         }
         finally

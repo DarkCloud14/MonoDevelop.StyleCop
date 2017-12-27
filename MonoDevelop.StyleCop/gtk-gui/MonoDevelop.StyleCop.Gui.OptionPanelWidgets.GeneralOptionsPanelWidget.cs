@@ -144,6 +144,10 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 				this.Child.ShowAll();
 			}
 			this.Hide();
+			this.enableCacheCheckBox.Toggled += new global::System.EventHandler(this.EnableCacheCheckBoxToggled);
+			this.violationsAsErrorsCheckBox.Toggled += new global::System.EventHandler(this.ViolationsAsErrorsCheckBoxToggled);
+			this.maxViolationCountSpinButton.ValueChanged += new global::System.EventHandler(this.MaxViolationCountSpinButtonValueChanged);
+			this.cultureComboBox.Changed += new global::System.EventHandler(this.CultureComboBoxChanged);
 		}
 	}
 }
