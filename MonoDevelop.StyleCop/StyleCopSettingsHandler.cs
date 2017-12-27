@@ -28,7 +28,7 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// This class handles the given StyleCop settings file.
   /// </summary>
-  internal sealed class StyleCopSettingsHandler
+  public sealed class StyleCopSettingsHandler
   {
     #region Private Fields
 
@@ -71,7 +71,7 @@ namespace MonoDevelop.StyleCop
     /// </summary>
     /// <param name="settingsFilePath">The path to the StyleCop settings file.</param>
     /// <param name="coreInstance">The StyleCop core instance.</param>
-    internal StyleCopSettingsHandler(string settingsFilePath, StyleCopCore coreInstance)
+    public StyleCopSettingsHandler(string settingsFilePath, StyleCopCore coreInstance)
     {
       Param.AssertValidString(settingsFilePath, "settingsFilePath");
       Param.AssertNotNull(coreInstance, "coreInstance");

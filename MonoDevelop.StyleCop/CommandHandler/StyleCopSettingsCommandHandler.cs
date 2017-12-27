@@ -20,6 +20,7 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop
 {
+  using System;
   using System.IO;
   using MonoDevelop.Components.Commands;
   using MonoDevelop.Ide;
@@ -83,7 +84,9 @@ namespace MonoDevelop.StyleCop
         {
           if (MessageService.RunCustomDialog(styleCopOptionsDialog) == (int)Gtk.ResponseType.Ok)
           {
-            settingsHandler.LocalSettings.WriteSettingsToDocument(ProjectUtilities.Instance.Core.Environment);
+            // TODO add some kind of exception handling or at least information about such
+            Exception exception = null;
+            settingsHandler.Core.Environment.SaveSettings(settingsHandler.LocalSettings, out exception);
           }
         }
         finally
