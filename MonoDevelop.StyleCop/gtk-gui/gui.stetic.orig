@@ -555,6 +555,7 @@
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">...</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="BrowseButtonClicked" />
               </widget>
               <packing>
                 <property name="TopAttach">3</property>
@@ -573,16 +574,20 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Fixed" id="fixed2">
+              <widget class="Gtk.Button" id="editLinkedSettingsFileButton">
                 <property name="MemberName" />
-                <property name="HasWindow">False</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">Edit</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="EditLinkedSettingsFileButtonClicked" />
               </widget>
               <packing>
                 <property name="TopAttach">2</property>
                 <property name="BottomAttach">3</property>
                 <property name="LeftAttach">1</property>
                 <property name="RightAttach">2</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="XOptions">Fill</property>
                 <property name="YOptions">Fill</property>
                 <property name="XExpand">False</property>
@@ -594,16 +599,20 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Fixed" id="fixed3">
+              <widget class="Gtk.Button" id="editParentSettingsFileButton">
                 <property name="MemberName" />
-                <property name="HasWindow">False</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">Edit</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="EditParentSettingsFileButtonClicked" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
                 <property name="BottomAttach">2</property>
                 <property name="LeftAttach">1</property>
                 <property name="RightAttach">2</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="XOptions">Fill</property>
                 <property name="YOptions">Fill</property>
                 <property name="XExpand">False</property>
@@ -686,6 +695,7 @@
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
                 <property name="Group">group1</property>
+                <signal name="Toggled" handler="MergeWithLinkedFileRadioButtonToggled" />
               </widget>
               <packing>
                 <property name="TopAttach">2</property>
@@ -709,6 +719,7 @@
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
                 <property name="Group">group1</property>
+                <signal name="Toggled" handler="MergeWithParentsRadioButtonToggled" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -732,6 +743,7 @@
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
                 <property name="Group">group1</property>
+                <signal name="Toggled" handler="NoMergeRadioButtonToggled" />
               </widget>
               <packing>
                 <property name="AutoSize">True</property>
@@ -808,6 +820,7 @@
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Add</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="AddRecognizedWordButtonClicked" />
                           </widget>
                           <packing>
                             <property name="LeftAttach">2</property>
@@ -829,6 +842,7 @@
                             <property name="CanFocus">True</property>
                             <property name="IsEditable">True</property>
                             <property name="InvisibleChar">●</property>
+                            <signal name="KeyReleaseEvent" handler="AddRecognizedWordEntryReleaseEvent" />
                           </widget>
                           <packing>
                             <property name="LeftAttach">1</property>
@@ -919,6 +933,7 @@
                                 <property name="Type">TextOnly</property>
                                 <property name="Label" translatable="yes">Remove</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="RemoveRecognizedWordButtonClicked" />
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
@@ -1025,6 +1040,7 @@
                             <property name="CanFocus">True</property>
                             <property name="IsEditable">True</property>
                             <property name="InvisibleChar">●</property>
+                            <signal name="KeyReleaseEvent" handler="AddAlternateWordEntryReleaseEvent" />
                           </widget>
                           <packing>
                             <property name="TopAttach">1</property>
@@ -1049,6 +1065,7 @@
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Add</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="AddDeprecatedWordButtonClicked" />
                           </widget>
                           <packing>
                             <property name="LeftAttach">2</property>
@@ -1070,6 +1087,7 @@
                             <property name="CanFocus">True</property>
                             <property name="IsEditable">True</property>
                             <property name="InvisibleChar">●</property>
+                            <signal name="KeyReleaseEvent" handler="AddDeprecatedWordEntryReleaseEvent" />
                           </widget>
                           <packing>
                             <property name="LeftAttach">1</property>
@@ -1202,6 +1220,7 @@ alternative word:</property>
                                 <property name="Type">TextOnly</property>
                                 <property name="Label" translatable="yes">Remove</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="RemoveDeprecatedWordButtonClicked" />
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
@@ -1306,6 +1325,7 @@ alternative word:</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Add</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="AddFolderButtonClicked" />
                           </widget>
                           <packing>
                             <property name="LeftAttach">2</property>
@@ -1327,6 +1347,7 @@ alternative word:</property>
                             <property name="CanFocus">True</property>
                             <property name="IsEditable">True</property>
                             <property name="InvisibleChar">●</property>
+                            <signal name="KeyReleaseEvent" handler="AddFolderEntryReleaseEvent" />
                           </widget>
                           <packing>
                             <property name="LeftAttach">1</property>
@@ -1411,12 +1432,13 @@ alternative word:</property>
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.Button" id="button3">
+                              <widget class="Gtk.Button" id="removeFolderButton">
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextOnly</property>
                                 <property name="Label" translatable="yes">Remove</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Clicked" handler="RemoveFolderButtonClicked" />
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
@@ -1523,7 +1545,7 @@ alternative word:</property>
         <child>
           <widget class="Gtk.Table" id="table5">
             <property name="MemberName" />
-            <property name="NRows">4</property>
+            <property name="NRows">3</property>
             <property name="NColumns">3</property>
             <property name="RowSpacing">6</property>
             <property name="ColumnSpacing">6</property>
@@ -1534,6 +1556,7 @@ alternative word:</property>
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">Add</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="AddPrefixButtonClicked" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -1557,6 +1580,7 @@ alternative word:</property>
                 <property name="CanFocus">True</property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
+                <signal name="KeyReleaseEvent" handler="AddPrefixEntryKeyReleaseEvent" />
               </widget>
               <packing>
                 <property name="TopAttach">1</property>
@@ -1631,48 +1655,6 @@ alternative word:</property>
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Fixed" id="fixed14">
-                <property name="MemberName" />
-                <property name="HasWindow">False</property>
-              </widget>
-              <packing>
-                <property name="TopAttach">2</property>
-                <property name="BottomAttach">3</property>
-                <property name="LeftAttach">1</property>
-                <property name="RightAttach">2</property>
-                <property name="AutoSize">True</property>
-                <property name="XOptions">Fill</property>
-                <property name="YOptions">Fill</property>
-                <property name="XExpand">False</property>
-                <property name="XFill">True</property>
-                <property name="XShrink">False</property>
-                <property name="YExpand">False</property>
-                <property name="YFill">True</property>
-                <property name="YShrink">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Fixed" id="fixed6">
-                <property name="MemberName" />
-                <property name="HasWindow">False</property>
-              </widget>
-              <packing>
-                <property name="TopAttach">3</property>
-                <property name="BottomAttach">4</property>
-                <property name="LeftAttach">2</property>
-                <property name="RightAttach">3</property>
-                <property name="AutoSize">False</property>
-                <property name="XOptions">0</property>
-                <property name="YOptions">Fill</property>
-                <property name="XExpand">False</property>
-                <property name="XFill">False</property>
-                <property name="XShrink">False</property>
-                <property name="YExpand">False</property>
-                <property name="YFill">True</property>
-                <property name="YShrink">False</property>
-              </packing>
-            </child>
-            <child>
               <widget class="Gtk.Fixed" id="fixed7">
                 <property name="MemberName" />
                 <property name="HasWindow">False</property>
@@ -1706,8 +1688,8 @@ alternative word:</property>
                 </child>
               </widget>
               <packing>
-                <property name="TopAttach">3</property>
-                <property name="BottomAttach">4</property>
+                <property name="TopAttach">2</property>
+                <property name="BottomAttach">3</property>
                 <property name="AutoSize">False</property>
                 <property name="XExpand">True</property>
                 <property name="XFill">True</property>
@@ -1735,25 +1717,6 @@ alternative word:</property>
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Label" id="label4">
-                <property name="MemberName" />
-                <property name="Xalign">0</property>
-                <property name="LabelProp" translatable="yes">Currently excluded prefixes:</property>
-              </widget>
-              <packing>
-                <property name="TopAttach">2</property>
-                <property name="BottomAttach">3</property>
-                <property name="AutoSize">False</property>
-                <property name="YOptions">Fill</property>
-                <property name="XExpand">True</property>
-                <property name="XFill">True</property>
-                <property name="XShrink">False</property>
-                <property name="YExpand">False</property>
-                <property name="YFill">True</property>
-                <property name="YShrink">False</property>
-              </packing>
-            </child>
-            <child>
               <widget class="Gtk.VBox" id="vbox3">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
@@ -1764,6 +1727,7 @@ alternative word:</property>
                     <property name="Type">TextOnly</property>
                     <property name="Label" translatable="yes">Remove</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Clicked" handler="RemovePrefixButtonClicked" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -1786,8 +1750,8 @@ alternative word:</property>
                 </child>
               </widget>
               <packing>
-                <property name="TopAttach">3</property>
-                <property name="BottomAttach">4</property>
+                <property name="TopAttach">2</property>
+                <property name="BottomAttach">3</property>
                 <property name="LeftAttach">1</property>
                 <property name="RightAttach">2</property>
                 <property name="AutoSize">True</property>

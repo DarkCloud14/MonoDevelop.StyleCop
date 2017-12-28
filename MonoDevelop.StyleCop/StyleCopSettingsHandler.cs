@@ -101,6 +101,8 @@ namespace MonoDevelop.StyleCop
       {
         if (string.Compare(settingsFilePath, this.core.Environment.GetDefaultSettingsPath(), true) == 0)
         {
+          this.LocalSettingsAreDefaultSettings = true;
+
           // We must use reflection at the moment to set the DefaultSettings property (in case it exists).
           PropertyInfo prop = this.localSettings.GetType().GetProperty("DefaultSettings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
           if (prop != null && prop.CanWrite)
@@ -154,6 +156,15 @@ namespace MonoDevelop.StyleCop
       {
         return this.localSettings;
       }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the local settings file is the default settings file for the installation.
+    /// </summary>
+    internal bool LocalSettingsAreDefaultSettings
+    {
+      get;
+      private set;
     }
 
     /// <summary>

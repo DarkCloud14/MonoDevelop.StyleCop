@@ -38,6 +38,15 @@ namespace MonoDevelop.StyleCop.Gui.Dialogs
     public StyleCopOptionsDialog(Window parentWindow, object dataObject)
       : base(parentWindow, dataObject, "/MonoDevelop/Gui/StyleCopOptionPanels")
     {
+      StyleCopSettingsHandler settingsHandler = dataObject as StyleCopSettingsHandler;
+      if (settingsHandler != null)
+      {
+        string styleCopTitleText = settingsHandler.LocalSettingsAreDefaultSettings ? "StyleCop {0} Default Settings" : "StyleCop {0} Project Settings";
+        styleCopTitleText = string.Format(styleCopTitleText, StyleCopVersion.VersionNumberMajorMinor + " (" + StyleCopVersion.VersionNumberFull + ")");
+
+        // Set the dialog title.
+        this.Title = string.Format("{0} - {1}", styleCopTitleText, settingsHandler.LocalSettings.Location);
+      }
     }
 
     #endregion Constructor

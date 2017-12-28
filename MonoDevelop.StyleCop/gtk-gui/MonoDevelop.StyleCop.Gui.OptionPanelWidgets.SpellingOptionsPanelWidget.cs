@@ -96,7 +96,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 
 		private global::Gtk.VBox vbox2;
 
-		private global::Gtk.Button button3;
+		private global::Gtk.Button removeFolderButton;
 
 		private global::Gtk.Fixed fixed1;
 
@@ -512,13 +512,13 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.vbox2.Name = "vbox2";
 			this.vbox2.Spacing = 6;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.button3 = new global::Gtk.Button();
-			this.button3.CanFocus = true;
-			this.button3.Name = "button3";
-			this.button3.UseUnderline = true;
-			this.button3.Label = global::Mono.Unix.Catalog.GetString("Remove");
-			this.vbox2.Add(this.button3);
-			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.button3]));
+			this.removeFolderButton = new global::Gtk.Button();
+			this.removeFolderButton.CanFocus = true;
+			this.removeFolderButton.Name = "removeFolderButton";
+			this.removeFolderButton.UseUnderline = true;
+			this.removeFolderButton.Label = global::Mono.Unix.Catalog.GetString("Remove");
+			this.vbox2.Add(this.removeFolderButton);
+			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.removeFolderButton]));
 			w39.Position = 0;
 			w39.Expand = false;
 			w39.Fill = false;
@@ -558,6 +558,16 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 				this.Child.ShowAll();
 			}
 			this.Hide();
+			this.removeRecognizedWordButton.Clicked += new global::System.EventHandler(this.RemoveRecognizedWordButtonClicked);
+			this.addRecognizedWordEntry.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler(this.AddRecognizedWordEntryReleaseEvent);
+			this.addRecognizedWordButton.Clicked += new global::System.EventHandler(this.AddRecognizedWordButtonClicked);
+			this.removeDeprecatedWordButton.Clicked += new global::System.EventHandler(this.RemoveDeprecatedWordButtonClicked);
+			this.addDeprecatedWordEntry.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler(this.AddDeprecatedWordEntryReleaseEvent);
+			this.addDeprecatedWordButton.Clicked += new global::System.EventHandler(this.AddDeprecatedWordButtonClicked);
+			this.addAlternateWordEntry.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler(this.AddAlternateWordEntryReleaseEvent);
+			this.removeFolderButton.Clicked += new global::System.EventHandler(this.RemoveFolderButtonClicked);
+			this.addFolderEntry.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler(this.AddFolderEntryReleaseEvent);
+			this.addFolderButton.Clicked += new global::System.EventHandler(this.AddFolderButtonClicked);
 		}
 	}
 }

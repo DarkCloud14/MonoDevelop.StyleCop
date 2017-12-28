@@ -22,10 +22,6 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 
 		private global::Gtk.Fixed fixed12;
 
-		private global::Gtk.Fixed fixed14;
-
-		private global::Gtk.Fixed fixed6;
-
 		private global::Gtk.Fixed fixed7;
 
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
@@ -33,8 +29,6 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 		private global::Gtk.NodeView prefixNodeView;
 
 		private global::Gtk.Label label3;
-
-		private global::Gtk.Label label4;
 
 		private global::Gtk.VBox vbox3;
 
@@ -81,7 +75,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
-			this.table5 = new global::Gtk.Table(((uint)(4)), ((uint)(3)), false);
+			this.table5 = new global::Gtk.Table(((uint)(3)), ((uint)(3)), false);
 			this.table5.Name = "table5";
 			this.table5.RowSpacing = ((uint)(6));
 			this.table5.ColumnSpacing = ((uint)(6));
@@ -143,41 +137,17 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			w7.XOptions = ((global::Gtk.AttachOptions)(4));
 			w7.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table5.Gtk.Table+TableChild
-			this.fixed14 = new global::Gtk.Fixed();
-			this.fixed14.Name = "fixed14";
-			this.fixed14.HasWindow = false;
-			this.table5.Add(this.fixed14);
-			global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table5[this.fixed14]));
-			w8.TopAttach = ((uint)(2));
-			w8.BottomAttach = ((uint)(3));
-			w8.LeftAttach = ((uint)(1));
-			w8.RightAttach = ((uint)(2));
-			w8.XOptions = ((global::Gtk.AttachOptions)(4));
-			w8.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table5.Gtk.Table+TableChild
-			this.fixed6 = new global::Gtk.Fixed();
-			this.fixed6.Name = "fixed6";
-			this.fixed6.HasWindow = false;
-			this.table5.Add(this.fixed6);
-			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table5[this.fixed6]));
-			w9.TopAttach = ((uint)(3));
-			w9.BottomAttach = ((uint)(4));
-			w9.LeftAttach = ((uint)(2));
-			w9.RightAttach = ((uint)(3));
-			w9.XOptions = ((global::Gtk.AttachOptions)(0));
-			w9.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table5.Gtk.Table+TableChild
 			this.fixed7 = new global::Gtk.Fixed();
 			this.fixed7.Name = "fixed7";
 			this.fixed7.HasWindow = false;
 			this.table5.Add(this.fixed7);
-			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table5[this.fixed7]));
-			w10.TopAttach = ((uint)(2));
-			w10.BottomAttach = ((uint)(3));
-			w10.LeftAttach = ((uint)(2));
-			w10.RightAttach = ((uint)(3));
-			w10.XOptions = ((global::Gtk.AttachOptions)(0));
-			w10.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table5[this.fixed7]));
+			w8.TopAttach = ((uint)(2));
+			w8.BottomAttach = ((uint)(3));
+			w8.LeftAttach = ((uint)(2));
+			w8.RightAttach = ((uint)(3));
+			w8.XOptions = ((global::Gtk.AttachOptions)(0));
+			w8.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table5.Gtk.Table+TableChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -188,27 +158,17 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.prefixNodeView.Name = "prefixNodeView";
 			this.GtkScrolledWindow.Add(this.prefixNodeView);
 			this.table5.Add(this.GtkScrolledWindow);
-			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table5[this.GtkScrolledWindow]));
-			w12.TopAttach = ((uint)(3));
-			w12.BottomAttach = ((uint)(4));
+			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table5[this.GtkScrolledWindow]));
+			w10.TopAttach = ((uint)(2));
+			w10.BottomAttach = ((uint)(3));
 			// Container child table5.Gtk.Table+TableChild
 			this.label3 = new global::Gtk.Label();
 			this.label3.Name = "label3";
 			this.label3.Xalign = 0F;
 			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString("Enter a one or two character prefix to add:");
 			this.table5.Add(this.label3);
-			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table5[this.label3]));
-			w13.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table5.Gtk.Table+TableChild
-			this.label4 = new global::Gtk.Label();
-			this.label4.Name = "label4";
-			this.label4.Xalign = 0F;
-			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString("Currently excluded prefixes:");
-			this.table5.Add(this.label4);
-			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table5[this.label4]));
-			w14.TopAttach = ((uint)(2));
-			w14.BottomAttach = ((uint)(3));
-			w14.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table5[this.label3]));
+			w11.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table5.Gtk.Table+TableChild
 			this.vbox3 = new global::Gtk.VBox();
 			this.vbox3.Name = "vbox3";
@@ -220,39 +180,39 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.removePrefixButton.UseUnderline = true;
 			this.removePrefixButton.Label = global::Mono.Unix.Catalog.GetString("Remove");
 			this.vbox3.Add(this.removePrefixButton);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.removePrefixButton]));
-			w15.Position = 0;
-			w15.Expand = false;
-			w15.Fill = false;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.removePrefixButton]));
+			w12.Position = 0;
+			w12.Expand = false;
+			w12.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.fixed13 = new global::Gtk.Fixed();
 			this.fixed13.Name = "fixed13";
 			this.fixed13.HasWindow = false;
 			this.vbox3.Add(this.fixed13);
-			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.fixed13]));
-			w16.Position = 1;
-			w16.Expand = false;
-			w16.Fill = false;
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.fixed13]));
+			w13.Position = 1;
+			w13.Expand = false;
+			w13.Fill = false;
 			this.table5.Add(this.vbox3);
-			global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table5[this.vbox3]));
-			w17.TopAttach = ((uint)(3));
-			w17.BottomAttach = ((uint)(4));
-			w17.LeftAttach = ((uint)(1));
-			w17.RightAttach = ((uint)(2));
-			w17.XOptions = ((global::Gtk.AttachOptions)(4));
-			w17.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table5[this.vbox3]));
+			w14.TopAttach = ((uint)(2));
+			w14.BottomAttach = ((uint)(3));
+			w14.LeftAttach = ((uint)(1));
+			w14.RightAttach = ((uint)(2));
+			w14.XOptions = ((global::Gtk.AttachOptions)(4));
+			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.vbox4.Add(this.table5);
-			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.table5]));
-			w18.Position = 2;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.table5]));
+			w15.Position = 2;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.fixed9 = new global::Gtk.Fixed();
 			this.fixed9.Name = "fixed9";
 			this.fixed9.HasWindow = false;
 			this.vbox4.Add(this.fixed9);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.fixed9]));
-			w19.Position = 3;
-			w19.Expand = false;
-			w19.Fill = false;
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.fixed9]));
+			w16.Position = 3;
+			w16.Expand = false;
+			w16.Fill = false;
 			this.Add(this.vbox4);
 			if ((this.Child != null))
 			{
@@ -260,6 +220,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			}
 			this.Hide();
 			this.removePrefixButton.Clicked += new global::System.EventHandler(this.RemovePrefixButtonClicked);
+			this.addPrefixEntry.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler(this.AddPrefixEntryKeyReleaseEvent);
 			this.addPrefixButton.Clicked += new global::System.EventHandler(this.AddPrefixButtonClicked);
 		}
 	}

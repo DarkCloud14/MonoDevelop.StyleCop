@@ -169,12 +169,34 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     }
 
     /// <summary>
+    /// Called when a key is released in the addPrefixEntry control.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void AddPrefixEntryKeyReleaseEvent(object sender, Gtk.KeyReleaseEventArgs e)
+    {
+      Param.AssertNotNull(sender, "sender");
+      Param.AssertNotNull(e, "e");
+
+      if (e.Event.Key == Gdk.Key.Return || e.Event.Key == Gdk.Key.KP_Enter)
+      {
+        if (!string.IsNullOrEmpty(this.addPrefixEntry.Text))
+        {
+          // Simulate a click of the add button.
+          this.AddPrefixButtonClicked(sender, e);
+        }
+      }
+    }
+
+    /// <summary>
     /// Called when the removePrefixButton is clicked.
     /// </summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     protected void RemovePrefixButtonClicked(object sender, EventArgs e)
     {
+      Param.Ignore(sender, e);
+
       Gtk.TreeIter selectedNodeIter;
 
       if (this.prefixNodeView.Selection.GetSelected(out selectedNodeIter))
@@ -182,8 +204,10 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
         string prefixToRemove = (string)this.prefixListStore.GetValue(selectedNodeIter, (int)ListStoreColumns.Prefix);
         if (this.prefixListStore.Remove(ref selectedNodeIter))
         {
-          this.localPrefixValueList.Remove(prefixToRemove);
+          this.prefixNodeView.Selection.SelectIter(selectedNodeIter);
         }
+
+        this.localPrefixValueList.Remove(prefixToRemove);
       }
     }
 
@@ -265,12 +289,11 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       this.prefixListStore = new Gtk.ListStore(typeof(string), typeof(bool), typeof(Pango.Weight));
       this.prefixListStore.SetSortColumnId((int)ListStoreColumns.Prefix, Gtk.SortType.Ascending);
       this.prefixNodeView.Model = this.prefixListStore;
-      this.prefixNodeView.Selection.Changed += new EventHandler(this.OnNodeViewSelectionChanged);
+      this.prefixNodeView.Selection.Changed += this.OnNodeViewSelectionChanged;
     }
 
     /// <summary>
     /// Called when NodeView selection changed.
-    /// Fills the description if a detailed setting was selected.
     /// </summary>
     /// <param name="sender">Object sender.</param>
     /// <param name="args">Event arguments.</param>

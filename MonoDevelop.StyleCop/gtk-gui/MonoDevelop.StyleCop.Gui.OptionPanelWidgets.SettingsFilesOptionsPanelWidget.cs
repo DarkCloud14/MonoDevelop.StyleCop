@@ -12,11 +12,19 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 
 		private global::Gtk.Button browseButton;
 
-		private global::Gtk.Fixed fixed2;
+		private global::Gtk.Button editLinkedSettingsFileButton;
 
-		private global::Gtk.Fixed fixed3;
+		private global::Gtk.Button editParentSettingsFileButton;
 
 		private global::Gtk.Fixed fixed4;
+
+		private global::Gtk.Fixed fixed5;
+
+		private global::Gtk.Fixed fixed6;
+
+		private global::Gtk.Fixed fixed7;
+
+		private global::Gtk.Fixed fixed8;
 
 		private global::Gtk.HBox hbox1;
 
@@ -53,7 +61,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			w1.Expand = false;
 			w1.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.table2 = new global::Gtk.Table(((uint)(4)), ((uint)(2)), false);
+			this.table2 = new global::Gtk.Table(((uint)(4)), ((uint)(3)), false);
 			this.table2.Name = "table2";
 			this.table2.RowSpacing = ((uint)(6));
 			this.table2.ColumnSpacing = ((uint)(6));
@@ -72,27 +80,31 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			w2.XOptions = ((global::Gtk.AttachOptions)(4));
 			w2.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.fixed2 = new global::Gtk.Fixed();
-			this.fixed2.Name = "fixed2";
-			this.fixed2.HasWindow = false;
-			this.table2.Add(this.fixed2);
-			global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table2[this.fixed2]));
-			w3.TopAttach = ((uint)(2));
-			w3.BottomAttach = ((uint)(3));
-			w3.LeftAttach = ((uint)(1));
-			w3.RightAttach = ((uint)(2));
+			this.editLinkedSettingsFileButton = new global::Gtk.Button();
+			this.editLinkedSettingsFileButton.CanFocus = true;
+			this.editLinkedSettingsFileButton.Name = "editLinkedSettingsFileButton";
+			this.editLinkedSettingsFileButton.UseUnderline = true;
+			this.editLinkedSettingsFileButton.Label = global::Mono.Unix.Catalog.GetString("Edit");
+			this.table2.Add(this.editLinkedSettingsFileButton);
+			global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table2[this.editLinkedSettingsFileButton]));
+			w3.TopAttach = ((uint)(3));
+			w3.BottomAttach = ((uint)(4));
+			w3.LeftAttach = ((uint)(2));
+			w3.RightAttach = ((uint)(3));
 			w3.XOptions = ((global::Gtk.AttachOptions)(4));
 			w3.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
-			this.fixed3 = new global::Gtk.Fixed();
-			this.fixed3.Name = "fixed3";
-			this.fixed3.HasWindow = false;
-			this.table2.Add(this.fixed3);
-			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table2[this.fixed3]));
+			this.editParentSettingsFileButton = new global::Gtk.Button();
+			this.editParentSettingsFileButton.CanFocus = true;
+			this.editParentSettingsFileButton.Name = "editParentSettingsFileButton";
+			this.editParentSettingsFileButton.UseUnderline = true;
+			this.editParentSettingsFileButton.Label = global::Mono.Unix.Catalog.GetString("Edit");
+			this.table2.Add(this.editParentSettingsFileButton);
+			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table2[this.editParentSettingsFileButton]));
 			w4.TopAttach = ((uint)(1));
 			w4.BottomAttach = ((uint)(2));
-			w4.LeftAttach = ((uint)(1));
-			w4.RightAttach = ((uint)(2));
+			w4.LeftAttach = ((uint)(2));
+			w4.RightAttach = ((uint)(3));
 			w4.XOptions = ((global::Gtk.AttachOptions)(4));
 			w4.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
@@ -106,6 +118,52 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			w5.XOptions = ((global::Gtk.AttachOptions)(4));
 			w5.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
+			this.fixed5 = new global::Gtk.Fixed();
+			this.fixed5.Name = "fixed5";
+			this.fixed5.HasWindow = false;
+			this.table2.Add(this.fixed5);
+			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table2[this.fixed5]));
+			w6.LeftAttach = ((uint)(2));
+			w6.RightAttach = ((uint)(3));
+			w6.XOptions = ((global::Gtk.AttachOptions)(4));
+			w6.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.fixed6 = new global::Gtk.Fixed();
+			this.fixed6.Name = "fixed6";
+			this.fixed6.HasWindow = false;
+			this.table2.Add(this.fixed6);
+			global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table2[this.fixed6]));
+			w7.TopAttach = ((uint)(2));
+			w7.BottomAttach = ((uint)(3));
+			w7.LeftAttach = ((uint)(2));
+			w7.RightAttach = ((uint)(3));
+			w7.XOptions = ((global::Gtk.AttachOptions)(4));
+			w7.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.fixed7 = new global::Gtk.Fixed();
+			this.fixed7.Name = "fixed7";
+			this.fixed7.HasWindow = false;
+			this.table2.Add(this.fixed7);
+			global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table2[this.fixed7]));
+			w8.TopAttach = ((uint)(2));
+			w8.BottomAttach = ((uint)(3));
+			w8.LeftAttach = ((uint)(1));
+			w8.RightAttach = ((uint)(2));
+			w8.XOptions = ((global::Gtk.AttachOptions)(4));
+			w8.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
+			this.fixed8 = new global::Gtk.Fixed();
+			this.fixed8.Name = "fixed8";
+			this.fixed8.HasWindow = false;
+			this.table2.Add(this.fixed8);
+			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table2[this.fixed8]));
+			w9.TopAttach = ((uint)(1));
+			w9.BottomAttach = ((uint)(2));
+			w9.LeftAttach = ((uint)(1));
+			w9.RightAttach = ((uint)(2));
+			w9.XOptions = ((global::Gtk.AttachOptions)(4));
+			w9.YOptions = ((global::Gtk.AttachOptions)(4));
+			// Container child table2.Gtk.Table+TableChild
 			this.hbox1 = new global::Gtk.HBox();
 			this.hbox1.Name = "hbox1";
 			this.hbox1.Spacing = 6;
@@ -115,10 +173,10 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.label2.Xalign = 0F;
 			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString("Location:");
 			this.hbox1.Add(this.label2);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.label2]));
-			w6.Position = 0;
-			w6.Expand = false;
-			w6.Fill = false;
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.label2]));
+			w10.Position = 0;
+			w10.Expand = false;
+			w10.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.linkedFilePathEntry = new global::Gtk.Entry();
 			this.linkedFilePathEntry.CanFocus = true;
@@ -126,26 +184,25 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.linkedFilePathEntry.IsEditable = true;
 			this.linkedFilePathEntry.InvisibleChar = '●';
 			this.hbox1.Add(this.linkedFilePathEntry);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.linkedFilePathEntry]));
-			w7.Position = 1;
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.linkedFilePathEntry]));
+			w11.Position = 1;
 			this.table2.Add(this.hbox1);
-			global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table2[this.hbox1]));
-			w8.TopAttach = ((uint)(3));
-			w8.BottomAttach = ((uint)(4));
-			w8.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table2[this.hbox1]));
+			w12.TopAttach = ((uint)(3));
+			w12.BottomAttach = ((uint)(4));
+			w12.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.mergeWithLinkedFileRadioButton = new global::Gtk.RadioButton(global::Mono.Unix.Catalog.GetString("Merge with the following settings file:"));
 			this.mergeWithLinkedFileRadioButton.CanFocus = true;
 			this.mergeWithLinkedFileRadioButton.Name = "mergeWithLinkedFileRadioButton";
-			this.mergeWithLinkedFileRadioButton.Active = true;
 			this.mergeWithLinkedFileRadioButton.DrawIndicator = true;
 			this.mergeWithLinkedFileRadioButton.UseUnderline = true;
 			this.mergeWithLinkedFileRadioButton.Group = new global::GLib.SList(global::System.IntPtr.Zero);
 			this.table2.Add(this.mergeWithLinkedFileRadioButton);
-			global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table2[this.mergeWithLinkedFileRadioButton]));
-			w9.TopAttach = ((uint)(2));
-			w9.BottomAttach = ((uint)(3));
-			w9.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table2[this.mergeWithLinkedFileRadioButton]));
+			w13.TopAttach = ((uint)(2));
+			w13.BottomAttach = ((uint)(3));
+			w13.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.mergeWithParentsRadioButton = new global::Gtk.RadioButton(global::Mono.Unix.Catalog.GetString("Merge with settings file found in parent folders"));
 			this.mergeWithParentsRadioButton.CanFocus = true;
@@ -154,10 +211,10 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.mergeWithParentsRadioButton.UseUnderline = true;
 			this.mergeWithParentsRadioButton.Group = this.mergeWithLinkedFileRadioButton.Group;
 			this.table2.Add(this.mergeWithParentsRadioButton);
-			global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table2[this.mergeWithParentsRadioButton]));
-			w10.TopAttach = ((uint)(1));
-			w10.BottomAttach = ((uint)(2));
-			w10.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table2[this.mergeWithParentsRadioButton]));
+			w14.TopAttach = ((uint)(1));
+			w14.BottomAttach = ((uint)(2));
+			w14.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table2.Gtk.Table+TableChild
 			this.noMergeRadioButton = new global::Gtk.RadioButton(global::Mono.Unix.Catalog.GetString("Do not merge with any other settings files"));
 			this.noMergeRadioButton.CanFocus = true;
@@ -166,19 +223,26 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.noMergeRadioButton.UseUnderline = true;
 			this.noMergeRadioButton.Group = this.mergeWithLinkedFileRadioButton.Group;
 			this.table2.Add(this.noMergeRadioButton);
-			global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table2[this.noMergeRadioButton]));
-			w11.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2[this.noMergeRadioButton]));
+			w15.YOptions = ((global::Gtk.AttachOptions)(4));
 			this.vbox1.Add(this.table2);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.table2]));
-			w12.Position = 1;
-			w12.Expand = false;
-			w12.Fill = false;
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.table2]));
+			w16.Position = 1;
+			w16.Expand = false;
+			w16.Fill = false;
 			this.Add(this.vbox1);
 			if ((this.Child != null))
 			{
 				this.Child.ShowAll();
 			}
 			this.Hide();
+			this.noMergeRadioButton.Toggled += new global::System.EventHandler(this.NoMergeRadioButtonToggled);
+			this.mergeWithParentsRadioButton.Toggled += new global::System.EventHandler(this.MergeWithParentsRadioButtonToggled);
+			this.mergeWithLinkedFileRadioButton.Toggled += new global::System.EventHandler(this.MergeWithLinkedFileRadioButtonToggled);
+			this.linkedFilePathEntry.Changed += new global::System.EventHandler(this.LinkedFilePathEntryChanged);
+			this.editParentSettingsFileButton.Clicked += new global::System.EventHandler(this.EditParentSettingsFileButtonClicked);
+			this.editLinkedSettingsFileButton.Clicked += new global::System.EventHandler(this.EditLinkedSettingsFileButtonClicked);
+			this.browseButton.Clicked += new global::System.EventHandler(this.BrowseButtonClicked);
 		}
 	}
 }
