@@ -34,7 +34,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     #region Constants
 
     /// <summary>
-    /// The value of StyleCop naming rules allowed prefixes property.
+    /// The name of the property containing the list of allowable prefixes.
     /// </summary>
     private const string AllowedPrefixesProperty = "Hungarian";
 

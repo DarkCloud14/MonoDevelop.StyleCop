@@ -21,32 +21,34 @@
 namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 {
   using System;
-  using System.Reflection;
   using MonoDevelop.Ide;
   using global::StyleCop;
-  using global::StyleCop.CSharp;
 
   /// <summary>
   /// StyleCop company information options panel widget.
   /// </summary>
   public partial class CompanyInformationOptionsPanelWidget : StyleCopOptionsPanelWidget
   {
+    #region Constants
+
+    /// <summary>
+    /// The name of the property contains the company name.
+    /// </summary>
+    private const string CompanyNameProperty = "CompanyName";
+
+    /// <summary>
+    /// The name of the property which contains the copyright.
+    /// </summary>
+    private const string CopyrightProperty = "Copyright";
+
+    #endregion Constants
+
     #region Private Fields
 
     /// <summary>
     /// The analyzer that this settings page is attached to.
     /// </summary>
     private readonly SourceAnalyzer analyzer;
-
-    /// <summary>
-    /// The name of the property contains the company name.
-    /// </summary>
-    private string companyNameProperty = "CompanyName";
-
-    /// <summary>
-    /// The name of the property which contains the copyright.
-    /// </summary>
-    private string copyrightProperty = "Copyright";
 
     #endregion Private Fields
 
@@ -74,15 +76,15 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       {
         if (!this.checkBox.Active)
         {
-          this.analyzer.ClearSetting(this.SettingsHandler.LocalSettings, this.companyNameProperty);
-          this.analyzer.ClearSetting(this.SettingsHandler.LocalSettings, this.copyrightProperty);
+          this.analyzer.ClearSetting(this.SettingsHandler.LocalSettings, CompanyNameProperty);
+          this.analyzer.ClearSetting(this.SettingsHandler.LocalSettings, CopyrightProperty);
         }
         else
         {
           if (this.companyNameEntry.Text.Length > 0 && this.copyrightTextView.Buffer.CharCount > 0)
           {
-            this.analyzer.SetSetting(this.SettingsHandler.LocalSettings, new StringProperty(this.analyzer, this.companyNameProperty, this.companyNameEntry.Text));
-            this.analyzer.SetSetting(this.SettingsHandler.LocalSettings, new StringProperty(this.analyzer, this.copyrightProperty, this.copyrightTextView.Buffer.Text));
+            this.analyzer.SetSetting(this.SettingsHandler.LocalSettings, new StringProperty(this.analyzer, CompanyNameProperty, this.companyNameEntry.Text));
+            this.analyzer.SetSetting(this.SettingsHandler.LocalSettings, new StringProperty(this.analyzer, CopyrightProperty, this.copyrightTextView.Buffer.Text));
           }
         }
       }
@@ -98,28 +100,15 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 
       if (this.analyzer != null)
       {
-        // We use reflection and try to get the DocumentationRules CompanyNameProperty and CopyrightProperty values.
-        FieldInfo field = typeof(DocumentationRules).GetField("CompanyNameProperty", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-        if (field != null)
-        {
-          this.companyNameProperty = field.GetValue(null) as string;
-        }
-
-        field = typeof(DocumentationRules).GetField("CopyrightProperty", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-        if (field != null)
-        {
-          this.copyrightProperty = field.GetValue(null) as string;
-        }
-
         // Get the properties.
-        StringProperty companyNameProperty = this.analyzer.GetSetting(this.SettingsHandler.MergedSettings, this.companyNameProperty) as StringProperty;
+        StringProperty companyNameProperty = this.analyzer.GetSetting(this.SettingsHandler.MergedSettings, CompanyNameProperty) as StringProperty;
 
         if (companyNameProperty != null)
         {
           this.companyNameEntry.Text = companyNameProperty.Value;
         }
 
-        StringProperty copyrightProperty = this.analyzer.GetSetting(this.SettingsHandler.MergedSettings, this.copyrightProperty) as StringProperty;
+        StringProperty copyrightProperty = this.analyzer.GetSetting(this.SettingsHandler.MergedSettings, CopyrightProperty) as StringProperty;
 
         if (copyrightProperty != null)
         {
