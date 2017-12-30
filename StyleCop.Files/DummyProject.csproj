@@ -38,6 +38,9 @@
     <None Include="en-GB\StyleCop.CSharp.Rules.resources.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="es-MX\StyleCop.CSharp.Rules.resources.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="fr-FR\StyleCop.CSharp.Rules.resources.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -77,7 +80,10 @@
     <None Include="StyleCop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="StyleCopSettingsEditor.exe">
+    <None Include="StyleCop.SettingsEditor.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="StyleCop.SettingsEditor.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\LICENSE">

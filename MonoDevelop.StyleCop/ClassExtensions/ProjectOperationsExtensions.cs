@@ -153,7 +153,7 @@ namespace MonoDevelop.StyleCop
       }
 
       string trimmedNamespace = e.Violation.Rule.Namespace;
-      string searchValue = global::StyleCop.Constants.ProductName + ".";
+      string searchValue = "StyleCop.";
 
       int indexOfProductName = trimmedNamespace.IndexOf(searchValue, StringComparison.Ordinal);
       if (indexOfProductName != -1 && indexOfProductName < trimmedNamespace.Length - 1)
