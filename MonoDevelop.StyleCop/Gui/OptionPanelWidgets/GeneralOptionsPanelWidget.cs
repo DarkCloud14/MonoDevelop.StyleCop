@@ -25,6 +25,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
   using System.Globalization;
   using System.IO;
   using System.Reflection;
+  using MonoDevelop.Ide.Fonts;
   using global::StyleCop;
 
   /// <summary>
@@ -189,6 +190,30 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       this.cultureComboBox.SetActiveIter(cultureIter);
     }
 
+    /// <summary>
+    /// Refreshes the merged override state of properties on the panel widget.
+    /// </summary>
+    public override void RefreshMergedSettingsOverrideState()
+    {
+      this.writeCacheParentProperty = this.SettingsHandler.ParentSettings == null
+                                       ? null
+                                       : this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(this.writeCachePropertyDescriptor.PropertyName) as BooleanProperty;
+
+      this.maxViolationCountParentProperty = this.SettingsHandler.ParentSettings == null
+                                              ? null
+                                              : this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(this.maxViolationCountPropertyDescriptor.PropertyName) as IntProperty;
+
+      this.cultureParentProperty = this.SettingsHandler.ParentSettings == null
+                                    ? null
+                                    : this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(this.culturePropertyDescriptor.PropertyName) as StringProperty;
+
+      this.violationsAsErrorsParentProperty = this.SettingsHandler.ParentSettings == null
+                                               ? null
+                                               : this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(this.violationsAsErrorsPropertyDescriptor.PropertyName) as BooleanProperty;
+      
+      this.SetBoldState();
+    }
+
     #endregion Public Override Methods
 
     #region Protected Signal Methods
@@ -287,7 +312,6 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     private void SetBoldState()
     {
       bool bold;
-      Pango.FontDescription fontDescription;
 
       if (this.culturePropertyDescriptor != null)
       {
@@ -300,8 +324,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
           bold = this.cultureComboBox.ActiveText != this.cultureParentProperty.Value.ToString(CultureInfo.InvariantCulture);
         }
 
-        fontDescription = this.cultureComboBox.Child.Style.FontDescription;
-        fontDescription.Weight = bold ? Pango.Weight.Bold : Pango.Weight.Normal;
+        var fontDescription = Ide.Gui.Styles.DefaultFont.CopyModified(weight: bold ? Pango.Weight.Heavy : Pango.Weight.Normal);
         this.cultureComboBox.Child.ModifyFont(fontDescription);
       }
 
@@ -311,8 +334,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
                    ? this.maxViolationCountSpinButton.Text != this.maxViolationCountPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
                    : this.maxViolationCountSpinButton.Text != this.maxViolationCountParentProperty.Value.ToString(CultureInfo.InvariantCulture);
 
-        fontDescription = this.maxViolationCountSpinButton.Style.FontDescription;
-        fontDescription.Weight = bold ? Pango.Weight.Bold : Pango.Weight.Normal;
+        var fontDescription = Ide.Gui.Styles.DefaultFont.CopyModified(weight: bold ? Pango.Weight.Heavy : Pango.Weight.Normal);
         this.maxViolationCountSpinButton.ModifyFont(fontDescription);
       }
 
@@ -322,8 +344,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
                    ? this.violationsAsErrorsCheckBox.Active != this.violationsAsErrorsPropertyDescriptor.DefaultValue
                    : this.violationsAsErrorsCheckBox.Active != this.violationsAsErrorsParentProperty.Value;
 
-        fontDescription = this.violationsAsErrorsCheckBox.Child.Style.FontDescription;
-        fontDescription.Weight = bold ? Pango.Weight.Bold : Pango.Weight.Normal;
+        var fontDescription = Ide.Gui.Styles.DefaultFont.CopyModified(weight: bold ? Pango.Weight.Heavy : Pango.Weight.Normal);
         this.violationsAsErrorsCheckBox.Child.ModifyFont(fontDescription);
       }
 
@@ -333,8 +354,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
                    ? this.enableCacheCheckBox.Active != this.writeCachePropertyDescriptor.DefaultValue
                    : this.enableCacheCheckBox.Active != this.writeCacheParentProperty.Value;
 
-        fontDescription = this.enableCacheCheckBox.Child.Style.FontDescription;
-        fontDescription.Weight = bold ? Pango.Weight.Bold : Pango.Weight.Normal;
+        var fontDescription = Ide.Gui.Styles.DefaultFont.CopyModified(weight: bold ? Pango.Weight.Heavy : Pango.Weight.Normal);
         this.enableCacheCheckBox.Child.ModifyFont(fontDescription);
       }
     }

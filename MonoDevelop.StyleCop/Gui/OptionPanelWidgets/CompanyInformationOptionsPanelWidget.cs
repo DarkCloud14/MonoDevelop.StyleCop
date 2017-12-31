@@ -22,6 +22,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 {
   using System;
   using MonoDevelop.Ide;
+  using MonoDevelop.Ide.Fonts;
   using global::StyleCop;
 
   /// <summary>
@@ -61,6 +62,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     {
       this.Build();
       this.analyzer = ProjectUtilities.Instance.Core.GetAnalyzer("StyleCop.CSharp.DocumentationRules");
+      this.copyrightTextView.Buffer.Changed += this.CopyrightTextViewBufferChanged;
     }
 
     #endregion Constructor
@@ -117,6 +119,24 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 
         this.checkBox.Active = companyNameProperty != null || copyrightProperty != null;
         this.CheckBoxToggled(this.checkBox, EventArgs.Empty);
+        this.DetectBoldState();
+      }
+    }
+
+    /// <summary>
+    /// Refreshes the merged override state of properties on the panel widget.
+    /// </summary>
+    public override void RefreshMergedSettingsOverrideState()
+    {
+      if (this.analyzer != null)
+      {
+        // If none of the settings was changed we call initialize again to initialize everything with the parent settings.
+        if (this.companyNameEntry.Style.FontDescription.Weight == Pango.Weight.Normal && this.copyrightTextView.Style.FontDescription.Weight == Pango.Weight.Normal)
+        {
+          this.Initialize(this.SettingsHandler);
+        }
+
+        this.DetectBoldState();
       }
     }
 
@@ -153,6 +173,78 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       this.copyrightTextView.Sensitive = this.checkBox.Active;
     }
 
+    /// <summary>
+    /// Called when the companyNameEntry text was changed.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void CompanyNameEntryChanged(object sender, EventArgs e)
+    {
+      Param.Ignore(sender, e);
+
+      this.DetectCompanyNameBoldState();
+    }
+
     #endregion Protected Signal Methods
+
+    #region Private Methods
+
+    /// <summary>
+    /// Called when the copyrightTextView text was changed.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    private void CopyrightTextViewBufferChanged(object sender, EventArgs e)
+    {
+      Param.Ignore(sender, e);
+
+      this.DetectCopyrightBoldState();
+    }
+
+    /// <summary>
+    /// Detects the bold state of the controls.
+    /// </summary>
+    private void DetectBoldState()
+    {
+      this.DetectCompanyNameBoldState();
+      this.DetectCopyrightBoldState();
+    }
+
+    /// <summary>
+    /// Detects the bold state of the company name text box.
+    /// </summary>
+    private void DetectCompanyNameBoldState()
+    {
+      if (this.analyzer != null)
+      {
+        StringProperty currentValue = new StringProperty(this.analyzer, CompanyNameProperty, this.companyNameEntry.Text);
+        Pango.Weight newWeight = Pango.Weight.Normal;
+
+        if (this.SettingsHandler.SettingsComparer.IsAddInSettingOverwritten(this.analyzer, CompanyNameProperty, currentValue))
+        {
+          newWeight = Pango.Weight.Heavy;
+        }
+
+        this.companyNameEntry.ModifyFont(Ide.Gui.Styles.DefaultFont.CopyModified(weight: newWeight));
+      }
+    }
+
+    /// <summary>
+    /// Detects the bold state of the copyright text box.
+    /// </summary>
+    private void DetectCopyrightBoldState()
+    {
+      StringProperty currentValue = new StringProperty(this.analyzer, CopyrightProperty, this.copyrightTextView.Buffer.Text);
+      Pango.Weight newWeight = Pango.Weight.Normal;
+
+      if (this.SettingsHandler.SettingsComparer.IsAddInSettingOverwritten(this.analyzer, CopyrightProperty, currentValue))
+      {
+        newWeight = Pango.Weight.Heavy;
+      }
+
+      this.copyrightTextView.ModifyFont(Ide.Gui.Styles.DefaultFont.CopyModified(weight: newWeight));
+    }
+
+    #endregion Private Methods
   }
 }

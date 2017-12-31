@@ -129,6 +129,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			}
 			this.Hide();
 			this.checkBox.Toggled += new global::System.EventHandler(this.CheckBoxToggled);
+			this.companyNameEntry.Changed += new global::System.EventHandler(this.CompanyNameEntryChanged);
 		}
 	}
 }

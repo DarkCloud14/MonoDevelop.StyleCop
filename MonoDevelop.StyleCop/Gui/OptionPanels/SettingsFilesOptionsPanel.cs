@@ -20,6 +20,7 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop.Gui.OptionPanels
 {
+  using MonoDevelop.StyleCop.Gui.Dialogs;
   using MonoDevelop.StyleCop.Gui.OptionPanelWidgets;
 
   /// <summary>
@@ -34,9 +35,25 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanels
     /// </summary>
     internal SettingsFilesOptionsPanel()
     {
-      this.Widget = new SettingsFilesOptionsPanelWidget();
+      this.Widget = new SettingsFilesOptionsPanelWidget(this);
     }
 
     #endregion Constructor
+
+    #region Internal Methods
+
+    /// <summary>
+    /// Applies the setting file changes.
+    /// </summary>
+    internal void ApplySettingFileChanges()
+    {
+      var parent = this.ParentDialog as StyleCopOptionsDialog;
+      if (parent != null)
+      {
+        parent.ApplySettingFileChanges();
+      }
+    }
+
+    #endregion Internal Methods
   }
 }

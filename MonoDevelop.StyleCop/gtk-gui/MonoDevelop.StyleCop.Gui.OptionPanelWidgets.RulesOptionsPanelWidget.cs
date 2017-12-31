@@ -12,9 +12,9 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 
 		private global::Gtk.Label label21;
 
-		private global::Gtk.Entry entry9;
+		private global::Gtk.Entry findRuleEntry;
 
-		private global::Gtk.Button button10;
+		private global::Gtk.Button findRuleButton;
 
 		private global::Gtk.Table table3;
 
@@ -71,24 +71,24 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child hbox13.Gtk.Box+BoxChild
-			this.entry9 = new global::Gtk.Entry();
-			this.entry9.CanFocus = true;
-			this.entry9.Name = "entry9";
-			this.entry9.IsEditable = true;
-			this.entry9.InvisibleChar = '●';
-			this.hbox13.Add(this.entry9);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox13[this.entry9]));
+			this.findRuleEntry = new global::Gtk.Entry();
+			this.findRuleEntry.CanFocus = true;
+			this.findRuleEntry.Name = "findRuleEntry";
+			this.findRuleEntry.IsEditable = true;
+			this.findRuleEntry.InvisibleChar = '●';
+			this.hbox13.Add(this.findRuleEntry);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox13[this.findRuleEntry]));
 			w3.Position = 2;
 			w3.Expand = false;
 			w3.Fill = false;
 			// Container child hbox13.Gtk.Box+BoxChild
-			this.button10 = new global::Gtk.Button();
-			this.button10.CanFocus = true;
-			this.button10.Name = "button10";
-			this.button10.UseUnderline = true;
-			this.button10.Label = global::Mono.Unix.Catalog.GetString("Go");
-			this.hbox13.Add(this.button10);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox13[this.button10]));
+			this.findRuleButton = new global::Gtk.Button();
+			this.findRuleButton.CanFocus = true;
+			this.findRuleButton.Name = "findRuleButton";
+			this.findRuleButton.UseUnderline = true;
+			this.findRuleButton.Label = global::Mono.Unix.Catalog.GetString("Go");
+			this.hbox13.Add(this.findRuleButton);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox13[this.findRuleButton]));
 			w4.Position = 3;
 			w4.Expand = false;
 			w4.Fill = false;
@@ -182,6 +182,8 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 				this.Child.ShowAll();
 			}
 			this.Hide();
+			this.findRuleEntry.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler(this.FindRuleEntryKeyReleaseEvent);
+			this.findRuleButton.Clicked += new global::System.EventHandler(this.FindRuleButtonClicked);
 		}
 	}
 }

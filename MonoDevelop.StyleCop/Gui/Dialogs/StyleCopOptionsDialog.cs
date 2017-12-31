@@ -20,8 +20,10 @@
 //-----------------------------------------------------------------------
 namespace MonoDevelop.StyleCop.Gui.Dialogs
 {
+  using System;
   using MonoDevelop.Components;
   using MonoDevelop.Ide.Gui.Dialogs;
+  using MonoDevelop.StyleCop.Gui.OptionPanels;
 
   /// <summary>
   /// StyleCop options dialog.
@@ -50,5 +52,36 @@ namespace MonoDevelop.StyleCop.Gui.Dialogs
     }
 
     #endregion Constructor
+
+    #region Internal Methods
+
+    /// <summary>
+    /// Applies the setting file changes.
+    /// </summary>
+    internal void ApplySettingFileChanges()
+    {
+      StyleCopSettingsHandler settingsHandler = this.DataObject as StyleCopSettingsHandler;
+      if (settingsHandler != null)
+      {
+        settingsHandler.RefreshMergedSettings();
+
+        var rulesOptionsPanel = this.GetPanel<RulesOptionsPanel>("RulesOptionsPanel");
+        rulesOptionsPanel.RefreshMergedSettingsOverrideState();
+
+        var companyInformationOptionsPanel = this.GetPanel<CompanyInformationOptionsPanel>("CompanyInformationOptionsPanel");
+        companyInformationOptionsPanel.RefreshMergedSettingsOverrideState();
+
+        var spellingOptionsPanel = this.GetPanel<SpellingOptionsPanel>("SpellingOptionsPanel");
+        spellingOptionsPanel.RefreshMergedSettingsOverrideState();
+
+        var validPrefixesOptionsPanel = this.GetPanel<ValidPrefixesOptionsPanel>("ValidPrefixesOptionsPanel");
+        validPrefixesOptionsPanel.RefreshMergedSettingsOverrideState();
+
+        var generalOptionsPanel = this.GetPanel<GeneralOptionsPanel>("GeneralOptionsPanel");
+        generalOptionsPanel.RefreshMergedSettingsOverrideState();
+      }
+    }
+
+    #endregion Internal Methods
   }
 }

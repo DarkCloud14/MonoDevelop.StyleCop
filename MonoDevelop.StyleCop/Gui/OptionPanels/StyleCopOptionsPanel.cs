@@ -109,5 +109,17 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanels
     }
 
     #endregion Public Override Methods
+
+    #region Public Virtual Methods
+
+    /// <summary>
+    /// Refreshes the merged override state of properties on the panel.
+    /// </summary>
+    public virtual void RefreshMergedSettingsOverrideState()
+    {
+      this.widget.RefreshMergedSettingsOverrideState();
+    }
+
+    #endregion Public Virtual Methods
   }
 }

@@ -199,7 +199,207 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       this.InitializeAndFillTreeView();
     }
 
+    /// <summary>
+    /// Refreshes the merged override state of properties on the panel widget.
+    /// </summary>
+    public override void RefreshMergedSettingsOverrideState()
+    {
+      Gtk.TreeIter parserIter;
+      if (this.rulesStore.GetIterFirst(out parserIter))
+      {
+        do
+        {
+          var parser = this.rulesStore.GetValue(parserIter, (int)TreeStoreColumns.Object) as SourceParser;
+          bool hasCheckedAnalyzers = false;
+          bool hasOverridenAnalyzers = false;
+
+          Gtk.TreeIter analyzerIter;
+          if (this.rulesStore.IterChildren(out analyzerIter, parserIter))
+          {
+            do
+            {
+              var analyzer = this.rulesStore.GetValue(analyzerIter, (int)TreeStoreColumns.Object) as SourceAnalyzer;
+              bool hasCheckedRules = false;
+              bool hasOverridenRules = false;
+
+              Gtk.TreeIter ruleIter;
+              if (this.rulesStore.IterChildren(out ruleIter, analyzerIter))
+              {
+                do
+                {
+                  var rule = this.rulesStore.GetValue(ruleIter, (int)TreeStoreColumns.Object) as Rule;
+                  if (rule == null)
+                  {
+                    // This is a rule group
+                    Gtk.TreeIter ruleInGroupIter;
+                    bool hasOverriddenGroupChilds = false;
+                    bool hasCheckedGroupChilds = false;
+
+                    if (this.rulesStore.IterChildren(out ruleInGroupIter, ruleIter))
+                    {
+                      do
+                      {
+                        rule = this.rulesStore.GetValue(ruleInGroupIter, (int)TreeStoreColumns.Object) as Rule;
+                        bool isChecked = this.GetRuleCheckedState(analyzer, rule);
+                        bool isOverridden = this.DetectRuleOverride(analyzer, rule, isChecked, false);
+                        hasCheckedRules |= hasCheckedGroupChilds |= isChecked;
+                        hasOverridenRules |= hasOverriddenGroupChilds |= isOverridden;
+
+                        this.rulesStore.SetValue(ruleInGroupIter, (int)TreeStoreColumns.Toggle, isChecked);
+                        this.rulesStore.SetValue(ruleInGroupIter, (int)TreeStoreColumns.Overridden, isOverridden);
+                        this.rulesStore.SetValue(ruleInGroupIter, (int)TreeStoreColumns.Weight, GetTextWeight(isOverridden));
+                      }
+                      while (this.rulesStore.IterNext(ref ruleInGroupIter));
+
+                      // Update the rule group apperance
+                      this.rulesStore.SetValue(ruleIter, (int)TreeStoreColumns.Toggle, hasCheckedGroupChilds);
+                      this.rulesStore.SetValue(ruleIter, (int)TreeStoreColumns.Overridden, hasOverriddenGroupChilds);
+                      this.rulesStore.SetValue(ruleIter, (int)TreeStoreColumns.Weight, GetTextWeight(hasOverriddenGroupChilds));
+                    }
+                  }
+                  else
+                  {
+                    bool isChecked = this.GetRuleCheckedState(analyzer, rule);
+                    bool isOverridden = this.DetectRuleOverride(analyzer, rule, isChecked, false);
+                    hasCheckedRules |= isChecked;
+                    hasOverridenRules |= isOverridden;
+                    this.rulesStore.SetValue(ruleIter, (int)TreeStoreColumns.Toggle, isChecked);
+                    this.rulesStore.SetValue(ruleIter, (int)TreeStoreColumns.Overridden, isOverridden);
+                    this.rulesStore.SetValue(ruleIter, (int)TreeStoreColumns.Weight, GetTextWeight(isOverridden));
+                  }
+                }
+                while (this.rulesStore.IterNext(ref ruleIter));
+              }
+
+              hasCheckedAnalyzers |= hasCheckedRules;
+              hasOverridenAnalyzers |= hasOverridenRules;
+              this.rulesStore.SetValue(analyzerIter, (int)TreeStoreColumns.Toggle, hasCheckedRules);
+              this.rulesStore.SetValue(analyzerIter, (int)TreeStoreColumns.Overridden, hasOverridenRules);
+              this.rulesStore.SetValue(analyzerIter, (int)TreeStoreColumns.Weight, GetTextWeight(hasOverridenRules));
+            }
+            while (this.rulesStore.IterNext(ref analyzerIter));
+          }
+
+          this.rulesStore.SetValue(parserIter, (int)TreeStoreColumns.Toggle, hasCheckedAnalyzers);
+          this.rulesStore.SetValue(parserIter, (int)TreeStoreColumns.Overridden, hasOverridenAnalyzers);
+          this.rulesStore.SetValue(parserIter, (int)TreeStoreColumns.Weight, GetTextWeight(hasOverridenAnalyzers));
+        }
+        while (this.rulesStore.IterNext(ref parserIter));
+
+        this.FillDetailsNodeView();
+      }
+    }
+
     #endregion Public Override Methods
+
+    #region Protected Signal Methods
+
+    /// <summary>
+    /// Called when the findRuleButton is clicked.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void FindRuleButtonClicked(object sender, EventArgs e)
+    {
+      Param.Ignore(sender, e);
+
+      bool searchTextFound = false;
+      Gtk.TreeIter parserIter;
+      string searchText = this.findRuleEntry.Text;
+
+      if (this.rulesStore.GetIterFirst(out parserIter))
+      {
+        do
+        {
+          Gtk.TreeIter analyzerIter;
+          if (this.rulesStore.IterChildren(out analyzerIter, parserIter))
+          {
+            do
+            {
+              Gtk.TreeIter ruleIter;
+              if (this.rulesStore.IterChildren(out ruleIter, analyzerIter))
+              {
+                do
+                {
+                  var rule = this.rulesStore.GetValue(ruleIter, (int)TreeStoreColumns.Object) as Rule;
+                  if (rule == null)
+                  {
+                    // This is a rule group
+                    Gtk.TreeIter ruleInGroupIter;
+
+                    if (this.rulesStore.IterChildren(out ruleInGroupIter, ruleIter))
+                    {
+                      do
+                      {
+                        rule = this.rulesStore.GetValue(ruleInGroupIter, (int)TreeStoreColumns.Object) as Rule;
+                        if (rule != null)
+                        {
+                          bool foundByCheckId = string.Equals(searchText, rule.CheckId, StringComparison.OrdinalIgnoreCase);
+                          bool foundByName = string.Equals(searchText, rule.Name, StringComparison.OrdinalIgnoreCase);
+                          bool foundByNameStartsWith = rule.Name.StartsWith(searchText, StringComparison.OrdinalIgnoreCase);
+
+                          searchTextFound |= foundByCheckId |= foundByName |= foundByNameStartsWith;
+
+                          if (searchTextFound)
+                          {
+                            Gtk.TreePath pathToRule = this.rulesStore.GetPath(ruleInGroupIter);
+                            this.rulesTreeView.ExpandToPath(pathToRule);
+                            this.rulesTreeView.Selection.SelectIter(ruleInGroupIter);
+                            return;
+                          }
+                        }
+                      }
+                      while (this.rulesStore.IterNext(ref ruleInGroupIter));
+                    }
+                  }
+                  else
+                  {
+                    bool foundByCheckId = string.Equals(searchText, rule.CheckId, StringComparison.OrdinalIgnoreCase);
+                    bool foundByName = string.Equals(searchText, rule.Name, StringComparison.OrdinalIgnoreCase);
+                    bool foundByNameStartsWith = rule.Name.StartsWith(searchText, StringComparison.OrdinalIgnoreCase);
+
+                    searchTextFound |= foundByCheckId |= foundByName |= foundByNameStartsWith;
+
+                    if (searchTextFound)
+                    {
+                      Gtk.TreePath pathToRule = this.rulesStore.GetPath(ruleIter);
+                      this.rulesTreeView.ExpandToPath(pathToRule);
+                      this.rulesTreeView.Selection.SelectIter(ruleIter);
+                      return;
+                    }
+                  }
+                }
+                while (this.rulesStore.IterNext(ref ruleIter));
+              }
+            }
+            while (this.rulesStore.IterNext(ref analyzerIter));
+          }
+        }
+        while (this.rulesStore.IterNext(ref parserIter));
+      }
+    }
+
+    /// <summary>
+    /// Called when a key is released in the findRuleEntry control.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void FindRuleEntryKeyReleaseEvent(object sender, Gtk.KeyReleaseEventArgs e)
+    {
+      Param.AssertNotNull(sender, "sender");
+      Param.AssertNotNull(e, "e");
+
+      if (e.Event.Key == Gdk.Key.Return || e.Event.Key == Gdk.Key.KP_Enter)
+      {
+        if (!string.IsNullOrEmpty(this.findRuleEntry.Text))
+        {
+          // Simulate a click of the add button.
+          this.FindRuleButtonClicked(sender, e);
+        }
+      }
+    }
+
+    #endregion Protected Signal Methods
 
     #region Private Static Methods
 
@@ -207,10 +407,10 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     /// Depending on <paramref name="valueIsOverridden"/> parameter the function returns the text weight.
     /// </summary>
     /// <param name="valueIsOverridden">If set to <c>true</c> value is overridden.</param>
-    /// <returns><c>Pango.Weight.Bold</c> if <paramref name="valueIsOverridden"/> is true, <c>Pango.Weight.Normal</c> otherwise.</returns>
+    /// <returns><c>Pango.Weight.Heavy</c> if <paramref name="valueIsOverridden"/> is true, <c>Pango.Weight.Normal</c> otherwise.</returns>
     private static Pango.Weight GetTextWeight(bool valueIsOverridden)
     {
-      return valueIsOverridden ? Pango.Weight.Bold : Pango.Weight.Normal;
+      return valueIsOverridden ? Pango.Weight.Heavy : Pango.Weight.Normal;
     }
 
     #endregion Private Static Methods
@@ -352,13 +552,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
               }
             }
 
-            bool isChecked = rule.EnabledByDefault;
-            BooleanProperty enabledDisabledSetting = analyzer.GetRuleSetting(this.SettingsHandler.MergedSettings, rule.Name, "Enabled") as BooleanProperty;
-            if (enabledDisabledSetting != null)
-            {
-              isChecked = enabledDisabledSetting.Value;
-            }
-
+            bool isChecked = this.GetRuleCheckedState(analyzer, rule);
             bool isOverridden = this.DetectRuleOverride(analyzer, rule, isChecked, false);
             string ruleDisplayName = string.Format("{0}: {1}", rule.CheckId, rule.Name);
             Gtk.TreeIter ruleIter = this.rulesStore.AppendValues(ruleParentIter, isChecked, null, ruleDisplayName, rule, analyzer, isOverridden, GetTextWeight(isOverridden));
@@ -383,25 +577,28 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     {
       Gtk.TreeIter selectedNodeIter;
 
-      this.detailedSettingsStore.Clear();
-
-      if (this.rulesTreeView.Selection.GetSelected(out selectedNodeIter))
+      if (this.detailedSettingsStore != null)
       {
-        StyleCopAddIn addIn = this.rulesStore.GetValue(selectedNodeIter, (int)TreeStoreColumns.Object) as StyleCopAddIn;
-        if (addIn != null)
-        {
-          // Get the properties for this addin.
-          ICollection<BooleanProperty> addInProperties = null;
-          if (this.properties.TryGetValue(addIn, out addInProperties))
-          {
-            foreach (BooleanProperty property in addInProperties)
-            {
-              PropertyAddInPair propertyAddInPair = new PropertyAddInPair();
-              propertyAddInPair.Property = property;
-              propertyAddInPair.AddIn = addIn;
+        this.detailedSettingsStore.Clear();
 
-              Pango.Weight textWeight = GetTextWeight(this.DetectDetailsSettingsOverride(selectedNodeIter, propertyAddInPair, property.Value));
-              this.detailedSettingsStore.AppendValues(property.Value, propertyAddInPair.Property.FriendlyName, propertyAddInPair, textWeight);
+        if (this.rulesTreeView.Selection.GetSelected(out selectedNodeIter))
+        {
+          StyleCopAddIn addIn = this.rulesStore.GetValue(selectedNodeIter, (int)TreeStoreColumns.Object) as StyleCopAddIn;
+          if (addIn != null)
+          {
+            // Get the properties for this addin.
+            ICollection<BooleanProperty> addInProperties = null;
+            if (this.properties.TryGetValue(addIn, out addInProperties))
+            {
+              foreach (BooleanProperty property in addInProperties)
+              {
+                PropertyAddInPair propertyAddInPair = new PropertyAddInPair();
+                propertyAddInPair.Property = property;
+                propertyAddInPair.AddIn = addIn;
+
+                Pango.Weight textWeight = GetTextWeight(this.DetectDetailsSettingsOverride(selectedNodeIter, propertyAddInPair, property.Value));
+                this.detailedSettingsStore.AppendValues(property.Value, propertyAddInPair.Property.FriendlyName, propertyAddInPair, textWeight);
+              }
             }
           }
         }
@@ -495,6 +692,24 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       this.detailedSettingsStore = new Gtk.ListStore(typeof(bool), typeof(string), typeof(PropertyAddInPair), typeof(Pango.Weight));
       this.detailedSettingsNodeView.Model = this.detailedSettingsStore;
       this.detailedSettingsNodeView.Selection.Changed += new EventHandler(this.OnNodeViewSelectionChanged);
+    }
+
+    /// <summary>
+    /// Gets the checked state of the given rule.
+    /// </summary>
+    /// <param name="analyzer">The rules analyzer.</param>
+    /// <param name="rule">The rule to check.</param>
+    /// <returns><c>true</c>, if rule is checked, <c>false</c> otherwise.</returns>
+    private bool GetRuleCheckedState(SourceAnalyzer analyzer, Rule rule)
+    {
+      bool isChecked = rule.EnabledByDefault;
+      BooleanProperty enabledDisabledSetting = analyzer.GetRuleSetting(this.SettingsHandler.MergedSettings, rule.Name, "Enabled") as BooleanProperty;
+      if (enabledDisabledSetting != null)
+      {
+        isChecked = enabledDisabledSetting.Value;
+      }
+
+      return isChecked;
     }
 
     /// <summary>

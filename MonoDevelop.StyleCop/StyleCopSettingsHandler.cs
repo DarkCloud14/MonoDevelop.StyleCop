@@ -202,5 +202,23 @@ namespace MonoDevelop.StyleCop
     }
 
     #endregion Internal Properties
+
+    #region Internal Methods
+
+    /// <summary>
+    /// Called when the parent settings have changed.
+    /// </summary>
+    internal void RefreshMergedSettings()
+    {
+      // Set the contents of the parent settings file.
+      SettingsMerger merger = new SettingsMerger(this.localSettings, this.core.Environment);
+      this.parentSettings = merger.ParentMergedSettings;
+      this.mergedSettings = merger.MergedSettings;
+
+      // Set up the settings comparer.
+      this.settingsComparer = new SettingsComparer(this.localSettings, this.parentSettings);
+    }
+
+    #endregion Internal Methods
   }
 }

@@ -27,6 +27,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
   using MonoDevelop.Core;
   using MonoDevelop.Ide;
   using MonoDevelop.StyleCop.Gui.Dialogs;
+  using MonoDevelop.StyleCop.Gui.OptionPanels;
   using global::StyleCop;
 
   /// <summary>
@@ -75,6 +76,21 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     /// </summary>
     private bool disableLinking;
 
+    /// <summary>
+    /// Holds the linked file path after initialization or applied setting file changes.
+    /// </summary>
+    private string linkedFilePathForDirtyCheck;
+
+    /// <summary>
+    /// Holds the merge style after initialization or applied setting file changes.
+    /// </summary>
+    private string mergeStyleForDirtyCheck;
+
+    /// <summary>
+    /// The parent settings files options panel.
+    /// </summary>
+    private SettingsFilesOptionsPanel parentPanel;
+
     #endregion Private Fields
 
     #region Constructor
@@ -85,6 +101,15 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     public SettingsFilesOptionsPanelWidget()
     {
       this.Build();
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MonoDevelop.StyleCop.Gui.OptionPanelWidgets.SettingsFilesOptionsPanelWidget"/> class.
+    /// </summary>
+    /// <param name="parent">Parent options panel.</param>
+    internal SettingsFilesOptionsPanelWidget(SettingsFilesOptionsPanel parent) : this()
+    {
+      this.parentPanel = parent;
     }
 
     #endregion Constructor
@@ -150,11 +175,19 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 
             // Create the relative path to the global file folder.
             Uri relative = uri.MakeRelativeUri(new Uri(this.linkedFilePathEntry.Text));
-            relativePath = relative.OriginalString;
+            relativePath = relative.OriginalString.Replace('/', '\\');
+
+            // Make sure the path is relative and starts with dot character.
+            if (!System.IO.Path.IsPathRooted(relativePath) && !relativePath.StartsWith(".", StringComparison.Ordinal))
+            {
+              relativePath = @".\" + relativePath;
+            }
           }
 
           this.SettingsHandler.LocalSettings.GlobalSettings.SetProperty(new StringProperty(this.SettingsHandler.Core, LinkedSettingsProperty, relativePath));
           this.SettingsHandler.LocalSettings.GlobalSettings.SetProperty(new StringProperty(this.SettingsHandler.Core, MergeSettingsFilesProperty, MergeStyleLinked));
+          this.mergeStyleForDirtyCheck = MergeStyleLinked;
+          this.linkedFilePathForDirtyCheck = this.linkedFilePathEntry.Text;
         }
         else
         {
@@ -165,6 +198,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       {
         this.SettingsHandler.LocalSettings.GlobalSettings.SetProperty(new StringProperty(this.SettingsHandler.Core, MergeSettingsFilesProperty, this.noMergeRadioButton.Active ? MergeStyleNone : MergeStyleParent));
         this.SettingsHandler.LocalSettings.GlobalSettings.Remove(LinkedSettingsProperty);
+        this.mergeStyleForDirtyCheck = this.noMergeRadioButton.Active ? MergeStyleNone : MergeStyleParent;
       }
     }
 
@@ -175,10 +209,19 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     public override void Initialize(StyleCopSettingsHandler settingsHandler)
     {
       base.Initialize(settingsHandler);
+      this.applySettingFileChangesButton.Sensitive = false;
 
-      // Get the merge style setting.
+      // Get the merge style setting and linked file setting.
       StringProperty mergeTypeProperty = this.SettingsHandler.LocalSettings.GlobalSettings.GetProperty(MergeSettingsFilesProperty) as StringProperty;
+      StringProperty linkedSettingsFileProperty = this.SettingsHandler.LocalSettings.GlobalSettings.GetProperty(LinkedSettingsProperty) as StringProperty;
       string mergeType = mergeTypeProperty == null ? MergeStyleParent : mergeTypeProperty.Value;
+
+      // If linked settings file isn't null but merge type is parent we expect that the merge type is MergeStyleLinked as the parent might
+      // also have a linked file and so the merge type property isn't explicitly written into the local settings file as it doesn't overwrite the parent setting.
+      if (linkedSettingsFileProperty != null && !string.IsNullOrEmpty(linkedSettingsFileProperty.Value) && string.CompareOrdinal(mergeType, MergeStyleParent) == 0)
+      {
+        mergeType = MergeStyleLinked;
+      }
 
       // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
       if (!this.SettingsHandler.Core.Environment.SupportsLinkedSettings && string.CompareOrdinal(mergeType, MergeStyleLinked) == 0)
@@ -195,7 +238,6 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       {
         this.mergeWithLinkedFileRadioButton.Active = true;
 
-        StringProperty linkedSettingsFileProperty = this.SettingsHandler.LocalSettings.GlobalSettings.GetProperty(LinkedSettingsProperty) as StringProperty;
         if (linkedSettingsFileProperty != null && !string.IsNullOrEmpty(linkedSettingsFileProperty.Value))
         {
           // This mode assumes that StyleCop is running in a file-based environment.
@@ -207,6 +249,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
           }
 
           this.linkedFilePathEntry.Text = linkedSettingsFile;
+          this.linkedFilePathForDirtyCheck = linkedSettingsFile;
         }
       }
       else
@@ -214,6 +257,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
         this.mergeWithParentsRadioButton.Active = true;
       }
 
+      this.mergeStyleForDirtyCheck = mergeType;
       this.EnableDisable();
 
       bool defaultSettings = this.SettingsHandler.LocalSettingsAreDefaultSettings;
@@ -233,13 +277,30 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       {
         this.noMergeRadioButton.Active = true;
       }
+
+      this.applySettingFileChangesButton.Sensitive = false;
     }
 
     #endregion Public Override Methods
 
     #region Protected Signal Methods
 
-    #endregion Protected Signal Methods
+    /// <summary>
+    /// Called when the applySettingFileChangesButton is clicked.
+    /// </summary>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    protected void ApplySettingFileChangesClickedButton(object sender, EventArgs e)
+    {
+      Param.Ignore(sender, e);
+
+      if (this.parentPanel != null)
+      {
+        this.ApplyChanges();
+        this.parentPanel.ApplySettingFileChanges();
+        this.applySettingFileChangesButton.Sensitive = false;
+      }
+    }
 
     /// <summary>
     /// Called when the browseButton is clicked.
@@ -364,6 +425,14 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       Param.Ignore(sender, e);
 
       this.EnableDisable();
+
+      bool newSensitiveValue = true;
+      if (string.CompareOrdinal(this.linkedFilePathEntry.Text, this.linkedFilePathForDirtyCheck) == 0)
+      {
+        newSensitiveValue = false;
+      }
+
+      this.applySettingFileChangesButton.Sensitive = newSensitiveValue;
     }
 
     /// <summary>
@@ -376,6 +445,15 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       Param.Ignore(sender, e);
 
       this.EnableDisable();
+
+      if (string.CompareOrdinal(this.mergeStyleForDirtyCheck, MergeStyleNone) == 0)
+      {
+        this.applySettingFileChangesButton.Sensitive = false;
+      }
+      else
+      {
+        this.applySettingFileChangesButton.Sensitive = true;
+      }
     }
 
     /// <summary>
@@ -388,6 +466,17 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       Param.Ignore(sender, e);
 
       this.EnableDisable();
+
+      bool newSensitiveValue = true;
+      if (string.CompareOrdinal(this.mergeStyleForDirtyCheck, MergeStyleLinked) == 0)
+      {
+        if (string.CompareOrdinal(this.linkedFilePathEntry.Text, this.linkedFilePathForDirtyCheck) == 0)
+        {
+          newSensitiveValue = false;
+        }
+      }
+
+      this.applySettingFileChangesButton.Sensitive = newSensitiveValue;
     }
 
     /// <summary>
@@ -400,7 +489,18 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       Param.Ignore(sender, e);
 
       this.EnableDisable();
+
+      if (string.CompareOrdinal(this.mergeStyleForDirtyCheck, MergeStyleParent) == 0)
+      {
+        this.applySettingFileChangesButton.Sensitive = false;
+      }
+      else
+      {
+        this.applySettingFileChangesButton.Sensitive = true;
+      }
     }
+
+    #endregion Protected Signal Methods
 
     #region Private Methods
 
@@ -440,6 +540,12 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       {
         styleCopOptionsDialog.Destroy();
         styleCopOptionsDialog.Dispose();
+      }
+
+      if (this.parentPanel != null)
+      {
+        this.ApplyChanges();
+        this.parentPanel.ApplySettingFileChanges();
       }
     }
 

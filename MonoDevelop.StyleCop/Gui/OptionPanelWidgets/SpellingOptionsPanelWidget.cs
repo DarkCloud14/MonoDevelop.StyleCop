@@ -77,6 +77,21 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     private List<string> localRecognizedWordsList = new List<string>();
 
     /// <summary>
+    /// List which contains all parent deprecated words.
+    /// </summary>
+    private List<string> parentDeprecatedWordsList = new List<string>();
+
+    /// <summary>
+    /// List which contains all parent folders.
+    /// </summary>
+    private List<string> parentFoldersList = new List<string>();
+
+    /// <summary>
+    /// List which contains all parent recognized words.
+    /// </summary>
+    private List<string> parentRecognizedWordsList = new List<string>();
+
+    /// <summary>
     /// Stores the recognized words.
     /// </summary>
     private Gtk.ListStore recognizedWordsListStore;
@@ -151,6 +166,59 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       this.removeRecognizedWordButton.Sensitive = false;
     }
 
+    /// <summary>
+    /// Refreshes the merged override state of properties on the panel widget.
+    /// </summary>
+    public override void RefreshMergedSettingsOverrideState()
+    {
+      this.deprecatedWordsListStore.Clear();
+      this.foldersListStore.Clear();
+      this.recognizedWordsListStore.Clear();
+
+      // Add new parent items
+      this.AddParentSpellingValues();
+
+      // Now add all locally added items which aren't in the parent list yet.
+      List<string> newLocalDeprecatedWordsList = new List<string>();
+      foreach (var currentWord in this.localDeprecatedWordsList)
+      {
+        if (!this.parentDeprecatedWordsList.Contains(currentWord))
+        {
+          this.deprecatedWordsListStore.AppendValues(currentWord, true, Pango.Weight.Heavy);
+          newLocalDeprecatedWordsList.Add(currentWord);
+        }
+      }
+
+      this.localDeprecatedWordsList.Clear();
+      this.localDeprecatedWordsList.AddRange(newLocalDeprecatedWordsList);
+
+      List<string> newLocalRecognizedWordsList = new List<string>();
+      foreach (var currentWord in this.localRecognizedWordsList)
+      {
+        if (!this.parentRecognizedWordsList.Contains(currentWord))
+        {
+          this.recognizedWordsListStore.AppendValues(currentWord, true, Pango.Weight.Heavy);
+          newLocalRecognizedWordsList.Add(currentWord);
+        }
+      }
+
+      this.localRecognizedWordsList.Clear();
+      this.localRecognizedWordsList.AddRange(newLocalRecognizedWordsList);
+
+      List<string> newLocalFoldersList = new List<string>();
+      foreach (var currentFolder in this.localFoldersList)
+      {
+        if (!this.parentFoldersList.Contains(currentFolder))
+        {
+          this.foldersListStore.AppendValues(currentFolder, true, Pango.Weight.Heavy);
+          newLocalFoldersList.Add(currentFolder);
+        }
+      }
+
+      this.localFoldersList.Clear();
+      this.localFoldersList.AddRange(newLocalFoldersList);
+    }
+
     #endregion Public Override Methods
 
     #region Protected Signal Methods
@@ -217,7 +285,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
         while (this.deprecatedWordsListStore.IterNext(ref deprecatedWordsIter));
       }
 
-      deprecatedWordsIter = this.deprecatedWordsListStore.AppendValues(newDeprecatedAndAlternateWord, true, Pango.Weight.Bold);
+      deprecatedWordsIter = this.deprecatedWordsListStore.AppendValues(newDeprecatedAndAlternateWord, true, Pango.Weight.Heavy);
       this.deprecatedWordsNodeView.Selection.SelectIter(deprecatedWordsIter);
       this.addDeprecatedWordEntry.Text = string.Empty;
       this.addAlternateWordEntry.Text = string.Empty;
@@ -282,7 +350,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
         while (this.foldersListStore.IterNext(ref folderIter));
       }
 
-      folderIter = this.foldersListStore.AppendValues(folderEntry, true, Pango.Weight.Bold);
+      folderIter = this.foldersListStore.AppendValues(folderEntry, true, Pango.Weight.Heavy);
       this.foldersNodeView.Selection.SelectIter(folderIter);
       this.addFolderEntry.Text = string.Empty;
       this.addFolderEntry.IsFocus = true;
@@ -346,7 +414,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
         while (this.recognizedWordsListStore.IterNext(ref recognizedWordIter));
       }
 
-      recognizedWordIter = this.recognizedWordsListStore.AppendValues(recognizedWord, true, Pango.Weight.Bold);
+      recognizedWordIter = this.recognizedWordsListStore.AppendValues(recognizedWord, true, Pango.Weight.Heavy);
       this.recognizedWordsNodeView.Selection.SelectIter(recognizedWordIter);
       this.addRecognizedWordEntry.Text = string.Empty;
       this.addRecognizedWordEntry.IsFocus = true;
@@ -451,6 +519,10 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     /// </summary>
     private void AddParentSpellingValues()
     {
+      this.parentDeprecatedWordsList.Clear();
+      this.parentFoldersList.Clear();
+      this.parentRecognizedWordsList.Clear();
+
       if (this.SettingsHandler.ParentSettings != null)
       {
         CollectionProperty parentProperty = this.SettingsHandler.ParentSettings.GlobalSettings.GetProperty(RecognizedWordsPropertyName) as CollectionProperty;
@@ -460,7 +532,8 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
           {
             if (!string.IsNullOrEmpty(value))
             {
-              this.recognizedWordsListStore.AppendValues(value, false, Pango.Weight.Light);
+              this.recognizedWordsListStore.AppendValues(value, false, Pango.Weight.Normal);
+              this.parentRecognizedWordsList.Add(value);
             }
           }
         }
@@ -475,7 +548,8 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
               string[] splitValue = value.Split(',');
               if (splitValue.Length == 2)
               {
-                this.deprecatedWordsListStore.AppendValues(splitValue[0].Trim() + ", " + splitValue[1].Trim(), false, Pango.Weight.Light);
+                this.deprecatedWordsListStore.AppendValues(splitValue[0].Trim() + ", " + splitValue[1].Trim(), false, Pango.Weight.Normal);
+                this.parentDeprecatedWordsList.Add(value);
               }
             }
           }
@@ -488,7 +562,8 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
           {
             if (!string.IsNullOrEmpty(value))
             {
-              this.foldersListStore.AppendValues(value, false, Pango.Weight.Light);
+              this.foldersListStore.AppendValues(value, false, Pango.Weight.Normal);
+              this.parentFoldersList.Add(value);
             }
           }
         }
@@ -517,7 +592,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
           {
             if (!string.IsNullOrEmpty(value))
             {
-              this.recognizedWordsListStore.AppendValues(value, true, Pango.Weight.Bold);
+              this.recognizedWordsListStore.AppendValues(value, true, Pango.Weight.Heavy);
               this.localRecognizedWordsList.Add(value);
             }
           }
@@ -533,7 +608,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
               string[] splitValue = value.Split(',');
               if (splitValue.Length == 2)
               {
-                this.deprecatedWordsListStore.AppendValues(splitValue[0].Trim() + ", " + splitValue[1].Trim(), true, Pango.Weight.Bold);
+                this.deprecatedWordsListStore.AppendValues(splitValue[0].Trim() + ", " + splitValue[1].Trim(), true, Pango.Weight.Heavy);
                 this.localDeprecatedWordsList.Add(splitValue[0].Trim() + ", " + splitValue[1].Trim());
               }
             }
@@ -547,7 +622,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
           {
             if (!string.IsNullOrEmpty(value))
             {
-              this.foldersListStore.AppendValues(value, true, Pango.Weight.Bold);
+              this.foldersListStore.AppendValues(value, true, Pango.Weight.Heavy);
               this.localFoldersList.Add(value);
             }
           }

@@ -53,6 +53,11 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     private List<string> localPrefixValueList = new List<string>();
 
     /// <summary>
+    /// List which contains all parent prefix values.
+    /// </summary>
+    private List<string> parentPrefixValueList = new List<string>();
+
+    /// <summary>
     /// Stores the current prefixes.
     /// </summary>
     private Gtk.ListStore prefixListStore;
@@ -120,6 +125,30 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
       this.FillNodeView();
     }
 
+    /// <summary>
+    /// Refreshes the merged override state of properties on the panel widget.
+    /// </summary>
+    public override void RefreshMergedSettingsOverrideState()
+    {
+      this.prefixListStore.Clear();
+
+      // Add new parent items
+      this.AddParentPrefixes();
+
+      List<string> newLocalPrefixValueList = new List<string>();
+      foreach (var currentLocalPrefix in this.localPrefixValueList)
+      {
+        if (!this.parentPrefixValueList.Contains(currentLocalPrefix))
+        {
+          this.prefixListStore.AppendValues(currentLocalPrefix, true, Pango.Weight.Heavy);
+          newLocalPrefixValueList.Add(currentLocalPrefix);
+        }
+      }
+
+      this.localPrefixValueList.Clear();
+      this.localPrefixValueList.AddRange(newLocalPrefixValueList);
+    }
+
     #endregion Public Override Methods
 
     #region Protected Signal Methods
@@ -161,7 +190,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
         while (this.prefixListStore.IterNext(ref prefixIter));
       }
 
-      prefixIter = this.prefixListStore.AppendValues(prefixToAdd, true, Pango.Weight.Bold);
+      prefixIter = this.prefixListStore.AppendValues(prefixToAdd, true, Pango.Weight.Heavy);
       this.prefixNodeView.Selection.SelectIter(prefixIter);
       this.addPrefixEntry.Text = string.Empty;
       this.addPrefixEntry.IsFocus = true;
@@ -221,6 +250,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     private void AddParentPrefixes()
     {
       CollectionProperty parentPrefixesProperty = null;
+      this.parentPrefixValueList.Clear();
 
       if (this.SettingsHandler.ParentSettings != null)
       {
@@ -232,7 +262,8 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
           {
             if (!string.IsNullOrEmpty(value))
             {
-              var iter = this.prefixListStore.AppendValues(value, false, Pango.Weight.Light);
+              var iter = this.prefixListStore.AppendValues(value, false, Pango.Weight.Normal);
+              this.parentPrefixValueList.Add(value);
             }
           }
         }
@@ -260,7 +291,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
           {
             if (!string.IsNullOrEmpty(value))
             {
-              var iter = this.prefixListStore.AppendValues(value, true, Pango.Weight.Bold);
+              var iter = this.prefixListStore.AppendValues(value, true, Pango.Weight.Heavy);
               this.localPrefixValueList.Add(value);
             }
           }

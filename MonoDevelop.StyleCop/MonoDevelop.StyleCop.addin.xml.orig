@@ -86,24 +86,23 @@ limitations under the License.
   </Extension>
 
   <Extension path = "/MonoDevelop/Ide/ContextMenu/ProjectPad">
-    <Condition id="ItemType" value="Project">
+    <ComplexCondition>
+      <Or>
+        <Condition id="ItemType" value="Project"/>
+        <Condition id="ItemType" value="Solution"/>
+      </Or>
       <CommandItem id="MonoDevelop.StyleCop.AnalysisType.NodeAnalysis"/>
       <CommandItem id="MonoDevelop.StyleCop.AnalysisType.FullNodeAnalysis"/>
       <CommandItem id="MonoDevelop.StyleCop.Commands.StyleCopSettings"/>
-    </Condition>
+    </ComplexCondition>
 
-    <Condition id="ItemType" value="ProjectFile">
+    <ComplexCondition>
+      <Or>
+        <Condition id="ItemType" value="ProjectFile"/>
+        <Condition id="ItemType" value="ProjectFolder"/>
+      </Or>
       <CommandItem id="MonoDevelop.StyleCop.AnalysisType.NodeAnalysis"/>
-    </Condition>
-
-    <Condition id="ItemType" value="ProjectFolder">
-      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.NodeAnalysis"/>
-    </Condition>
-
-    <Condition id="ItemType" value="Solution">
-      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.NodeAnalysis"/>
-      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.FullNodeAnalysis"/>
-    </Condition>
+    </ComplexCondition>
   </Extension>
 
   <Extension path = "/MonoDevelop/Ide/ContextMenu/DocumentTab">

@@ -77,6 +77,13 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
     }
 
     /// <summary>
+    /// Refreshes the merged override state of properties on the page widget.
+    /// </summary>
+    public virtual void RefreshMergedSettingsOverrideState()
+    {
+    }
+
+    /// <summary>
     /// Validates the changes.
     /// </summary>
     /// <returns><c>true</c>, if changes was validated, <c>false</c> otherwise.</returns>

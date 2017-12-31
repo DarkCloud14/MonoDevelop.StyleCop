@@ -38,6 +38,14 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 
 		private global::Gtk.RadioButton noMergeRadioButton;
 
+		private global::Gtk.HBox hbox2;
+
+		private global::Gtk.Fixed fixed3;
+
+		private global::Gtk.Button applySettingFileChangesButton;
+
+		private global::Gtk.Fixed fixed1;
+
 		protected virtual void Build()
 		{
 			global::Stetic.Gui.Initialize(this);
@@ -230,6 +238,40 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			w16.Position = 1;
 			w16.Expand = false;
 			w16.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.hbox2 = new global::Gtk.HBox();
+			this.hbox2.Name = "hbox2";
+			this.hbox2.Spacing = 6;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.fixed3 = new global::Gtk.Fixed();
+			this.fixed3.Name = "fixed3";
+			this.fixed3.HasWindow = false;
+			this.hbox2.Add(this.fixed3);
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.hbox2[this.fixed3]));
+			w17.Position = 0;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.applySettingFileChangesButton = new global::Gtk.Button();
+			this.applySettingFileChangesButton.CanFocus = true;
+			this.applySettingFileChangesButton.Name = "applySettingFileChangesButton";
+			this.applySettingFileChangesButton.UseUnderline = true;
+			this.applySettingFileChangesButton.Label = global::Mono.Unix.Catalog.GetString("Apply Setting File Changes");
+			this.hbox2.Add(this.applySettingFileChangesButton);
+			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.hbox2[this.applySettingFileChangesButton]));
+			w18.Position = 1;
+			w18.Expand = false;
+			w18.Fill = false;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.fixed1 = new global::Gtk.Fixed();
+			this.fixed1.Name = "fixed1";
+			this.fixed1.HasWindow = false;
+			this.hbox2.Add(this.fixed1);
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.hbox2[this.fixed1]));
+			w19.Position = 2;
+			this.vbox1.Add(this.hbox2);
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.hbox2]));
+			w20.Position = 2;
+			w20.Expand = false;
+			w20.Fill = false;
 			this.Add(this.vbox1);
 			if ((this.Child != null))
 			{
@@ -243,6 +285,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.editParentSettingsFileButton.Clicked += new global::System.EventHandler(this.EditParentSettingsFileButtonClicked);
 			this.editLinkedSettingsFileButton.Clicked += new global::System.EventHandler(this.EditLinkedSettingsFileButtonClicked);
 			this.browseButton.Clicked += new global::System.EventHandler(this.BrowseButtonClicked);
+			this.applySettingFileChangesButton.Clicked += new global::System.EventHandler(this.ApplySettingFileChangesClickedButton);
 		}
 	}
 }
