@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2017 Alexander Jochum
+//   Copyright 2017, 2018 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
   /// <summary>
   /// StyleCop spelling options panel widget.
   /// </summary>
+  [CLSCompliant(false)]
   public partial class SpellingOptionsPanelWidget : StyleCopOptionsPanelWidget
   {
     #region Constants

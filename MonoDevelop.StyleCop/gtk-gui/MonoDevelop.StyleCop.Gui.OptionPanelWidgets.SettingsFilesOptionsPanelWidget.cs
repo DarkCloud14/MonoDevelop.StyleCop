@@ -203,6 +203,7 @@ namespace MonoDevelop.StyleCop.Gui.OptionPanelWidgets
 			this.mergeWithLinkedFileRadioButton = new global::Gtk.RadioButton(global::Mono.Unix.Catalog.GetString("Merge with the following settings file:"));
 			this.mergeWithLinkedFileRadioButton.CanFocus = true;
 			this.mergeWithLinkedFileRadioButton.Name = "mergeWithLinkedFileRadioButton";
+			this.mergeWithLinkedFileRadioButton.Active = true;
 			this.mergeWithLinkedFileRadioButton.DrawIndicator = true;
 			this.mergeWithLinkedFileRadioButton.UseUnderline = true;
 			this.mergeWithLinkedFileRadioButton.Group = new global::GLib.SList(global::System.IntPtr.Zero);

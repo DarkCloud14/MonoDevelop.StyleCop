@@ -28,6 +28,7 @@ namespace MonoDevelop.StyleCop.Gui.Dialogs
   /// <summary>
   /// StyleCop options dialog.
   /// </summary>
+  [CLSCompliant(false)]
   public class StyleCopOptionsDialog : OptionsDialog
   {
     #region Constructor
