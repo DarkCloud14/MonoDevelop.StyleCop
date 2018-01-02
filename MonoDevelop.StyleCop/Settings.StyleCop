@@ -6,21 +6,6 @@
       <Value>mdmonitor</Value>
     </CollectionProperty>
   </GlobalSettings>
-  <Parsers>
-    <Parser ParserId="StyleCop.CSharp.CsParser">
-      <ParserSettings>
-        <CollectionProperty Name="GeneratedFileFilters">
-          <Value>generated\.cs$</Value>
-          <Value>MonoDevelop\.StyleCop\.Gui\.OptionPanelWidgets\.CompanyInformationOptionsPanelWidget\.cs$</Value>
-          <Value>MonoDevelop\.StyleCop\.Gui\.OptionPanelWidgets\.GeneralOptionsPanelWidget\.cs$</Value>
-          <Value>MonoDevelop\.StyleCop\.Gui\.OptionPanelWidgets\.RulesOptionsPanelWidget\.cs$</Value>
-          <Value>MonoDevelop\.StyleCop\.Gui\.OptionPanelWidgets\.SettingsFilesOptionsPanelWidget\.cs$</Value>
-          <Value>MonoDevelop\.StyleCop\.Gui\.OptionPanelWidgets\.SpellingOptionsPanelWidget\.cs$</Value>
-          <Value>MonoDevelop\.StyleCop\.Gui\.OptionPanelWidgets\.ValidPrefixesOptionsPanelWidget\.cs$</Value>
-        </CollectionProperty>
-      </ParserSettings>
-    </Parser>
-  </Parsers>
   <Analyzers>
     <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
       <Rules>

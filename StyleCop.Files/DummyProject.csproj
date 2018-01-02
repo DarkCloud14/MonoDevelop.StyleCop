@@ -112,6 +112,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DummyClass.cs" />
+    <Compile Include="DummyClass.cs">
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
   </ItemGroup>
 </Project>
