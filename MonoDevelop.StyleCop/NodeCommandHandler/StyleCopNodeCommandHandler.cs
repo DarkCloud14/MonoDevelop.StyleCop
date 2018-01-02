@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013 Alexander Jochum
+//   Copyright 2013, 2018 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -106,6 +106,52 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
+    /// Excludes or includes selected project items from StyleCop analysis.
+    /// </summary>
+    [AllowMultiSelection, NodeAnalysisCommand]
+    [CommandHandler(AnalysisType.ExcludeProjectFile)]
+    private void OnExcludeProjectFile()
+    {
+      if (!CancelStypeCopRun && !IdeApp.ProjectOperations.IsStyleCopRunning())
+      {
+        if (temporaryProjectSelectionCache.Count == 1)
+        {
+          foreach (var projectKvP in temporaryProjectSelectionCache)
+          {
+            if (projectKvP.Value != null)
+            {
+              foreach (var projectFile in projectKvP.Value)
+              {
+                bool excludeFromStyleCop = false;
+
+                if (projectFile.Metadata.HasProperty("ExcludeFromStyleCop"))
+                {
+                  excludeFromStyleCop = !projectFile.Metadata.GetValue("ExcludeFromStyleCop", false);
+                  projectFile.Metadata.SetValue("ExcludeFromStyleCop", excludeFromStyleCop);
+                }
+                else if (projectFile.Metadata.HasProperty("ExcludeFromSourceAnalysis"))
+                {
+                  excludeFromStyleCop = !projectFile.Metadata.GetValue("ExcludeFromSourceAnalysis", false);
+                  projectFile.Metadata.SetValue("ExcludeFromSourceAnalysis", excludeFromStyleCop);
+                }
+                else
+                {
+                  projectFile.Metadata.SetValue("ExcludeFromStyleCop", excludeFromStyleCop);
+                }
+              }
+            }
+
+            // Now we save each project so that the modified metadata is stored in the project file.
+            if (projectKvP.Key.ParentSolution != null && IdeApp.ProjectOperations != null)
+            {
+              IdeApp.ProjectOperations.SaveAsync(projectKvP.Key);
+            }
+          }
+        }
+      }
+    }
+
+    /// <summary>
     /// Starts a full StyleCop analysis.
     /// </summary>
     [AllowMultiSelection, FullNodeAnalysisCommandAttribute]
@@ -144,6 +190,72 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
+    /// Updates the node analysis command and hides it if necessary.
+    /// </summary>
+    /// <param name="info">A <see cref="CommandInfo"/>.</param>
+    [CommandUpdateHandler(AnalysisType.ExcludeProjectFile)]
+    private void OnUpdateExcludeProjectFile(CommandInfo info)
+    {
+      if (!CancelStypeCopRun && !IdeApp.ProjectOperations.IsStyleCopRunning())
+      {
+        info.Visible = false;
+
+        var currentTreeSelection = Tree.GetSelectedNodes();
+
+        // Only do the caching stuff once and not for each data type (function is called for each data type!)
+        if (dataTypeCounter <= 0)
+        {
+          try
+          {
+            if (IdeApp.Workbench != null)
+            {
+              IdeApp.Workbench.SaveAll();
+            }
+
+            List<ITreeNavigator> projectFilesInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is ProjectFile).ToList();
+            this.SetDataTypeCounterForCurrentSelection(projectFilesInSelection: projectFilesInSelection);
+
+            if (this.MustParseAndCacheCurrentSelection(currentTreeSelection, false))
+            {
+              this.ParseAndCacheCurrentSelection(projectFilesInSelection: projectFilesInSelection);
+            }
+
+            if (projectFilesInSelection.Count == 1)
+            {
+              foreach (var currentFile in projectFilesInSelection)
+              {
+                var projectFile = currentFile.DataItem as ProjectFile;
+                if (projectFile != null)
+                {
+                  if (projectFile.Metadata.GetValue("ExcludeFromStyleCop", false) || projectFile.Metadata.GetValue("ExcludeFromSourceAnalysis", false))
+                  {
+                    info.Text = StaticStringResources.StyleCopIncludeProjectItemText;
+                  }
+                }
+              }
+            }
+
+            dataTypeCounter--;
+          }
+          catch (Exception ex)
+          {
+            dataTypeCounter = 0;
+            throw ex;
+          }
+        }
+        else
+        {
+          dataTypeCounter--;
+        }
+
+        if (temporaryProjectSelectionCache.Count > 0)
+        {
+          info.Visible = true;
+        }
+      }
+    }
+
+    /// <summary>
     /// Updates the full node analysis command and hides it if necessary.
     /// </summary>
     /// <param name="info">A <see cref="CommandInfo"/>.</param>
@@ -166,18 +278,13 @@ namespace MonoDevelop.StyleCop
               IdeApp.Workbench.SaveAll();
             }
 
-            List<ITreeNavigator> solutionsInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is Solution).ToList();
-            List<ITreeNavigator> projectsInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is Project).ToList();
-
-            // Full node analysis will only be done on solutions or projects.
-            List<ITreeNavigator> projectFoldersInSelection = new List<ITreeNavigator>();
-            List<ITreeNavigator> projectFilesInSelection = new List<ITreeNavigator>();
-
-            this.SetDataTypeCounterForCurrentSelection(solutionsInSelection, projectsInSelection, projectFoldersInSelection, projectFilesInSelection);
+            List<ITreeNavigator> selectedSolutions = currentTreeSelection.Where(treeNav => treeNav.DataItem is Solution).ToList();
+            List<ITreeNavigator> selectedProjects = currentTreeSelection.Where(treeNav => treeNav.DataItem is Project).ToList();
+            this.SetDataTypeCounterForCurrentSelection(solutionsInSelection: selectedSolutions, projectsInSelection: selectedProjects);
 
             if (this.MustParseAndCacheCurrentSelection(currentTreeSelection, true))
             {
-              this.ParseAndCacheCurrentSelection(solutionsInSelection, projectsInSelection, projectFoldersInSelection, projectFilesInSelection);
+              this.ParseAndCacheCurrentSelection(solutionsInSelection: selectedSolutions, projectsInSelection: selectedProjects);
             }
 
             dataTypeCounter--;
@@ -223,16 +330,15 @@ namespace MonoDevelop.StyleCop
               IdeApp.Workbench.SaveAll();
             }
 
-            List<ITreeNavigator> solutionsInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is Solution).ToList();
-            List<ITreeNavigator> projectsInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is Project).ToList();
-            List<ITreeNavigator> projectFoldersInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is ProjectFolder).ToList();
-            List<ITreeNavigator> projectFilesInSelection = currentTreeSelection.Where(treeNav => treeNav.DataItem is ProjectFile).ToList();
-
-            this.SetDataTypeCounterForCurrentSelection(solutionsInSelection, projectsInSelection, projectFoldersInSelection, projectFilesInSelection);
+            List<ITreeNavigator> selectedProjects = currentTreeSelection.Where(treeNav => treeNav.DataItem is Project).ToList();
+            List<ITreeNavigator> selectedProjectFiles = currentTreeSelection.Where(treeNav => treeNav.DataItem is ProjectFile).ToList();
+            List<ITreeNavigator> selectedProjectFolders = currentTreeSelection.Where(treeNav => treeNav.DataItem is ProjectFolder).ToList();
+            List<ITreeNavigator> selectedSolutions = currentTreeSelection.Where(treeNav => treeNav.DataItem is Solution).ToList();
+            this.SetDataTypeCounterForCurrentSelection(selectedSolutions, selectedProjects, selectedProjectFolders, selectedProjectFiles);
 
             if (this.MustParseAndCacheCurrentSelection(currentTreeSelection, false))
             {
-              this.ParseAndCacheCurrentSelection(solutionsInSelection, projectsInSelection, projectFoldersInSelection, projectFilesInSelection);
+              this.ParseAndCacheCurrentSelection(selectedSolutions, selectedProjects, selectedProjectFolders, selectedProjectFiles);
             }
 
             dataTypeCounter--;
@@ -250,7 +356,19 @@ namespace MonoDevelop.StyleCop
 
         if (temporaryProjectSelectionCache.Count > 0)
         {
-          info.Visible = true;
+          if (temporaryProjectSelectionCache.Count == 1 && temporaryProjectSelectionCache.First().Value != null && temporaryProjectSelectionCache.First().Value.Count == 1)
+          {
+            // Ok we've just one item selected so we check if that item is excluded from StyleCop analysis and show or hide the StyleCop entry.
+            var projectItem = temporaryProjectSelectionCache.First().Value.First();
+            if (!projectItem.Metadata.GetValue("ExcludeFromStyleCop", false) && !projectItem.Metadata.GetValue("ExcludeFromSourceAnalysis", false))
+            {
+              info.Visible = true;
+            }
+          }
+          else
+          {
+            info.Visible = true;
+          }
         }
       }
     }
@@ -263,14 +381,32 @@ namespace MonoDevelop.StyleCop
     /// <param name="projectsInSelection">List with all projects in current selection.</param>
     /// <param name="projectFoldersInSelection">List with all project folders in current selection.</param>
     /// <param name="projectFilesInSelection">List with all project files in current selection.</param>
-    private void ParseAndCacheCurrentSelection(List<ITreeNavigator> solutionsInSelection, List<ITreeNavigator> projectsInSelection, List<ITreeNavigator> projectFoldersInSelection, List<ITreeNavigator> projectFilesInSelection)
+    private void ParseAndCacheCurrentSelection(List<ITreeNavigator> solutionsInSelection = null, List<ITreeNavigator> projectsInSelection = null, List<ITreeNavigator> projectFoldersInSelection = null, List<ITreeNavigator> projectFilesInSelection = null)
     {
       temporaryProjectSelectionCache.Clear();
 
-      foreach (var solution in solutionsInSelection)
+      if (solutionsInSelection != null)
       {
-        foreach (var project in ((Solution)solution.DataItem).GetAllProjects())
+        foreach (var solution in solutionsInSelection)
         {
+          foreach (var project in ((Solution)solution.DataItem).GetAllProjects())
+          {
+            if (!temporaryProjectSelectionCache.ContainsKey(project))
+            {
+              if (ProjectUtilities.Instance.IsKnownProjectType(project))
+              {
+                temporaryProjectSelectionCache.Add(project, null);
+              }
+            }
+          }
+        }
+      }
+
+      if (projectsInSelection != null)
+      {
+        foreach (var projectNode in projectsInSelection)
+        {
+          Project project = projectNode.DataItem as Project;
           if (!temporaryProjectSelectionCache.ContainsKey(project))
           {
             if (ProjectUtilities.Instance.IsKnownProjectType(project))
@@ -281,30 +417,24 @@ namespace MonoDevelop.StyleCop
         }
       }
 
-      foreach (var projectNode in projectsInSelection)
-      {
-        Project project = projectNode.DataItem as Project;
-        if (!temporaryProjectSelectionCache.ContainsKey(project))
-        {
-          if (ProjectUtilities.Instance.IsKnownProjectType(project))
-          {
-            temporaryProjectSelectionCache.Add(project, null);
-          }
-        }
-      }
-
       // For ProjectFolder and ProjectFiles we need a different handling
       // as we only want to create a code project for files and folders which projects are not already in cache.
       List<ProjectFile> allKnownFilesInSelection = new List<ProjectFile>();
 
-      foreach (var folder in projectFoldersInSelection)
+      if (projectFoldersInSelection != null)
       {
-        allKnownFilesInSelection.AddRange(ProjectUtilities.Instance.EnumerateFolder(folder.DataItem as ProjectFolder));
+        foreach (var folder in projectFoldersInSelection)
+        {
+          allKnownFilesInSelection.AddRange(ProjectUtilities.Instance.EnumerateFolder(folder.DataItem as ProjectFolder));
+        }
       }
 
-      foreach (var file in projectFilesInSelection)
+      if (projectFilesInSelection != null)
       {
-        allKnownFilesInSelection.AddRange(ProjectUtilities.Instance.EnumerateFile(file.DataItem as ProjectFile));
+        foreach (var file in projectFilesInSelection)
+        {
+          allKnownFilesInSelection.AddRange(ProjectUtilities.Instance.EnumerateFile(file.DataItem as ProjectFile));
+        }
       }
 
       // Now that we've all files from the file and folder selection go through them and filter files which are not already added before.
@@ -332,7 +462,7 @@ namespace MonoDevelop.StyleCop
     /// <param name="projectsInSelection">List with all projects in current selection.</param>
     /// <param name="projectFoldersInSelection">List with all project folders in current selection.</param>
     /// <param name="projectFilesInSelection">List with all project files in current selection.</param>
-    private void SetDataTypeCounterForCurrentSelection(List<ITreeNavigator> solutionsInSelection, List<ITreeNavigator> projectsInSelection, List<ITreeNavigator> projectFoldersInSelection, List<ITreeNavigator> projectFilesInSelection)
+    private void SetDataTypeCounterForCurrentSelection(List<ITreeNavigator> solutionsInSelection = null, List<ITreeNavigator> projectsInSelection = null, List<ITreeNavigator> projectFoldersInSelection = null, List<ITreeNavigator> projectFilesInSelection = null)
     {
       dataTypeCounter = 0;
 

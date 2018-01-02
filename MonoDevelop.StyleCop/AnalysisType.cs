@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013 Alexander Jochum
+//   Copyright 2012, 2013, 2018 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -50,6 +50,16 @@ namespace MonoDevelop.StyleCop
     /// Analyze all supported files in all supported and selected project nodes.
     /// </summary>
     /// <remarks>StyleCop will be forced to do a full analysis again instead of using is previously build cache.</remarks>
-    FullNodeAnalysis
+    FullNodeAnalysis,
+
+    /// <summary>
+    /// Exclude the active document from StyleCop analysis.
+    /// </summary>
+    ExcludeActiveDocument,
+
+    /// <summary>
+    /// Exclude all selected project files from StyleCop analysis.
+    /// </summary>
+    ExcludeProjectFile,
   }
 }

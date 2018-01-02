@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright 2013-2014 Alexander Jochum
+Copyright 2013-2018 Alexander Jochum
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -124,6 +124,7 @@ limitations under the License.
     <Compile Include="Gui\OptionPanels\ValidPrefixesOptionsPanel.cs" />
     <Compile Include="Gui\OptionPanels\StyleCopOptionsPanel.cs" />
     <Compile Include="Gui\OptionPanelWidgets\StyleCopOptionsPanelWidget.cs" />
+    <Compile Include="CommandHandler\ExcludeActiveDocumentHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

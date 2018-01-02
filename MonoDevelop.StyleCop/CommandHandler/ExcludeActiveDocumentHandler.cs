@@ -1,9 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ActiveDocumentAnalysisHandler.cs">
+// <copyright file="ExcludeActiveDocumentHandler.cs">
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013, 2018 Alexander Jochum
+//   Copyright 2018 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -26,14 +26,14 @@ namespace MonoDevelop.StyleCop
   /// <summary>
   /// Class which handles the analysis type ActiveDocument.
   /// </summary>
-  internal sealed class ActiveDocumentAnalysisHandler : BaseAnalysisHandler
+  internal sealed class ExcludeActiveDocumentHandler : BaseAnalysisHandler
   {
     #region Constructor
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ActiveDocumentAnalysisHandler"/> class.
+    /// Initializes a new instance of the <see cref="ExcludeActiveDocumentHandler"/> class.
     /// </summary>
-    public ActiveDocumentAnalysisHandler()
+    public ExcludeActiveDocumentHandler()
       : base(AnalysisType.ActiveDocument)
     {
     }
@@ -41,6 +41,45 @@ namespace MonoDevelop.StyleCop
     #endregion Constructor
 
     #region Protected Override Methods
+
+    /// <summary>
+    /// Excludes or includes the active document from StyleCop analysis. 
+    /// </summary>
+    protected override void Run()
+    {
+      if (!IdeApp.ProjectOperations.IsStyleCopRunning())
+      {
+        if (IdeApp.Workbench.ActiveDocument != null)
+        {
+          var projectFile = IdeApp.Workbench.ActiveDocument.Project.GetProjectFile(IdeApp.Workbench.ActiveDocument.FileName);
+          if (projectFile != null && projectFile.Project != null)
+          {
+            bool excludeFromStyleCop = false;
+
+            if (projectFile.Metadata.HasProperty("ExcludeFromStyleCop"))
+            {
+              excludeFromStyleCop = !projectFile.Metadata.GetValue("ExcludeFromStyleCop", false);
+              projectFile.Metadata.SetValue("ExcludeFromStyleCop", excludeFromStyleCop);
+            }
+            else if (projectFile.Metadata.HasProperty("ExcludeFromSourceAnalysis"))
+            {
+              excludeFromStyleCop = !projectFile.Metadata.GetValue("ExcludeFromSourceAnalysis", false);
+              projectFile.Metadata.SetValue("ExcludeFromSourceAnalysis", excludeFromStyleCop);
+            }
+            else
+            {
+              projectFile.Metadata.SetValue("ExcludeFromStyleCop", excludeFromStyleCop);
+            }
+
+            // Now we save the project of the active document so that the modified metadata is stored in the project file.
+            if (IdeApp.ProjectOperations != null)
+            {
+              IdeApp.ProjectOperations.SaveAsync(projectFile.Project);
+            }
+          }
+        }
+      }
+    }
 
     /// <summary>
     /// Update availability of the StyleCop command for the active document.
@@ -52,6 +91,8 @@ namespace MonoDevelop.StyleCop
       {
         base.Update(info);
 
+        info.Text = StaticStringResources.StyleCopExcludeProjectItemText;
+
         // We only do additional checks if the parent says the command is visible.
         if (info.Visible)
         {
@@ -60,7 +101,7 @@ namespace MonoDevelop.StyleCop
           {
             if (projectFile.Metadata.GetValue("ExcludeFromStyleCop", false) || projectFile.Metadata.GetValue("ExcludeFromSourceAnalysis", false))
             {
-              info.Visible = false;
+              info.Text = StaticStringResources.StyleCopIncludeProjectItemText;
             }
           }
         }

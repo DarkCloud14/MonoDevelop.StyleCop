@@ -1,5 +1,5 @@
 <!--
-Copyright 2013, 2014, 2017 Alexander Jochum
+Copyright 2013, 2014, 2017, 2018 Alexander Jochum
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -79,6 +79,12 @@ limitations under the License.
     <Command id="MonoDevelop.StyleCop.AnalysisType.FullNodeAnalysis"
              _label="Run Stylecop (Rescan All)"
              description="Analyse the selected items with StyleCop."/>
+    <Command id="MonoDevelop.StyleCop.AnalysisType.ExcludeActiveDocument"
+             _label="Exclude from StyleCop"
+             defaultHandler="MonoDevelop.StyleCop.ExcludeActiveDocumentHandler"/>/>
+    <Command id="MonoDevelop.StyleCop.AnalysisType.ExcludeProjectFile"
+             _label="Exclude from StyleCop"
+             description="Exclude the selected items from StyleCop analysis."/>
   </Extension>
 
   <Extension path = "/MonoDevelop/Ide/Pads/ProjectPad">
@@ -86,6 +92,9 @@ limitations under the License.
   </Extension>
 
   <Extension path = "/MonoDevelop/Ide/ContextMenu/ProjectPad">
+    <Condition id="ItemType" value="ProjectFile">
+      <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ExcludeProjectFile"/>
+    </Condition>
     <ComplexCondition>
       <Or>
         <Condition id="ItemType" value="Project"/>
@@ -107,6 +116,7 @@ limitations under the License.
 
   <Extension path = "/MonoDevelop/Ide/ContextMenu/DocumentTab">
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
+    <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ExcludeActiveDocument"/>
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/MainMenu/Tools">
@@ -116,6 +126,7 @@ limitations under the License.
 
   <Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
+    <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ExcludeActiveDocument"/>
   </Extension>
 
   <ExtensionPoint path = "/MonoDevelop/Gui/StyleCopOptionPanels" name="Dialog option panels for StyleCop options">

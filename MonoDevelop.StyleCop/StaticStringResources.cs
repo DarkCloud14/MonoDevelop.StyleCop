@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013-2014 Alexander Jochum
+//   Copyright 2013, 2014, 2018 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -34,7 +34,9 @@ namespace MonoDevelop.StyleCop
     {
       ProjectSettingsFileNotLoadedOrCreated = "The settings file for the project could not be loaded or created: {0}";
       StyleCopCancelText = "Cancel StyleCop";
+      StyleCopExcludeProjectItemText = "Exclude from StyleCop";
       StyleCopFullAnalysisText = "Run StyleCop (Rescan All)";
+      StyleCopIncludeProjectItemText = "Include in StyleCop";
       StyleCopRunText = "Run StyleCop";
       Title = "StyleCop";
     }
@@ -53,7 +55,7 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
-    /// Gets the text of cancel StyleCop context menu entry.
+    /// Gets the text of the cancel StyleCop context menu entry.
     /// </summary>
     public static string StyleCopCancelText
     {
@@ -62,7 +64,16 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
-    /// Gets the text of full StyleCop analysis context menu entry.
+    /// Gets the text of the exclude project item StyleCop context menu entry.
+    /// </summary>
+    public static string StyleCopExcludeProjectItemText
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
+    /// Gets the text of the full StyleCop analysis context menu entry.
     /// </summary>
     public static string StyleCopFullAnalysisText
     {
@@ -71,7 +82,16 @@ namespace MonoDevelop.StyleCop
     }
 
     /// <summary>
-    /// Gets the text of default StyleCop analysis context menu entry.
+    /// Gets the text of the include project item StyleCop context menu entry.
+    /// </summary>
+    public static string StyleCopIncludeProjectItemText
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
+    /// Gets the text of the default StyleCop analysis context menu entry.
     /// </summary>
     public static string StyleCopRunText
     {

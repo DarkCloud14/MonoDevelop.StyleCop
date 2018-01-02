@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013 Alexander Jochum
+//   Copyright 2013, 2018 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -183,7 +183,10 @@ namespace MonoDevelop.StyleCop
           CodeProject newStyleCopProject = new CodeProject(projectToUse.BaseDirectory.GetHashCode(), projectToUse.BaseDirectory, new Configuration(null));
           foreach (var currentFile in this.projectCache[projectToUse])
           {
-            ProjectUtilities.Instance.Core.Environment.AddSourceCode(newStyleCopProject, currentFile.FilePath, null);
+            if (!currentFile.Metadata.GetValue("ExcludeFromStyleCop", false) && !currentFile.Metadata.GetValue("ExcludeFromSourceAnalysis", false))
+            {
+              ProjectUtilities.Instance.Core.Environment.AddSourceCode(newStyleCopProject, currentFile.FilePath, null);
+            }
           }
 
           return newStyleCopProject;
