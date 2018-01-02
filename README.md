@@ -1,30 +1,26 @@
 MonoDevelop.StyleCop
 =============
 
-MonoDevelop.StyleCop is an addin for Xamarin Studio/MonoDevelop 4.0/5.0/6.0.
+MonoDevelop.StyleCop is an addin for Xamarin Studio/MonoDevelop 6.0/7.0 and Visual Studio For Mac 7.0.
 
-It integrates the source code analyzer [StyleCop](http://stylecop.codeplex.com/) into MonoDevelop.
+It integrates the source code analyzer [StyleCop](https://github.com/StyleCop/StyleCop/) into Xamarin Studio/MonoDevelop/Visual Studio For Mac.
 
 Please report issues of this plugin in the [Issues section](https://github.com/DarkCloud14/MonoDevelop.StyleCop/issues).<br/>
-In case the reported issue is a problem of [StyleCop](http://stylecop.codeplex.com/) I'll inform the reporter and ask
-to report the issue in StyleCops [Issue section](http://stylecop.codeplex.com/workitem/list/advanced).
+In case the reported issue is a problem of [StyleCop](https://github.com/StyleCop/StyleCop/) I'll inform the reporter and ask
+to report the issue in StyleCops [Issue section](https://github.com/StyleCop/StyleCop/issues).
 
 Installation
 -----------
 
-Get the latest addin package from MonoDevelops [addin site](http://addins.monodevelop.com/Project/Index/54) and use MonoDevelops Addin-Manager to install.<br/>
-Additionally you can download the builds from GitHubs [releases site](https://github.com/DarkCloud14/MonoDevelop.StyleCop/releases) or download the source code and build your own package.
+Get the latest addin package build or source code from GitHub [releases site](https://github.com/DarkCloud14/MonoDevelop.StyleCop/releases) and use MonoDevelops Addin-Manager to install.<br/>
 
 You may have to enable the addin after installation.
 
-###Remarks
+### Remarks
 
 The spell checker is only available on Windows!
 
-Check the [StyleCop](http://stylecop.codeplex.com/) website for more informations about StyleCop or [StyleCop documentation](http://www.stylecop.com/docs/) for it's rules.
-
-X11 is required at the moment to open StyleCop settings editor!<br/>
-OS X users can get the latest version at the [XQuartz](http://xquartz.macosforge.org/) website.
+Check the [StyleCop](https://github.com/StyleCop/StyleCop/) website for more informations about StyleCop or [StyleCop documentation](https://github.com/Visual-Stylecop/Visual-StyleCop/wiki#documentation-for-rules) for it's rules.
 
 Usage
 -----
