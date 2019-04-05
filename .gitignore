@@ -14,3 +14,4 @@ MonoDevelop.StyleCop/MonoDevelop.StyleCop.csproj
 MonoDevelop.StyleCop/gtk-gui/gui.stetic
 MonoDevelop.StyleCop/Properties/AssemblyInfo.cs
 pack
+.vs

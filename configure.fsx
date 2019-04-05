@@ -33,7 +33,7 @@ open System.IO
 open System.Diagnostics
 open System.Text.RegularExpressions
 
-let mutable TargetFrameWorkVersion = "v4.5"
+let mutable TargetFrameWorkVersion = "v4.7.2"
 let MonoDevelopStyleCopVersion = File.ReadAllText("version-addin")
 Console.WriteLine ("MonoDevelop.StyleCop version: {0}", MonoDevelopStyleCopVersion)
 
@@ -155,10 +155,13 @@ Console.WriteLine ("Detected version: {0}", mdVersion)
 
 let mutable majorAppVersion = String.Format("{0}.{1}", currentMDVersion.Major, currentMDVersion.Minor)
 let MinMDVersionForFramework45 = Version(5, 7)
+let MinMDVersionForFramework472 = Version(8, 0)
 
 if currentMDVersion < MinMDVersionForFramework45 then
     majorAppVersion <- mdVersion.Split('.').First() + ".0";
     TargetFrameWorkVersion <- "v4.0"
+else if currentMDVersion < MinMDVersionForFramework472 then
+    TargetFrameWorkVersion <- "v4.5"
 
 Console.WriteLine ("Major app version: {0}", majorAppVersion)
 
