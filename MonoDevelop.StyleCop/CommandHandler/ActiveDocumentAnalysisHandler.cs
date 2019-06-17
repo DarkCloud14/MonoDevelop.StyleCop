@@ -22,6 +22,7 @@ namespace MonoDevelop.StyleCop
 {
   using MonoDevelop.Components.Commands;
   using MonoDevelop.Ide;
+  using MonoDevelop.Projects;
 
   /// <summary>
   /// Class which handles the analysis type ActiveDocument.
@@ -48,15 +49,14 @@ namespace MonoDevelop.StyleCop
     /// <param name="info">A <see cref="CommandInfo"/></param>
     protected override void Update(CommandInfo info)
     {
-      if (IdeApp.Workbench.ActiveDocument != null)
+      if (IdeApp.Workbench.ActiveDocument?.Owner is Project project)
       {
         base.Update(info);
 
         // We only do additional checks if the parent says the command is visible.
         if (info.Visible)
         {
-          var projectFile = IdeApp.Workbench.ActiveDocument.Project.GetProjectFile(IdeApp.Workbench.ActiveDocument.FileName);
-          if (projectFile != null)
+          if (project.GetProjectFile(IdeApp.Workbench.ActiveDocument.FileName) is ProjectFile projectFile)
           {
             if (projectFile.Metadata.GetValue("ExcludeFromStyleCop", false) || projectFile.Metadata.GetValue("ExcludeFromSourceAnalysis", false))
             {

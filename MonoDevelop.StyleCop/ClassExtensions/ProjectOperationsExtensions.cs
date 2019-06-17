@@ -210,7 +210,7 @@ namespace MonoDevelop.StyleCop
     private static void ClearEnvironmentPriorToAnalysis()
     {
       // Clear any items of StyleCop from ErrorPad
-      TaskService.Errors.ClearByOwner(ProjectOperationsExtensions.ownerObject);
+      IdeServices.TaskService.Errors.ClearByOwner(ProjectOperationsExtensions.ownerObject);
 
       // Clear any items from the analysis result list.
       styleCopAnalysisResultList.Clear();
@@ -274,9 +274,9 @@ namespace MonoDevelop.StyleCop
           styleCopProgressMonitor.Log.WriteLine("------ StyleCop completed ------");
 
           styleCopTimer.Trace("Updating task service");
-          TaskService.Errors.AddRange(styleCopAnalysisResultList);
-          TaskService.Errors.ResetLocationList();
-          IdeApp.Workbench.ActiveLocationList = TaskService.Errors;
+          IdeServices.TaskService.Errors.AddRange(styleCopAnalysisResultList);
+          IdeServices.TaskService.Errors.ResetLocationList();
+          IdeApp.Workbench.ActiveLocationList = IdeServices.TaskService.Errors;
 
           styleCopTimer.Trace("Reporting result");
 
@@ -301,7 +301,7 @@ namespace MonoDevelop.StyleCop
             break;
 
           case BuildResultStates.OnErrorsOrWarnings:
-            if (TaskService.Errors.Any(task => task.Severity == TaskSeverity.Warning))
+            if (IdeServices.TaskService.Errors.Any(task => task.Severity == TaskSeverity.Warning))
             {
               goto case BuildResultStates.Always;
             }

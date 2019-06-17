@@ -59,7 +59,7 @@ namespace MonoDevelop.StyleCop
     /// <summary>
     /// Holds all StyleCop compatible project files of the active document.
     /// </summary>
-    private List<ProjectFile> enumeratedActiveDocument = null;
+    private List<ProjectFile> enumeratedProjectFile = null;
 
     #endregion Private Fields
 
@@ -132,12 +132,12 @@ namespace MonoDevelop.StyleCop
         {
           var activeDocument = IdeApp.Workbench.ActiveDocument;
           
-          if (activeDocument.HasProject)
+          if (activeDocument.Owner is Project activeDocumentProject)
           {
-            ProjectFile projectFile = activeDocument.Project.GetProjectFile(activeDocument.FileName);
-            this.enumeratedActiveDocument = ProjectUtilities.Instance.EnumerateFile(projectFile);
+            var projectFile = activeDocumentProject.GetProjectFile(activeDocument.FileName);
+            this.enumeratedProjectFile = ProjectUtilities.Instance.EnumerateFile(projectFile);
             
-            if (this.enumeratedActiveDocument.Count > 0)
+            if (this.enumeratedProjectFile.Count > 0)
             {
               info.Visible = true;
             }
@@ -184,7 +184,7 @@ namespace MonoDevelop.StyleCop
 
         if (this.TypeOfAnalysis == AnalysisType.ActiveDocument)
         {
-          foreach (var file in this.enumeratedActiveDocument)
+          foreach (var file in this.enumeratedProjectFile)
           {
             if (file != null)
             {
