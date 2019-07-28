@@ -1,5 +1,5 @@
 <!--
-Copyright 2013, 2014, 2017, 2018 Alexander Jochum
+Copyright 2013, 2014, 2017, 2018, 2019 Alexander Jochum
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ limitations under the License.
     <Addin id="Core" version="INSERT_MAJORAPP_VERSION"/>
     <Addin id="Ide" version="INSERT_MAJORAPP_VERSION"/>
     <Addin id="SourceEditor2" version="INSERT_MAJORAPP_VERSION"/>
+    <Addin id="TextEditor" version="INSERT_MAJORAPP_VERSION"/>
   </Dependencies>
 
   <Runtime>
@@ -125,6 +126,11 @@ limitations under the License.
   </Extension>
 
   <Extension path = "/MonoDevelop/SourceEditor2/ContextMenu/Editor">
+    <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
+    <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ExcludeActiveDocument"/>
+  </Extension>
+
+  <Extension path = "/MonoDevelop/TextEditor/ContextMenu/Editor">
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ActiveDocument"/>
     <CommandItem id="MonoDevelop.StyleCop.AnalysisType.ExcludeActiveDocument"/>
   </Extension>
