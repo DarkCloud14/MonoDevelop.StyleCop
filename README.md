@@ -1,13 +1,24 @@
 MonoDevelop.StyleCop
 =============
 
-MonoDevelop.StyleCop is an addin for Xamarin Studio/MonoDevelop 6.0/7.0 and Visual Studio For Mac 7.0.
+MonoDevelop.StyleCop is an addin for MonoDevelop 8.3 and Visual Studio For Mac 8.3.
 
-It integrates the source code analyzer [StyleCop](https://github.com/StyleCop/StyleCop/) into Xamarin Studio/MonoDevelop/Visual Studio For Mac.
+It integrates the source code analyzer [StyleCop](https://github.com/StyleCop/StyleCop/) into MonoDevelop/Visual Studio For Mac.
 
-Please report issues of this plugin in the [Issues section](https://github.com/DarkCloud14/MonoDevelop.StyleCop/issues).<br/>
-In case the reported issue is a problem of [StyleCop](https://github.com/StyleCop/StyleCop/) I'll inform the reporter and ask
-to report the issue in StyleCops [Issue section](https://github.com/StyleCop/StyleCop/issues).
+## DEPRECATION NOTICE
+As I don't have much time anymore to work on the project and also [StyleCop](https://github.com/StyleCop/StyleCop/) is more or less obsolete as there is the Roslyn-based [StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)
+I'll stop working on this project and also highly recommend to switch to [StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) instead.
+
+I tested it with VS for Mac + a .Net Core project and after adding the StyleCop.Analyzers NuGet package it worked out of the box, for old .Net projects I had to add the following manually to the project file after adding the StyleCop.Analyzers NuGet package:
+```
+<ItemGroup>
+  <Analyzer Visible="False" Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+  <Analyzer Visible="False" Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+</ItemGroup>
+```
+The version number must be corrected of course and maybe some other parts of the path so please check and correct the path to the packages.
+Another thing you've to do is write a new configuration file as the old StyleCop configuraiton file won't work anymore, for more information about the configuration etc. of StyleCopAnalyzers goto the [projects GitHub website](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) and look everything up you want to know.
+### Issues are closed for MonoDevelop.StyleCop project
 
 Installation
 -----------
