@@ -3,7 +3,7 @@
 //   APL 2.0
 // </copyright>
 // <license>
-//   Copyright 2013-2016 Alexander Jochum
+//   Copyright 2013, 2014, 2016, 2017, 2019 Alexander Jochum
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ namespace MonoDevelop.StyleCop
   using System.Threading.Tasks;
   using MonoDevelop.Core;
   using MonoDevelop.Core.Instrumentation;
-  using MonoDevelop.Core.ProgressMonitoring;
   using MonoDevelop.Ide;
   using MonoDevelop.Ide.Gui;
   using MonoDevelop.Ide.Tasks;
@@ -319,7 +318,7 @@ namespace MonoDevelop.StyleCop
           switch (IdeApp.Preferences.JumpToFirstErrorOrWarning.Value)
           {
           case JumpToFirst.ErrorOrWarning:
-            jumpTask = styleCopAnalysisResultList.FirstOrDefault(t => t.Severity == TaskSeverity.Warning && TaskStore.IsProjectTaskFile(t));
+            jumpTask = styleCopAnalysisResultList.FirstOrDefault(t => t.Severity == TaskSeverity.Error || t.Severity == TaskSeverity.Warning);
             break;
           }
 
