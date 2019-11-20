@@ -9,15 +9,27 @@ It integrates the source code analyzer [StyleCop](https://github.com/StyleCop/St
 As I don't have much time anymore to work on the project and also [StyleCop](https://github.com/StyleCop/StyleCop/) is more or less obsolete as there is the Roslyn-based [StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)
 I'll stop working on this project and also highly recommend to switch to [StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) instead.
 
-I tested it with VS for Mac + a .Net Core project and after adding the StyleCop.Analyzers NuGet package it worked out of the box, for old .Net projects I had to add the following manually to the project file after adding the StyleCop.Analyzers NuGet package:
+I tested it with VS for Mac + a .Net Core project and after adding the StyleCop.Analyzers NuGet package it worked out of the box, for old .Net projects I had to add the following manually to the project file:
+```
+<ItemGroup>
+  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PrivateAssets>all</PrivateAssets>
+  </PackageReference>
+</ItemGroup>
+```
+The above has the advantage, that it correctly gets updated with each version update.
+
+If you can't use the new NuGet PackageReference in your old style .Net project file you must add the following manually to the project file after adding the StyleCop.Analyzers NuGet package to the project in VS for Mac.
 ```
 <ItemGroup>
   <Analyzer Visible="False" Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
   <Analyzer Visible="False" Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
 </ItemGroup>
 ```
-The version number must be corrected of course and maybe some other parts of the path so please check and correct the path to the packages.
-Another thing you've to do is write a new configuration file as the old StyleCop configuraiton file won't work anymore, for more information about the configuration etc. of StyleCopAnalyzers goto the [projects GitHub website](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) and look everything up you want to know.
+If you must use the above entry instead of PackageReference the version number must be corrected of course and maybe some other parts of the path (e.g. the relative part to the packages directory) so please check and correct the path to the two dlls, also the paths must be updated after each version update manually!
+
+Another thing you've to do is write a new configuration file as the old StyleCop configuration file won't work anymore, for more information about the configuration etc. of StyleCopAnalyzers goto the [projects GitHub website](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) and look everything up you want to know.
 ### Issues are closed for MonoDevelop.StyleCop project
 
 Installation
